@@ -45,11 +45,11 @@ export default function PetHeroSection() {
     <section className="grid grid-cols-1 md:grid-cols-3 min-h-screen w-full">
 
       {/* LEFT IMAGE */}
-      <div className="w-full h-[300px] md:h-screen">
+      <div className="w-full h-full md:h-screen">
         <img
           src="/images/belts/f1.png"
           alt="Left visual"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-contain"
         />
       </div>
 
@@ -121,7 +121,7 @@ export default function PetHeroSection() {
         <img
           src="/images/belts/f3.png"
           alt="Right visual"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-contain"
         />
       </div>
 

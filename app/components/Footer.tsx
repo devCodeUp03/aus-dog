@@ -82,18 +82,15 @@ const Footer: React.FC = () => {
 <div className="flex justify-center gap-8 flex-wrap py-4 border-t border-white/10 items-center">
 
   <div className="flex flex-col items-center gap-1 opacity-80 hover:opacity-100 transition">
-    <img src="/images/logos/paypal.png" alt="PayPal" className="h-6 w-auto" />
-    <span className="text-xs text-gray-400">PayPal</span>
+    <img src="/images/logos/paypal.png" alt="PayPal" className="h-10 w-auto" />
   </div>
 
   <div className="flex flex-col items-center gap-1 opacity-80 hover:opacity-100 transition">
-    <img src="/images/logos/gpay.png" alt="Google Pay" className="h-6 w-auto" />
-    <span className="text-xs text-gray-400">Google Pay</span>
+    <img src="/images/logos/gpay.png" alt="Google Pay" className="h-8 w-auto" />
   </div>
 
   <div className="flex flex-col items-center gap-1 opacity-80 hover:opacity-100 transition">
-    <img src="/images/logos/nab.png" alt="NAB" className="h-6 w-auto" />
-    <span className="text-xs text-gray-400">NAB</span>
+    <img src="/images/logos/nab.png" alt="NAB" className="h-10 w-auto" />
   </div>
 
 </div>

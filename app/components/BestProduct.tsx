@@ -30,8 +30,15 @@ const BestProduct = () => {
     return () => observer.disconnect();
   }, []);
 
-  const sizes = ["S", "M", "L", "XL"];
-  const colors = ["#000000", "#ee6d49", "#6b7280"];
+  const sizes = ["S", "M", "L"];
+ const colors = [
+  "#000000", // black
+  "#ee6d49",
+  "#3b82f6", // blue
+ "#d2b48c", // brown
+  "#39ff14",  // orange
+  "#ff6ec7", // neon pink
+];
 
   return (
     <div ref={sectionRef} className="max-w-7xl mx-auto py-20">
@@ -70,7 +77,7 @@ const BestProduct = () => {
 
           {/* PRODUCT TITLE */}
           <h2 className="text-2xl font-semibold text-gray-600 mb-2">
-            Working Dog
+            "Top Dog" Collars
           </h2>
 
           {/* PRICE */}
@@ -80,10 +87,7 @@ const BestProduct = () => {
 
           {/* DESCRIPTION */}
           <p className={`${raleway.className} text-sm text-gray-700 mb-8 leading-relaxed`}>
-            It is a long established fact that a reader will be distracted by the readable
-            content of a page when looking at its layout. The point of using Lorem Ipsum is
-            that it has a more-or-less normal distribution of letters, as opposed to using
-            'Content here, content here', making it look like readable English.
+           Every detail at Top Dog is built with intention. From precision stitching to carefully selected materials, our products are engineered to perform without compromise, balancing strength, comfort, and refined design in every piece. This is where durability meets style, created for dogs that live actively and owners who expect more. See the craftsmanship, feel the difference, and discover what truly sets Top Dog apart.
           </p>
 
           {/* SIZE SELECTOR */}

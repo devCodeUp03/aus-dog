@@ -14,8 +14,8 @@ export default function Section() {
         <div className="absolute inset-0 bg-orange-400/40"></div>
 
         <div className="relative z-10 max-w-xs">
-          <h2 className="text-3xl font-semibold mb-2">QUALITY</h2>
-          <p className="text-lg text-white/80">
+          <h2 className="text-3xl font-semibold mb-2 text-left">QUALITY</h2>
+          <p className="text-lg text-white text-left font-normal">
             Built with uncompromising: craftsmanship using military-grade materials designed for durability, strength, and long-term performance in all conditions.
           </p>
         </div>
@@ -33,8 +33,8 @@ export default function Section() {
         <div className="absolute inset-0 bg-orange-400/50"></div>
 
         <div className="relative z-10 max-w-xs">
-          <h2 className="text-3xl font-semibold mb-2">SUSTAINABILITY</h2>
-          <p className="text-xl text-white/80">
+          <h2 className="text-3xl font-semibold mb-2 text-left">SUSTAINABILITY</h2>
+          <p className="text-lg text-white text-left font-normal">
 Luxury with conscience:Our extensive research sources materials and manufacturing processes that minimize waste and environmental impact.          </p>
         </div>
       </div>
@@ -51,8 +51,8 @@ Luxury with conscience:Our extensive research sources materials and manufacturin
         <div className="absolute inset-0 bg-orange-400/40"></div>
 
         <div className="relative z-10 max-w-xs">
-          <h2 className="text-3xl font-semibold mb-2">DESIGN</h2>
-          <p className="text-xl text-white/80">
+          <h2 className="text-3xl font-semibold mb-2 text-left">DESIGN</h2>
+          <p className="text-lg text-white text-left font-normal">
 Simple, quiet confidence:
 Shapes that highlight the natural beauty of animals in their true form, combining function and elegance without excess.        </p>
         </div>

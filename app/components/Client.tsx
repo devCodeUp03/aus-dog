@@ -107,7 +107,7 @@ export default function HeroSlider() {
         >
           {/* Title */}
           <motion.h1
-            className="text-4xl md:text-5xl font-extrabold leading-tight text-gray-900 font-satoshi"
+            className="text-4xl md:text-5xl font-extrabold leading-tight text-white font-satoshi"
             variants={{
               hidden: { opacity: 0, x: -50 },
               visible: { opacity: 1, x: 0, transition: { duration: 0.6 } }
@@ -132,7 +132,7 @@ export default function HeroSlider() {
           {/* Button */}
           <Link href="/products">
             <motion.button
-              className="bg-black px-6 py-3 rounded-full text-white font-semibold hover:scale-105 transition-transform"
+              className="bg-[#ff8800] px-6 py-3 rounded-full text-white font-semibold hover:scale-105 transition-transform"
               variants={{
                 hidden: { opacity: 0, x: -50 },
                 visible: { opacity: 1, x: 0, transition: { duration: 0.7 } }
@@ -147,7 +147,7 @@ export default function HeroSlider() {
                 behavior: "smooth",
               })
             }}
-            className="bg-black px-6 py-3 rounded-full text-white font-semibold hover:scale-105 transition-transform ml-2"
+            className="bg-[#ff8800]  px-6 py-3 rounded-full text-white font-semibold hover:scale-105 transition-transform ml-2"
             variants={{
               hidden: { opacity: 0, x: 50 },
               visible: { opacity: 1, x: 0, transition: { duration: 0.7 } }
@@ -200,8 +200,8 @@ export default function HeroSlider() {
         <Feature />
       </section>
 
-      <section className="text-5xl text-gray-700 font-bold  text-center  mt-10 mb-10">
-        <h2 className="mb-5">What We Provide ?</h2>
+      <section className="text-5xl text-gray-700 font-bold  text-center  ">
+   
         <Feature3 />
       </section>
       <section id="features" className="max-w-7xl mx-auto py-16">

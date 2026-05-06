@@ -36,14 +36,14 @@ export default function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-500 ${
-        showNavbar ? "translate-y-0" : "-translate-y-full"
-      } ${
-        scrolled
-  ? "bg-[#3a3a3a] backdrop-blur-xl shadow-xl border-b border-gray-700"
-  : "bg-[#3a3a3a]/90 backdrop-blur-md shadow-lg"
-      }`}
-    >
+  className={`sticky top-0 z-50 transition-all duration-500 ${
+    showNavbar ? "translate-y-0" : "-translate-y-full"
+  } ${
+    scrolled
+      ? "bg-white backdrop-blur-xl shadow-xl border-b border-gray-200"
+      : "bg-white/90 backdrop-blur-md shadow-lg"
+  }`}
+>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
@@ -73,7 +73,7 @@ export default function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="relative text-white font-bold tracking-wide text-sm uppercase px-4 py-2 rounded-xl transition-all duration-300 hover:text-[#ff9167] group overflow-hidden"
+                className="relative text-black font-bold tracking-wide text-sm uppercase px-4 py-2 rounded-xl transition-all duration-300 hover:text-[#ff9167] group overflow-hidden"
               >
                 <span className="relative z-10 font-['Poppins',sans-serif] tracking-wider">
                   {item.label}
@@ -90,10 +90,10 @@ export default function Header() {
 
             <div className="relative group">
               <button
-                className="flex items-center gap-2 text-white font-semibold px-3 py-2 rounded-xl hover:text-[#ff9167] transition-all duration-300 transform hover:scale-105"
+                className="flex items-center gap-2 text-black font-semibold px-3 py-2 rounded-xl hover:text-[#ff9167] transition-all duration-300 transform hover:scale-105"
                 aria-label="User menu"
               >
-                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#ff9167] to-[#df6839] flex items-center justify-center text-white shadow-md group-hover:shadow-lg transition-all duration-300">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#ff9167] to-[#df6839] flex items-center justify-center text-black shadow-md group-hover:shadow-lg transition-all duration-300">
                   <User
                     size={16}
                     className="transition-transform duration-300 group-hover:scale-110"

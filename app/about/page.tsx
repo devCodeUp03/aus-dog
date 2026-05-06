@@ -40,8 +40,8 @@ function useInView(threshold = 0.15) {
 }
 
 const stats = [
-  { value: "500K+", label: "Happy Dogs" },
-  { value: "1000+", label: "Products" },
+  { value: "500+", label: "Happy Dogs" },
+  { value: "500+", label: "Products" },
   { value: "98%", label: "Satisfaction" },
   { value: "5★", label: "Avg Rating" },
 ];
@@ -390,7 +390,7 @@ export default function AboutPage() {
                 </div>
                 <div>
                   <p className="font-extrabold text-gray-800 text-sm">
-                    5,000+
+                    500+
                   </p>
                   <p className="text-xs text-gray-500">Happy Dogs</p>
                 </div>

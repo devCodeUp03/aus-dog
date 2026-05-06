@@ -22,7 +22,7 @@ export default function ProductDetailClient({ product }: Props) {
   const materialOptions = [product.material];
 
   return (
-    <div className="min-h-screen bg-purple-50 flex items-center justify-center py-10 px-4">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-10 px-4">
       <div className="w-full max-w-5xl">
         <div className="bg-white rounded-xl shadow-xl overflow-hidden">
           <div className="md:grid md:grid-cols-2 gap-8">
@@ -65,7 +65,7 @@ export default function ProductDetailClient({ product }: Props) {
 
             {/* DETAILS */}
             <div className="p-8 space-y-6">
-              <span className="bg-purple-100 text-[#ff9167] px-3 py-1 rounded-full text-sm font-semibold">
+              <span className="bg-[#ff8800] text-black px-3 py-1 rounded-full text-sm font-semibold">
                 {product.category}
               </span>
 
@@ -86,9 +86,9 @@ export default function ProductDetailClient({ product }: Props) {
                         setActiveVariant(variant);
                         setActiveImageIndex(0);
                       }}
-                      className={`px-3 py-1 border rounded-md ${
+                      className={`px-3 py-1 border-0 rounded-md ${
                         activeVariant.color === variant.color
-                          ? "border-[#ff9167] bg-purple-100"
+                          ? "border-black  bg-[#ff9167]"
                           : "border-gray-300"
                       }`}
                     >
@@ -99,7 +99,7 @@ export default function ProductDetailClient({ product }: Props) {
               </div>
 
               {/* MATERIAL SELECTOR - Clickable */}
-              <div>
+              {/* <div>
                 <h3 className="font-semibold mb-2">Material</h3>
                 <div className="flex gap-2 flex-wrap">
                   {materialOptions.map((material, index) => (
@@ -111,7 +111,7 @@ export default function ProductDetailClient({ product }: Props) {
                     </button>
                   ))}
                 </div>
-              </div>
+              </div> */}
 
               {/* SIZE SELECTOR - Clickable */}
               <div>
@@ -123,7 +123,7 @@ export default function ProductDetailClient({ product }: Props) {
                       onClick={() => setSelectedSize(size)}
                       className={`px-3 py-1 border rounded-md transition ${
                         selectedSize === size
-                          ? "border-[#ff9167] bg-purple-100 text-[#ff9167] font-semibold"
+                          ? "border-[#ff9167] bg-[#ff8800] text-black font-semibold"
                           : "border-gray-300 hover:border-[#ff9167]"
                       }`}
                     >
