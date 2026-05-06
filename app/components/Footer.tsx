@@ -38,9 +38,10 @@ const Footer: React.FC = () => {
             <li><a href="#" className="hover:text-[#E87722]">Size Guide</a></li>
             <li><a href="#" className="hover:text-[#E87722]">FAQs</a></li>
             <li><a href="#" className="hover:text-[#E87722]">Shipping Services</a></li>
-            <li><a href="#" className="hover:text-[#E87722]">Stockists</a></li>
             <li><a href="#" className="hover:text-[#E87722]">Terms & Conditions</a></li>
             <li><a href="#" className="hover:text-[#E87722]">Return Policy</a></li>
+            <li><a href="#" className="hover:text-[#E87722]">Privacy Policy</a></li>
+            <li><a href="#" className="hover:text-[#E87722]">Cookies Policy</a></li>
           </ul>
         </div>
 
@@ -53,7 +54,6 @@ const Footer: React.FC = () => {
             <li><a href="#" className="hover:text-[#E87722]">Facebook</a></li>
             <li><a href="#" className="hover:text-[#E87722]">Instagram</a></li>
             <li><a href="#" className="hover:text-[#E87722]">TikTok</a></li>
-            <li><a href="#" className="hover:text-[#E87722]">YouTube</a></li>
             <li><a href="#" className="hover:text-[#E87722]">Pinterest</a></li>
           </ul>
         </div>
@@ -64,25 +64,47 @@ const Footer: React.FC = () => {
             Contact
           </h3>
           <p className="text-sm">+61 449 568 620</p>
-          <p className="text-sm mt-1">info@topdogworkingdog.com</p>
           <p className="text-sm mt-3 text-[#aaa]">
-            Enfield, VIC, Australia
+            18 Grevilea Drive
           </p>
+          <p className="text-sm mt-3 text-[#aaa]">
+            Enfield, VIC, 3352
+          </p>
+          <p className="text-sm mt-3 text-[#aaa]">
+            Australia
+          </p>
+          <br />
+          <p className="text-sm mt-1">info@topdogworkingdog.com</p>
         </div>
       </div>
 
       {/* Payment Methods */}
-      <div className="flex justify-center gap-3 flex-wrap py-4 border-t border-white/10">
-        <span className="bg-[#eee] text-black text-xs px-3 py-1 rounded">PayPal</span>
-        <span className="bg-[#eee] text-black text-xs px-3 py-1 rounded">GPay</span>
-        <span className="bg-[#eee] text-black text-xs px-3 py-1 rounded">NAB</span>
-      </div>
+<div className="flex justify-center gap-8 flex-wrap py-4 border-t border-white/10 items-center">
 
-      {/* Bottom */}
-      <div className="text-center text-xs text-[#888] py-5">
-        © 2026 TOP DOG WORKING DOG
-      </div>
+  <div className="flex flex-col items-center gap-1 opacity-80 hover:opacity-100 transition">
+    <img src="/images/logos/paypal.png" alt="PayPal" className="h-6 w-auto" />
+    <span className="text-xs text-gray-400">PayPal</span>
+  </div>
 
+  <div className="flex flex-col items-center gap-1 opacity-80 hover:opacity-100 transition">
+    <img src="/images/logos/gpay.png" alt="Google Pay" className="h-6 w-auto" />
+    <span className="text-xs text-gray-400">Google Pay</span>
+  </div>
+
+  <div className="flex flex-col items-center gap-1 opacity-80 hover:opacity-100 transition">
+    <img src="/images/logos/nab.png" alt="NAB" className="h-6 w-auto" />
+    <span className="text-xs text-gray-400">NAB</span>
+  </div>
+
+</div>
+
+{/* Bottom */}
+<div className="text-center text-xs text-[#888] py-5 space-y-1">
+  <p>© 2026 TOP DOG. All rights reserved by Top Dog.</p>
+  <p>
+    Built by <span className="text-white">Idea Pixel</span>
+  </p>
+</div>
     </footer>
   );
 };

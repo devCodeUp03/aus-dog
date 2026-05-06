@@ -103,9 +103,9 @@ export default function ContactPage() {
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="bg-white rounded-2xl shadow-xl p-8 md:p-10">
           <div className="mb-8">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">Partner With Us</h2>
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">Contact With Us</h2>
             <p className="text-gray-600 mb-4">
-              We welcome collaboration from:
+              We welcome feedback from you !!
             </p>
             
            

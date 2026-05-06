@@ -13,26 +13,26 @@ interface Testimonial {
 const testimonials: Testimonial[] = [
   {
     id: 1,
-    name: "Sarah Mitchell",
+    name: "S i m o n e",
     role: "Pet Owner",
     message:
-      "The care and compassion shown to my animals has been nothing short of extraordinary. Every visit feels personal and deeply attentive.",
+      "Managing a high-drive hunting dog requires trust in your equipment. This collar is the perfect match for his intensity. It doesn’t just look the part; the build quality is exceptional. I finally have a collar that can keep up with his pace while keeping me firmly in command.",
     avatar: "https://i.pravatar.cc/150?img=47",
   },
   {
     id: 2,
-    name: "Robiul Islam",
-    role: "Customer",
+    name: "S t e v e",
+    role: "Happy Customer",
     message:
-      "The Top Dog tactical collar is engineered without compromise. Every component is specified for working dogs, not weekend pets, ensuring it stands up to the most active and driven dogs in the field. It is truly built to spec and built to last.",
+      "A very happy hunting dog owner. I love the collar from Top Dog, which is sturdy and matches my dog’s hyper energy, helping me to control my dog.",
     avatar: "https://i.pravatar.cc/150?img=33",
   },
   {
     id: 3,
-    name: "Elena Vasquez",
+    name: "A l e x i",
     role: "Animal Lover",
     message:
-      "Finding a place that truly understands what your pets mean to you is rare. This team made me feel like family from day one.",
+      "Managing a high-drive hunting dog requires trust in your equipment. This collar is the perfect match for his intensity. It doesn’t just look the part; the build quality is exceptional. I finally have a collar that can keep up with his pace while keeping me firmly in command.",
     avatar: "https://i.pravatar.cc/150?img=45",
   },
 ];

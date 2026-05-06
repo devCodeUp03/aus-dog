@@ -8,27 +8,24 @@ import BestProduct from "./BestProduct"
 import Services from "./Services"
 import Feature2 from "./Feature2"
 import Feature3 from "./Feature3"
-
+import Link from "next/link"
 
 const slides = [
   {
-    tag: "Yummy & Tasty",
-    title: "We Make The Best Food",
-    desc: "Sedquis nis eleentum rhncus sit amet in nisi.",
+    title: "Built for dogs that don’t slow down.",
+    tag: "Our durable, washable collar is designed to handle dirt, water, and every adventure, without compromising comfort or style.",
     img: "/images/bg.png"
   },
   {
-    tag: "Fresh & Healthy",
-    title: "Natural Meals For Your Dog",
-    desc: "Premium grain-free recipes packed with real meat.",
+    title: "Built for dogs that don’t slow down.",
+    tag: "Our durable, washable collar is designed to handle dirt, water, and every adventure, without compromising comfort or style.",
     img: "/images/bg2.png"
   },
   {
-    tag: "Pure & Organic",
-    title: "Treats They Can't Resist",
-    desc: "Hand-crafted treats your pet will love.",
+    title: "Built for dogs that don’t slow down.",
+    tag: "Our durable, washable collar is designed to handle dirt, water, and every adventure, without compromising comfort or style.",
     img: "/images/bg3.png"
-  }
+  },
 ]
 
 export default function HeroSlider() {
@@ -97,7 +94,7 @@ export default function HeroSlider() {
 
         {/* Hero Text */}
         <motion.div
-          className="max-w-[60%] md:max-w-lg text-white z-20 space-y-3 md:space-y-5"
+           className="ml-auto text-right max-w-[60%] md:max-w-lg text-white z-20 space-y-3 md:space-y-5 pt-15 md:pt-35"
           initial="hidden"
           animate="visible"
           variants={{
@@ -108,20 +105,9 @@ export default function HeroSlider() {
             }
           }}
         >
-          {/* Tag */}
-          <motion.p
-            className="text-xl  font-semibold opacity-90"
-            variants={{
-              hidden: { opacity: 0, x: -50 },
-              visible: { opacity: 1, x: 0, transition: { duration: 0.6 } }
-            }}
-          >
-            {slide.tag}
-          </motion.p>
-
           {/* Title */}
           <motion.h1
-            className="text-4xl md:text-5xl font-extrabold leading-tight text-gray-900"
+            className="text-4xl md:text-5xl font-extrabold leading-tight text-gray-900 font-satoshi"
             variants={{
               hidden: { opacity: 0, x: -50 },
               visible: { opacity: 1, x: 0, transition: { duration: 0.6 } }
@@ -130,44 +116,46 @@ export default function HeroSlider() {
             {slide.title}
           </motion.h1>
 
-          {/* Description */}
+          {/* Tag */}
           <motion.p
-            className="text-sm md:text-lg opacity-95"
+            className="text-xl  font-semibold opacity-90 font-satoshi"
             variants={{
               hidden: { opacity: 0, x: -50 },
               visible: { opacity: 1, x: 0, transition: { duration: 0.6 } }
             }}
           >
-            {slide.desc}
+            {slide.tag}
           </motion.p>
 
+
+
           {/* Button */}
+          <Link href="/products">
+            <motion.button
+              className="bg-black px-6 py-3 rounded-full text-white font-semibold hover:scale-105 transition-transform"
+              variants={{
+                hidden: { opacity: 0, x: -50 },
+                visible: { opacity: 1, x: 0, transition: { duration: 0.7 } }
+              }}
+            >
+              SHOP COLLAR
+            </motion.button>
+          </Link>
           <motion.button
-            className="bg-black px-6 py-3 rounded-full text-white font-semibold hover:scale-105 transition-transform"
+            onClick={() => {
+              document.getElementById("features")?.scrollIntoView({
+                behavior: "smooth",
+              })
+            }}
+            className="bg-black px-6 py-3 rounded-full text-white font-semibold hover:scale-105 transition-transform ml-2"
             variants={{
-              hidden: { opacity: 0, x: -50 },
-              visible: { opacity: 1, x: 0, transition: { duration: 0.6 } }
+              hidden: { opacity: 0, x: 50 },
+              visible: { opacity: 1, x: 0, transition: { duration: 0.7 } }
             }}
           >
-            SHOP NOW
+            EXPLORE
           </motion.button>
         </motion.div>
-        {/* <div
-          className="absolute right-2 md:right-30 top-28 md:top-8 w-52 h-52 md:w-110 md:h-110 shadow-2xl overflow-hidden z-10 rounded-full"
-          style={{
-            background: 'rgba(251, 184, 159, 0.4)',
-            clipPath: 'inset(13% round 80%)',
-          }}
-        >
-          <div className="w-full h-full flex items-center justify-center p-6 md:p-12">
-            <img
-              src={slide.img}
-              alt={slide.title}
-              className="object-contain max-w-full max-h-full drop-shadow-2xl"
-            />
-          </div>
-        </div> */}
-
 
         {/* Vertical Dots */}
         <div className="absolute right-4 md:right-10 top-1/2 -translate-y-1/2 flex flex-col gap-3">
@@ -212,10 +200,11 @@ export default function HeroSlider() {
         <Feature />
       </section>
 
-      <section>
+      <section className="text-5xl text-gray-700 font-bold  text-center  mt-10 mb-10">
+        <h2 className="mb-5">What We Provide ?</h2>
         <Feature3 />
       </section>
-      <section className="max-w-7xl mx-auto py-16">
+      <section id="features" className="max-w-7xl mx-auto py-16">
         <h2 className="text-5xl text-gray-700 font-bold mb-8 text-center">
           Featured Products
         </h2>
@@ -229,15 +218,16 @@ export default function HeroSlider() {
       </section>
 
 
-      <section>
+      <section className="text-5xl text-gray-700 font-bold  text-center  mt-10 mb-10">
+        <h2 className="mb-5">What Our Customer Have to Say ?</h2>
         <TestimonialSection />
       </section>
 
-      <section>
+      {/* <section>
         <Services />
-      </section>
+      </section> */}
 
-         <section>
+      <section>
         <Feature2 />
       </section>
 

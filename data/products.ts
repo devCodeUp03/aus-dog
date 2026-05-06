@@ -24,7 +24,7 @@ export const products: Product[] = [
     sizes: ["Medium", "Large"],
     material: "Military-Grade Nylon",
     description:
-      "Built with high-density nylon webbing for exceptional durability in tough outdoor conditions.",
+      "1.5–2 inch military-grade nylon webbing resists tearing, fraying, and UV damage. Double-stitched at every stress point with high-tensile thread for maximum durability under pressure.",
     features: [
       "1.5–2 inch military-grade nylon webbing",
       "Resists tearing and fraying",
@@ -46,7 +46,7 @@ export const products: Product[] = [
     sizes: ["Medium", "Large"],
     material: "Aluminium & Stainless Steel",
     description:
-      "Engineered with premium metal hardware for extreme strength and long-term reliability.",
+      "Heavy-duty D-ring is corrosion-resistant and rated to withstand extreme pull forces, with no deformation, no rust, and no failure.",
     features: [
       "Anodised aluminium components",
       "Stainless steel hardware",
@@ -67,7 +67,7 @@ export const products: Product[] = [
     sizes: ["Small", "Medium", "Large"],
     material: "Padded Mesh",
     description:
-      "Designed for comfort with breathable mesh lining for long wear in active environments.",
+      "Padded mesh lining prevents chafing and improves comfort during extended wear in the bush, on trail, or in the field.",
     features: [
       "Soft padded mesh inner lining",
       "Prevents chafing and irritation",
@@ -89,7 +89,7 @@ export const products: Product[] = [
     sizes: ["Medium", "Large"],
     material: "Reinforced Nylon",
     description:
-      "A tactical collar with MOLLE webbing for attaching gear and accessories.",
+      "Integrated MOLLE webbing allows direct attachment of pouches, ID holders, or GPS trackers. Configure the collar to your mission. (Not included with collar.)",
     features: [
       "Integrated MOLLE webbing system",
       "Attach pouches, ID holders, or GPS trackers",
@@ -111,7 +111,7 @@ export const products: Product[] = [
     sizes: ["Medium", "Large"],
     material: "Reinforced Nylon",
     description:
-      "Includes a built-in control handle for better grip and immediate restraint.",
+      "A sturdy control handle is sewn directly into the webbing for immediate restraint and guidance, built to hold in the field, not just the yard.",
     features: [
       "Integrated reinforced control handle",
       "Strong grip for quick restraint",
@@ -132,7 +132,7 @@ export const products: Product[] = [
     sizes: ["Small", "Medium", "Large"],
     material: "Reflective Nylon",
     description:
-      "Enhanced visibility collar with reflective stitching for safety in low-light conditions.",
+      "Reflective stitching and hook-and-loop patch panels enhance visibility in low light and allow fast, clean identification at dawn or dusk.",
     features: [
       "Reflective stitching for visibility",
       "Hook-and-loop patch panels",

@@ -40,8 +40,8 @@ export default function Header() {
         showNavbar ? "translate-y-0" : "-translate-y-full"
       } ${
         scrolled
-          ? "bg-white/98 backdrop-blur-xl shadow-xl border-b border-purple-100"
-          : "bg-white/90 backdrop-blur-md shadow-lg"
+  ? "bg-[#3a3a3a] backdrop-blur-xl shadow-xl border-b border-gray-700"
+  : "bg-[#3a3a3a]/90 backdrop-blur-md shadow-lg"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -73,7 +73,7 @@ export default function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="relative text-gray-700 font-bold tracking-wide text-sm uppercase px-4 py-2 rounded-xl transition-all duration-300 hover:text-[#ff9167] group overflow-hidden"
+                className="relative text-white font-bold tracking-wide text-sm uppercase px-4 py-2 rounded-xl transition-all duration-300 hover:text-[#ff9167] group overflow-hidden"
               >
                 <span className="relative z-10 font-['Poppins',sans-serif] tracking-wider">
                   {item.label}
@@ -90,7 +90,7 @@ export default function Header() {
 
             <div className="relative group">
               <button
-                className="flex items-center gap-2 text-gray-700 font-semibold px-3 py-2 rounded-xl hover:bg-purple-50 transition-all duration-300 transform hover:scale-105"
+                className="flex items-center gap-2 text-white font-semibold px-3 py-2 rounded-xl hover:text-[#ff9167] transition-all duration-300 transform hover:scale-105"
                 aria-label="User menu"
               >
                 <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#ff9167] to-[#df6839] flex items-center justify-center text-white shadow-md group-hover:shadow-lg transition-all duration-300">
@@ -111,13 +111,13 @@ export default function Header() {
                   <div className="p-2 space-y-1">
                     <Link
                       href="/login"
-                      className="block px-3 py-2 rounded-lg hover:bg-purple-50 text-gray-700 font-medium transition-all duration-300 hover:translate-x-1"
+                      className="block px-3 py-2 rounded-lg hover:text-[#ff9167] text-gray-700 font-medium transition-all duration-300 hover:translate-x-1"
                     >
                       Login
                     </Link>
                     <Link
                       href="/register"
-                      className="block px-3 py-2 rounded-lg hover:bg-purple-50 text-gray-700 font-medium transition-all duration-300 hover:translate-x-1"
+                      className="block px-3 py-2 rounded-lg hover:text-[#ff9167] text-gray-700 font-medium transition-all duration-300 hover:translate-x-1"
                     >
                       Create account
                     </Link>
@@ -126,7 +126,7 @@ export default function Header() {
                   <div className="p-2 space-y-1">
                     <Link
                       href="/dashboard"
-                      className="block px-3 py-2 rounded-lg hover:bg-purple-50 text-gray-700 font-medium transition-all duration-300 hover:translate-x-1"
+                      className="block px-3 py-2 rounded-lg hover:text-[#ff9167] text-gray-700 font-medium transition-all duration-300 hover:translate-x-1"
                     >
                       <LayoutDashboard size={16} className="inline mr-2" />
                       Dashboard
@@ -145,7 +145,7 @@ export default function Header() {
 
           {/* Mobile Menu Button - Fixed hydration by wrapping in conditional */}
           <button
-            className="md:hidden p-2 rounded-xl hover:bg-purple-50 transition-all duration-300 transform hover:scale-105"
+            className="md:hidden p-2 rounded-xl hover:text-[#ff9167] transition-all duration-300 transform hover:scale-105"
             aria-label="Toggle menu"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
@@ -171,7 +171,7 @@ export default function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-gray-700 hover:text-[#ff9167] font-semibold py-3 px-4 rounded-xl hover:bg-purple-50 transition-all duration-300"
+                className="text-gray-700 hover:text-[#ff9167] font-semibold py-3 px-4 rounded-xl hover:text-[#ff9167] transition-all duration-300"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {item.label}
@@ -190,7 +190,7 @@ export default function Header() {
                   </Link>
                   <Link
                     href="/register"
-                    className="flex-1 text-center border-2 border-[#ff9167] text-[#ff9167] py-3 rounded-xl font-bold hover:bg-purple-50 transition-all duration-300"
+                    className="flex-1 text-center border-2 border-[#ff9167] text-[#ff9167] py-3 rounded-xl font-bold hover:text-[#ff9167] transition-all duration-300"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Register

@@ -40,8 +40,8 @@ function useInView(threshold = 0.15) {
 }
 
 const stats = [
-  { value: "10K+", label: "Happy Dogs" },
-  { value: "500+", label: "Products" },
+  { value: "500K+", label: "Happy Dogs" },
+  { value: "1000+", label: "Products" },
   { value: "98%", label: "Satisfaction" },
   { value: "5★", label: "Avg Rating" },
 ];
@@ -71,14 +71,14 @@ const missions = [
   {
     icon: Users,
     title: "Community Driven",
-    desc: "Built by dog lovers, for dog lovers. Over 10,000 Australian pet owners shape our decisions.",
+    desc: "Built by dog lovers, for dog lovers. Over 5,000 Australian pet owners shape our decisions.",
     color: "from-purple-400 to-violet-500",
     bg: "bg-purple-50",
   },
   {
     icon: Truck,
     title: "Fast & Reliable",
-    desc: "Same-day dispatch on orders before 2pm, free shipping across Australia over $60.",
+    desc: "Same-day dispatch on orders before 2pm, free shipping across Australia over $100.",
     color: "from-orange-400 to-amber-500",
     bg: "bg-orange-50",
   },
@@ -337,7 +337,7 @@ export default function AboutPage() {
       <div
         className="relative py-36 bg-[#1E2A3A] overflow-hidden"
         style={{
-          backgroundImage: "url('/images/bg3.png')",
+          backgroundImage: "url('/images/b4.png')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
@@ -354,15 +354,11 @@ export default function AboutPage() {
               : "opacity-0 translate-y-10"
           }`}
         >
-          <span className="inline-block px-4 py-1.5 bg-[#ff9167]/20 border border-[#ff9167]/40 text-[#ff9167] rounded-full text-sm font-bold mb-6 tracking-widest uppercase">
-            Our Story
-          </span>
           <h1 className="playfair text-6xl md:text-7xl font-extrabold text-white mb-6 leading-tight">
-            About <span className="shimmer-text">AusDog</span>
+            About <span className="shimmer-text">Top Dog</span>
           </h1>
           <p className="text-white/70 text-xl max-w-2xl mx-auto leading-relaxed">
-            Australia's most trusted destination for premium dog products —
-            built by pet lovers, for pet lovers.
+            Top Dog creates functional yet luxury accessories for dogs. Every piece is designed with purpose, crafted to last, and made to celebrate the bond between you and your companion.
           </p>
           <div className="mt-10 w-24 h-1 bg-gradient-to-r from-[#ff9167] to-[#df6839] mx-auto rounded-full" />
         </div>
@@ -394,9 +390,9 @@ export default function AboutPage() {
                 </div>
                 <div>
                   <p className="font-extrabold text-gray-800 text-sm">
-                    10,000+
+                    5,000+
                   </p>
-                  <p className="text-xs text-gray-500">Happy Pups</p>
+                  <p className="text-xs text-gray-500">Happy Dogs</p>
                 </div>
               </div>
             </div>
@@ -407,25 +403,16 @@ export default function AboutPage() {
               Who We Are
             </span>
             <h2 className="playfair text-4xl md:text-5xl font-bold text-gray-800 leading-tight">
-              Australia's #1 <br />
-              <span className="shimmer-text">Dog Store</span>
+              Australia’s most desired <br />
+              <span className="shimmer-text">dog accessories.</span>
             </h2>
             <p className="text-gray-600 text-lg leading-relaxed">
-              AusDog was born from a simple belief — every dog deserves the
-              best. Founded in Melbourne by a group of passionate dog owners, we
-              set out to create a store that we'd actually want to shop at
-              ourselves.
+             At Top Dog, we believe every dog deserves to look and feel exceptional. Built with a deep appreciation for craftsmanship, style, and everyday durability, our accessories are designed for dogs who lead, not follow. From thoughtfully selected materials to refined, modern designs, each piece reflects a commitment to quality that both pets and their humans can trust.
             </p>
             <p className="text-gray-600 text-lg leading-relaxed">
-              From premium collars and harnesses to gourmet treats and cosy
-              beds, every item in our store is hand-picked by our team of animal
-              experts.
+              We’re not just creating collars, we’re shaping a lifestyle where comfort meets confidence, and where every walk, outing, or moment together feels a little more elevated. Because being “top dog” isn’t just a title, it’s a standard.
             </p>
-            <p className="text-gray-600 text-lg leading-relaxed">
-              Today, we're proud to serve over 10,000 Australian families and
-              counting. No matter how big we grow, our mission stays the same:
-              happy dogs, happy owners.
-            </p>
+
             <div className="flex gap-4 pt-2">
               <div className="flex items-center gap-2 bg-white border border-orange-100 rounded-xl px-4 py-2 shadow-sm">
                 <Star className="w-4 h-4 text-[#ff9167]" fill="#ff9167" />
@@ -482,7 +469,7 @@ export default function AboutPage() {
               Our Mission & Vision
             </h2>
             <p className="text-gray-500 mt-4 text-lg max-w-2xl mx-auto">
-              Six pillars that guide every decision we make at AusDog.
+              Six pillars that guide every decision we make at Top Dog.
             </p>
           </div>
 
@@ -547,7 +534,7 @@ export default function AboutPage() {
             Ready to Spoil <span className="shimmer-text">Your Dog?</span>
           </h2>
           <p className="text-white/70 text-lg mb-10 leading-relaxed">
-            Browse over 500 premium products handpicked by our experts. Your pup
+            Browse over 500 premium products handpicked by our experts. Your dogg
             deserves the best — and we're here to deliver it.
           </p>
           <Link

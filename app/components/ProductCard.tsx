@@ -21,13 +21,13 @@ const ProductCard = ({ product }: ProductCardProps) => {
       <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group">
 
         {/* Image */}
-        <div className="relative overflow-hidden bg-linear-to-br from-blue-50 to-purple-50">
+        <div className="relative aspect-video overflow-hidden bg-linear-to-br from-blue-50 to-purple-50">
           <Image
             src={previewImage}
             alt={product.name}
             width={400}
             height={300}
-            className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
+            className="w-full h-64 object-contain group-hover:scale-105 transition-transform duration-500"
           />
         </div>
 
@@ -41,33 +41,33 @@ const ProductCard = ({ product }: ProductCardProps) => {
           <h3 className="text-lg font-bold text-gray-800 mt-1 line-clamp-2">
             {product.name}
           </h3>
-{/* 
+
           <p className="text-gray-600 text-sm mt-2 line-clamp-2">
             {product.description}
-          </p> */}
+          </p>
 
           {/* Material & Sizes */}
 
 
           {/* Colors */}
           <div className="flex gap-1 mt-3 flex-wrap">
-            {colors.map((color, index) => (
+            {/* {colors.map((color, index) => (
               <span
                 key={index}
                 className="text-xs bg-gray-100 px-2 py-1 rounded"
               >
                 {color}
               </span>
-            ))}
+            ))} */}
           </div>
 
           {/* Price + Button */}
-          <div className="flex items-center justify-between mt-6 pt-4 border-t">
-            <span className="text-xl font-bold text-[#ee6d49]">
+          <div className="flex items-center justify-end mt-6 pt-4 border-t">
+            {/* <span className="text-xl font-bold text-[#ee6d49]">
               ${product.price.toFixed(2)}
-            </span>
+            </span> */}
 
-            <button className="bg-[#ee6d49] text-white px-4 py-2 rounded-lg hover:bg-[#ed572e] transition-all flex items-center gap-1 text-sm font-medium shadow-md hover:shadow-lg">
+            <button className="bg-[#ee6d49] text-white px-4 py-2 rounded-lg hover:bg-[#ed572e] transition-all flex items-center  gap-1 text-sm font-medium shadow-md hover:shadow-lg">
               View Details
               <ChevronRight
                 size={16}

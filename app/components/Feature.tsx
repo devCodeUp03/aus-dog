@@ -1,117 +1,171 @@
-// components/PetHeroSection.tsx
-import React from "react";
-import { motion } from "framer-motion";
+"use client"
+
+import { useState, useRef, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import Link from "next/link"
 
 export default function PetHeroSection() {
-  // Animation variants
+  const [isVideoOpen, setIsVideoOpen] = useState(false)
+  const videoRef = useRef<HTMLVideoElement | null>(null)
+
+  // Close modal helper
+  const closeModal = () => {
+    setIsVideoOpen(false)
+    if (videoRef.current) {
+      videoRef.current.pause()
+      videoRef.current.currentTime = 0
+    }
+  }
+
+  // ESC key support
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeModal()
+    }
+    window.addEventListener("keydown", handleKeyDown)
+    return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [])
+
   const textVariant = {
-    hidden: { opacity: 0, x: -50 },
-    visible: { opacity: 1, x: 0, transition: { duration: 1, ease: "easeOut" as const } },
-  };
+    hidden: { opacity: 0, x: -40 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.8 } },
+  }
+
   const paragraphVariant = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 1, delay: 0.3, ease: "easeOut" as const } },
-  };
-  const buttonsVariant = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 1, delay: 0.5, ease: "easeOut" as const } },
-  };
-  const imageVariant = {
-    hidden: { opacity: 0, scale: 0.85 },
-    visible: { opacity: 1, scale: 1, transition: { duration: 1, ease: "easeOut" as const } },
-  };
-  const rightImageVariant = {
-    hidden: { opacity: 0, x: 60 },
-    visible: { opacity: 1, x: 0, transition: { duration: 1, ease: "easeOut" as const } },
-  };
+    hidden: { opacity: 0, y: 15 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.2 } },
+  }
+
+  const buttonVariant = {
+    hidden: { opacity: 0, y: 15 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.4 } },
+  }
 
   return (
-    <section className="relative flex items-center justify-between px-4 md:px-20 py-16 md:py-20 bg-white min-h-[500px] overflow-hidden font-sans">      {/* Left side: Circle background image with blur & overlay */}
-      <motion.div
-className="relative flex-1 flex items-center justify-start md:justify-center z-10"
-        variants={imageVariant}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
-      >
-        {/* Circular image container */}
-<div className="relative w-[220px] h-[220px] md:w-[400px] md:h-[400px] rounded-full overflow-hidden flex items-center justify-center">          <img
-            src="/images/belts/f1.png"
-            alt="Person with dog"
-            className="absolute inset-0 w-full h-full object-contain filter opacity-40"
-          />
-          <div className="absolute inset-0 bg-white/60 rounded-full" />
-        </div>
-      </motion.div>
+    <section className="grid grid-cols-1 md:grid-cols-3 min-h-screen w-full">
 
-      {/* Text content in front */}
-<div className="relative flex-1 max-w-[60%] md:max-w-lg z-20 text-left">
-          <motion.span
-          className="text-gray-700 font-semibold mb-3 block text-sm md:text-base"
-          variants={textVariant}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-        >
-          Best Quality
-        </motion.span>
-
-        <motion.h1
-          className="font-extrabold text-4xl md:text-5xl leading-tight mb-5 text-gray-900 drop-shadow-md"
-          variants={{ ...textVariant, visible: { ...textVariant.visible, transition: { duration: 1, delay: 0.15, ease: "easeOut" as const } } }}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-        >
-          Nutritional Food <br /> For Your Beloved Pets
-        </motion.h1>
-
-        <motion.p
-          className="text-gray-600 mb-8 text-base md:text-lg max-w-md leading-relaxed"
-          variants={paragraphVariant}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-        >
-Built for durability, control, and all-day comfort, our tactical dog collar is engineered using high-density military-grade nylon webbing that resists tearing, fraying, and UV damage. Reinforced stitching at every stress point ensures long-lasting performance even under extreme use. Combined with corrosion-resistant aluminium and stainless steel hardware, breathable padded mesh lining, and a reinforced control handle, this collar is designed for working dogs, outdoor adventures, and high-performance training. MOLLE compatibility and reflective stitching further enhance functionality, safety, and adaptability in any environment.        </motion.p>
-
-        <motion.div
-          className="flex flex-wrap gap-4 items-center"
-          variants={buttonsVariant}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-        >
-          <button className="flex items-center gap-3 text-sm font-semibold text-white bg-orange-400 rounded-full px-6 py-3 hover:bg-orange-500 transition">
-            <span className="w-8 h-8 flex items-center justify-center rounded-full bg-white text-orange-400">▶</span>
-            WATCH MORE
-          </button>
-          <button className="text-orange-500 border border-orange-400 rounded-full px-7 py-3 text-sm font-semibold hover:bg-orange-50 transition">
-            CLICK HERE
-          </button>
-        </motion.div>
+      {/* LEFT IMAGE */}
+      <div className="w-full h-[300px] md:h-screen">
+        <img
+          src="/images/belts/f1.png"
+          alt="Left visual"
+          className="w-full h-full object-cover"
+        />
       </div>
 
-      {/* Right side decorative images (blurred, faded) */}
-      <motion.div
-        className="hidden md:flex flex-col items-center gap-10 flex-1 relative"
-        variants={rightImageVariant}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
-      >
-        {/* <img
-          src="/images/belts/f2.png"
-          alt="Pet food bag"
-          className="w-32 h-32 object-contain opacity-50 filter"
-          style={{ transform: "rotate(-15deg)" }}
-        /> */}
+      {/* CENTER CONTENT */}
+      <div className="flex items-center justify-center px-6 md:px-10 py-12">
+        <div className="max-w-xl text-center md:text-left space-y-6">
+
+          <motion.span
+            className="text-gray-600 font-medium tracking-wide text-sm md:text-lg"
+            variants={textVariant}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            Why Top Dog
+          </motion.span>
+
+          <motion.h1
+            className="font-extrabold text-4xl md:text-5xl leading-tight text-gray-900"
+            variants={textVariant}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            Engineered Without Compromise
+          </motion.h1>
+
+          <motion.p
+            className="text-gray-600 text-base md:text-lg leading-relaxed"
+            variants={paragraphVariant}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            Every detail at Top Dog is built with intention. From precision stitching to carefully selected materials, our products are engineered to perform without compromise, balancing strength, comfort, and refined design in every piece. This is where durability meets style, created for dogs that live actively and owners who expect more. See the craftsmanship, feel the difference, and discover what truly sets Top Dog apart.
+          </motion.p>
+
+          <motion.div
+            className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start"
+            variants={buttonVariant}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            {/* WATCH VIDEO */}
+            <button
+              onClick={() => setIsVideoOpen(true)}
+              className="flex items-center justify-center gap-2 text-sm font-semibold text-white bg-orange-400 rounded-full px-6 py-3 hover:bg-orange-500 transition"
+            >
+              <span className="w-7 h-7 flex items-center justify-center rounded-full bg-white text-orange-400 text-xs">
+                ▶
+              </span>
+              WATCH VIDEO
+            </button>
+
+            {/* ABOUT LINK */}
+            <Link
+              href="/about"
+              className="text-orange-500 border border-orange-400 rounded-full px-7 py-3 text-sm font-semibold hover:bg-orange-50 transition inline-block text-center"
+            >
+              KNOW ABOUT US
+            </Link>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* RIGHT IMAGE */}
+      <div className="w-full h-[300px] md:h-screen">
         <img
           src="/images/belts/f3.png"
-          alt="Cat"
-          className="w-48 h-48 object-contain opacity-20 filter"
+          alt="Right visual"
+          className="w-full h-full object-cover"
         />
-      </motion.div>
+      </div>
+
+      {/* VIDEO MODAL */}
+      <AnimatePresence>
+        {isVideoOpen && (
+          <motion.div
+            className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center px-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={closeModal}
+          >
+            <motion.div
+              className="relative w-full max-w-3xl bg-black rounded-xl overflow-hidden"
+              initial={{ scale: 0.85 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.85 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close button */}
+              <button
+                onClick={closeModal}
+                className="absolute top-3 right-3 z-10 text-white bg-red-500 rounded-full w-8 h-8 flex items-center justify-center"
+              >
+                ✕
+              </button>
+
+              {/* VIDEO */}
+              <div className="relative w-full aspect-video bg-black">
+  <video
+    ref={videoRef}
+    controls
+    autoPlay
+    className="absolute inset-0 w-full h-full object-cover"
+  >
+    <source src="/vedio/vedio1.MP4" type="video/mp4" />
+  </video>
+</div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     </section>
-  );
+  )
 }
