@@ -87,32 +87,7 @@ export default function PetHeroSection() {
             Every detail at Top Dog is built with intention. From precision stitching to carefully selected materials, our products are engineered to perform without compromise, balancing strength, comfort, and refined design in every piece. This is where durability meets style, created for dogs that live actively and owners who expect more. See the craftsmanship, feel the difference, and discover what truly sets Top Dog apart.
           </motion.p>
 
-          <motion.div
-            className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start"
-            variants={buttonVariant}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            {/* WATCH VIDEO */}
-            <button
-              onClick={() => setIsVideoOpen(true)}
-              className="flex items-center justify-center gap-2 text-sm font-semibold text-white bg-orange-400 rounded-full px-6 py-3 hover:bg-orange-500 transition"
-            >
-              <span className="w-7 h-7 flex items-center justify-center rounded-full bg-white text-orange-400 text-xs">
-                ▶
-              </span>
-              WATCH VIDEO
-            </button>
-
-            {/* ABOUT LINK */}
-            <Link
-              href="/about"
-              className="text-orange-500 border border-orange-400 rounded-full px-7 py-3 text-sm font-semibold hover:bg-orange-50 transition inline-block text-center"
-            >
-              KNOW ABOUT US
-            </Link>
-          </motion.div>
+          
         </div>
       </div>
 

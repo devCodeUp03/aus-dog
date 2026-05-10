@@ -48,17 +48,17 @@ export default function ContactPage() {
   };
 
   const contactInfo = [
-  {
-    icon: MapPin,
-    title: "Visit Us",
-    content: "18 Grevillea Drive, Enfield, VIC 3352, Australia",
-    bgColor: "bg-[#7ABDE4]",
-    iconColor: "text-[#2B698E]"
-  },
+  // {
+  //   icon: MapPin,
+  //   title: "Visit Us",
+  //   content: "18 Grevillea Drive, Enfield, VIC 3352, Australia",
+  //   bgColor: "bg-[#7ABDE4]",
+  //   iconColor: "text-[#2B698E]"
+  // },
   {
     icon: Phone,
     title: "Call Us",
-    content: "+61 449 568 620",
+    content: "+61 0461 409 472",
     bgColor: "bg-[#7ABDE4]",
     iconColor: "text-[#2B698E]"
   },

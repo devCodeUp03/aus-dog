@@ -63,45 +63,41 @@ const Footer: React.FC = () => {
           <h3 className="text-sm uppercase tracking-widest text-white mb-4">
             Contact
           </h3>
-          <p className="text-sm">+61 449 568 620</p>
-          <p className="text-sm mt-3 text-[#aaa]">
-            18 Grevilea Drive
-          </p>
-          <p className="text-sm mt-3 text-[#aaa]">
-            Enfield, VIC, 3352
-          </p>
-          <p className="text-sm mt-3 text-[#aaa]">
-            Australia
-          </p>
+          <p className="text-sm">+61 0461 409 472</p>
+
           <br />
           <p className="text-sm mt-1">info@topdogworkingdog.com</p>
         </div>
       </div>
 
       {/* Payment Methods */}
-<div className="flex justify-center gap-8 flex-wrap py-4 border-t border-white/10 items-center">
+      <div className="flex justify-center gap-8 flex-wrap py-4 border-t border-white/10 items-center">
 
-  <div className="flex flex-col items-center gap-1 opacity-80 hover:opacity-100 transition">
-    <img src="/images/logos/paypal.png" alt="PayPal" className="h-10 w-auto" />
+  <div className="w-24 h-25 flex items-center justify-center opacity-80 hover:opacity-100 transition">
+    <img
+      src="/images/logos/paypal.png"
+      alt="PayPal"
+      className="max-h-full max-w-full object-contain"
+    />
   </div>
 
-  <div className="flex flex-col items-center gap-1 opacity-80 hover:opacity-100 transition">
-    <img src="/images/logos/gpay.png" alt="Google Pay" className="h-8 w-auto" />
-  </div>
-
-  <div className="flex flex-col items-center gap-1 opacity-80 hover:opacity-100 transition">
-    <img src="/images/logos/nab.png" alt="NAB" className="h-10 w-auto" />
+  <div className="w-24 h-8 flex items-center justify-center opacity-80 hover:opacity-100 transition">
+    <img
+      src="/images/logos/gpay.png"
+      alt="Google Pay"
+      className="max-h-full max-w-full object-contain"
+    />
   </div>
 
 </div>
 
-{/* Bottom */}
-<div className="text-center text-xs text-[#888] py-5 space-y-1">
-  <p>© 2026 TOP DOG. All rights reserved by Top Dog.</p>
-  <p>
-    Built by <span className="text-white">Idea Pixel</span>
-  </p>
-</div>
+      {/* Bottom */}
+      <div className="text-center text-xs text-[#888] py-5 space-y-1">
+        <p>© 2026 TOP DOG. All rights reserved by Top Dog.</p>
+        <p>
+          Built by <span className="text-white">Idea Pixel</span>
+        </p>
+      </div>
     </footer>
   );
 };

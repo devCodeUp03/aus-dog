@@ -1,4 +1,4 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
@@ -9,11 +9,11 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        satoshi: ["Satoshi", "sans-serif"],
+        sans: ["var(--font-open-sans)", "sans-serif"],
       },
     },
   },
   plugins: [],
-}
+};
 
-export default config
+export default config;

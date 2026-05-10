@@ -12,19 +12,19 @@ import Link from "next/link"
 
 const slides = [
   {
-    title: "Built for dogs that don’t slow down.",
+    title: "Built for dogs that don’t slow down",
     tag: "Our durable, washable collar is designed to handle dirt, water, and every adventure, without compromising comfort or style.",
-    img: "/images/bg.png"
+    img: "/images/b4.png"
   },
   {
-    title: "Built for dogs that don’t slow down.",
-    tag: "Our durable, washable collar is designed to handle dirt, water, and every adventure, without compromising comfort or style.",
-    img: "/images/bg2.png"
-  },
-  {
-    title: "Built for dogs that don’t slow down.",
+    title: "Built for dogs that don’t slow down",
     tag: "Our durable, washable collar is designed to handle dirt, water, and every adventure, without compromising comfort or style.",
     img: "/images/bg3.png"
+  },
+  {
+    title: "Built for dogs that don’t slow down",
+    tag: "Our durable, washable collar is designed to handle dirt, water, and every adventure, without compromising comfort or style.",
+    img: "/images/bg2.png"
   },
 ]
 
@@ -36,56 +36,66 @@ export default function HeroSlider() {
   const slide = slides[current]
 
   useEffect(() => {
-    const canvas = canvasRef.current!
-    const ctx = canvas.getContext("2d")!
+  const interval = setInterval(() => {
+    setCurrent((prev) => (prev + 1) % slides.length);
+  }, 3000); // 3 seconds
 
-    // Make the canvas full width and height of its parent
-    canvas.width = canvas.parentElement?.clientWidth || window.innerWidth
-    canvas.height = canvas.parentElement?.clientHeight || window.innerHeight
+  return () => clearInterval(interval);
+}, []);
 
-    // Create 5+ bubbles
-    const bubbles = Array.from({ length: 5 }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      dx: (Math.random() - 0.5) * 1,  // horizontal speed
-      dy: (Math.random() - 0.5) * 1,  // vertical speed
-      r: 50,     // radius
-    }))
 
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
+  // useEffect(() => {
+  //   const canvas = canvasRef.current!
+  //   const ctx = canvas.getContext("2d")!
 
-      bubbles.forEach((b) => {
-        ctx.beginPath()
-        ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2)
-        ctx.fillStyle = "rgba(255,255,255,0.2)"
-        ctx.fill()
+  //   // Make the canvas full width and height of its parent
+  //   canvas.width = canvas.parentElement?.clientWidth || window.innerWidth
+  //   canvas.height = canvas.parentElement?.clientHeight || window.innerHeight
 
-        // Move bubble
-        b.x += b.dx
-        b.y += b.dy
+  //   // Create 5+ bubbles
+  //   const bubbles = Array.from({ length: 5 }, () => ({
+  //     x: Math.random() * canvas.width,
+  //     y: Math.random() * canvas.height,
+  //     dx: (Math.random() - 0.5) * 1,  // horizontal speed
+  //     dy: (Math.random() - 0.5) * 1,  // vertical speed
+  //     r: 50,     // radius
+  //   }))
 
-        // Bounce on edges
-        if (b.x < b.r || b.x > canvas.width - b.r) b.dx *= -1
-        if (b.y < b.r || b.y > canvas.height - b.r) b.dy *= -1
-      })
+  //   function animate() {
+  //     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-      requestAnimationFrame(animate)
-    }
+  //     bubbles.forEach((b) => {
+  //       ctx.beginPath()
+  //       ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2)
+  //       ctx.fillStyle = "rgba(255,255,255,0.2)"
+  //       ctx.fill()
 
-    animate()
-  }, [])
+  //       // Move bubble
+  //       b.x += b.dx
+  //       b.y += b.dy
+
+  //       // Bounce on edges
+  //       if (b.x < b.r || b.x > canvas.width - b.r) b.dx *= -1
+  //       if (b.y < b.r || b.y > canvas.height - b.r) b.dy *= -1
+  //     })
+
+  //     requestAnimationFrame(animate)
+  //   }
+
+  //   animate()
+  // }, [])
 
   return (
     <>
 
-      <section className="relative bg-[#ff9e77] min-h-screen flex items-center px-6 md:px-16 overflow-hidden"
-        style={{
-          backgroundImage: `url(${slide.img})`,
-          backgroundSize: "cover"
-
-        }}
-      >
+      <section
+  className="relative bg-[#ff9e77] min-h-screen flex items-center px-6 md:px-16 overflow-hidden transition-all duration-700"
+  style={{
+    backgroundImage: `url(${slides[current].img})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  }}
+>
         {/* Canvas Bubble */}
         <canvas
           ref={canvasRef}
@@ -138,23 +148,10 @@ export default function HeroSlider() {
                 visible: { opacity: 1, x: 0, transition: { duration: 0.7 } }
               }}
             >
-              SHOP COLLAR
+              SHOP NOW
             </motion.button>
           </Link>
-          <motion.button
-            onClick={() => {
-              document.getElementById("features")?.scrollIntoView({
-                behavior: "smooth",
-              })
-            }}
-            className="bg-[#ff8800]  px-6 py-3 rounded-full text-white font-semibold hover:scale-105 transition-transform ml-2"
-            variants={{
-              hidden: { opacity: 0, x: 50 },
-              visible: { opacity: 1, x: 0, transition: { duration: 0.7 } }
-            }}
-          >
-            EXPLORE
-          </motion.button>
+          
         </motion.div>
 
         {/* Vertical Dots */}
@@ -200,22 +197,22 @@ export default function HeroSlider() {
         <Feature />
       </section>
 
-      <section className="text-5xl text-gray-700 font-bold  text-center  ">
+      {/* <section className="text-5xl text-gray-700 font-bold  text-center  ">
    
         <Feature3 />
-      </section>
-      <section id="features" className="max-w-7xl mx-auto py-16">
+      </section> */}
+      {/* <section id="features" className="max-w-7xl mx-auto py-16">
         <h2 className="text-5xl text-gray-700 font-bold mb-8 text-center">
           Featured Products
         </h2>
 
         <ProductSlider />
 
-      </section>
+      </section> */}
 
-      <section>
+      {/* <section>
         <BestProduct />
-      </section>
+      </section> */}
 
 
       <section className="text-5xl text-gray-700 font-bold  text-center  mt-10 mb-10">
@@ -227,9 +224,9 @@ export default function HeroSlider() {
         <Services />
       </section> */}
 
-      <section>
+      {/* <section>
         <Feature2 />
-      </section>
+      </section> */}
 
 
     </>
