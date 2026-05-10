@@ -65,7 +65,6 @@ const Footer: React.FC = () => {
           </h3>
           <p className="text-sm">+61 0461 409 472</p>
 
-          <br />
           <p className="text-sm mt-1">info@topdogworkingdog.com</p>
         </div>
       </div>
@@ -73,23 +72,38 @@ const Footer: React.FC = () => {
       {/* Payment Methods */}
       <div className="flex justify-center gap-8 flex-wrap py-4 border-t border-white/10 items-center">
 
-  <div className="w-24 h-25 flex items-center justify-center opacity-80 hover:opacity-100 transition">
-    <img
-      src="/images/logos/paypal.png"
-      alt="PayPal"
-      className="max-h-full max-w-full object-contain"
-    />
-  </div>
+        <div className="w-24 h-25 flex items-center justify-center opacity-80 hover:opacity-100 transition">
+          <img
+            src="/images/logos/paypal.png"
+            alt="PayPal"
+            className="max-h-full max-w-full object-contain"
+          />
+        </div>
 
-  <div className="w-24 h-8 flex items-center justify-center opacity-80 hover:opacity-100 transition">
-    <img
-      src="/images/logos/gpay.png"
-      alt="Google Pay"
-      className="max-h-full max-w-full object-contain"
-    />
-  </div>
+        <div className="w-24 h-8 flex items-center justify-center opacity-80 hover:opacity-100 transition">
+          <img
+            src="/images/logos/gpay.png"
+            alt="Google Pay"
+            className="max-h-full max-w-full object-contain"
+          />
+        </div>
+        <div className="w-24 h-25 flex items-center justify-center opacity-80 hover:opacity-100 transition">
+          <img
+            src="/images/logos/image.png"
+            alt="MasterCard "
+            className="max-h-full max-w-full object-contain"
+          />
+        </div>
+        <div className="w-24 h-30 flex items-center justify-center opacity-80 hover:opacity-100 transition">
+          <img
+            src="/images/logos/image copy.png"
+            alt="Visa"
+            className="max-h-full max-w-full object-contain"
+          />
+        </div>
 
-</div>
+
+      </div>
 
       {/* Bottom */}
       <div className="text-center text-xs text-[#888] py-5 space-y-1">

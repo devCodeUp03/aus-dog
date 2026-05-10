@@ -42,7 +42,7 @@ export default function PetHeroSection() {
   }
 
   return (
-    <section className="grid grid-cols-1 md:grid-cols-3 min-h-screen w-full">
+    <section className="grid grid-cols-1 md:grid-cols-3 w-full mb-0">
 
       {/* LEFT IMAGE */}
       <div className="w-full h-full md:h-screen">
@@ -54,8 +54,8 @@ export default function PetHeroSection() {
       </div>
 
       {/* CENTER CONTENT */}
-      <div className="flex items-center justify-center px-6 md:px-10 py-12">
-        <div className="max-w-xl text-center md:text-left space-y-6">
+      <div className="flex items-center justify-center px-6 md:px-10 py-4 md:py-6">
+        <div className="max-w-xl text-center md:text-left space-y-3 md:space-y-4">
 
           <motion.span
             className="text-gray-600 font-medium tracking-wide text-sm md:text-lg"

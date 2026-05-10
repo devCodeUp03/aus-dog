@@ -124,10 +124,10 @@ export default function ProductDetailClient({ product }: Props) {
 
 
               {/* SIZE GUIDE */}
-              <div className="border-t border-b border-gray-200">
+              <div className=" border-b border-gray-200">
                 <button
                   onClick={() => setShowSizeGuide(!showSizeGuide)}
-                  className="w-full flex items-center justify-between py-4"
+                  className="w-full flex items-center justify-between py-1"
                 >
                   <h2 className="font-semibold text-lg">Size Guide</h2>
 

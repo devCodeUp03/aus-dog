@@ -2,12 +2,8 @@
 import Feature from "./Feature"
 import { useEffect, useRef, useState } from "react"
 import { motion, Variants } from "framer-motion"
-import ProductSlider from "./ProductSlider"
 import TestimonialSection from "./TestimonialSection"
-import BestProduct from "./BestProduct"
-import Services from "./Services"
-import Feature2 from "./Feature2"
-import Feature3 from "./Feature3"
+
 import Link from "next/link"
 
 const slides = [
@@ -38,7 +34,7 @@ export default function HeroSlider() {
   useEffect(() => {
   const interval = setInterval(() => {
     setCurrent((prev) => (prev + 1) % slides.length);
-  }, 3000); // 3 seconds
+  }, 5000); // 3 seconds
 
   return () => clearInterval(interval);
 }, []);
@@ -197,26 +193,9 @@ export default function HeroSlider() {
         <Feature />
       </section>
 
-      {/* <section className="text-5xl text-gray-700 font-bold  text-center  ">
-   
-        <Feature3 />
-      </section> */}
-      {/* <section id="features" className="max-w-7xl mx-auto py-16">
-        <h2 className="text-5xl text-gray-700 font-bold mb-8 text-center">
-          Featured Products
-        </h2>
 
-        <ProductSlider />
-
-      </section> */}
-
-      {/* <section>
-        <BestProduct />
-      </section> */}
-
-
-      <section className="text-5xl text-gray-700 font-bold  text-center  mt-10 mb-10">
-        <h2 className="mb-5">What Our Customer Have to Say ?</h2>
+      <section className="mb-35">
+        {/* <h2 className="mb-5">What Our Customers Have to Say ?</h2> */}
         <TestimonialSection />
       </section>
 

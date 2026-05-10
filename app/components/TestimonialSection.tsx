@@ -16,7 +16,7 @@ const testimonials: Testimonial[] = [
     name: "S i m o n e",
     role: "Pet Owner",
     message:
-      "Managing a high-drive hunting dog requires trust in your equipment. This collar is the perfect match for his intensity. It doesn’t just look the part; the build quality is exceptional. I finally have a collar that can keep up with his pace while keeping me firmly in command.",
+      "Managing a high-drive hunting dog requires trust in your equipment. This collar is the perfect match for his intensity. It doesn’t just look the part; the build quality is exceptional.",
     avatar: "https://i.pravatar.cc/150?img=47",
   },
   {
@@ -24,7 +24,7 @@ const testimonials: Testimonial[] = [
     name: "S t e v e",
     role: "Happy Customer",
     message:
-      "A very happy hunting dog owner. I love the collar from Top Dog, which is sturdy and matches my dog’s hyper energy, helping me to control my dog.",
+      "A very happy hunting dog owner. I love the collar from Top Dog, which is sturdy and matches my dog’s hyper energy.",
     avatar: "https://i.pravatar.cc/150?img=33",
   },
   {
@@ -32,13 +32,14 @@ const testimonials: Testimonial[] = [
     name: "A l e x i",
     role: "Animal Lover",
     message:
-      "Managing a high-drive hunting dog requires trust in your equipment. This collar is the perfect match for his intensity. It doesn’t just look the part; the build quality is exceptional. I finally have a collar that can keep up with his pace while keeping me firmly in command.",
+      "The build quality is exceptional. I finally have a collar that can keep up with his pace while keeping me firmly in command.",
     avatar: "https://i.pravatar.cc/150?img=45",
   },
 ];
 
 export default function TestimonialSection() {
   const sectionRef = useRef<HTMLElement>(null);
+
   const [activeIndex, setActiveIndex] = useState(1);
   const [isVisible, setIsVisible] = useState(false);
   const [messageVisible, setMessageVisible] = useState(false);
@@ -48,7 +49,10 @@ export default function TestimonialSection() {
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          setTimeout(() => setMessageVisible(true), 400);
+
+          setTimeout(() => {
+            setMessageVisible(true);
+          }, 300);
         } else {
           setIsVisible(false);
           setMessageVisible(false);
@@ -58,13 +62,18 @@ export default function TestimonialSection() {
     );
 
     if (sectionRef.current) observer.observe(sectionRef.current);
+
     return () => observer.disconnect();
   }, []);
 
   const handleAvatarClick = (index: number) => {
     setMessageVisible(false);
+
     setActiveIndex(index);
-    setTimeout(() => setMessageVisible(true), 200);
+
+    setTimeout(() => {
+      setMessageVisible(true);
+    }, 200);
   };
 
   const active = testimonials[activeIndex];
@@ -73,121 +82,160 @@ export default function TestimonialSection() {
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&family=Josefin+Sans:wght@300;400&display=swap');
-        .font-cormorant { font-family: 'Cormorant Garamond', serif; }
-        .font-josefin   { font-family: 'Josefin Sans', sans-serif; }
+
+        .font-cormorant {
+          font-family: 'Cormorant Garamond', serif;
+        }
+
+        .font-josefin {
+          font-family: 'Josefin Sans', sans-serif;
+        }
       `}</style>
 
       <section
         ref={sectionRef}
-        className="relative w-full  flex items-center justify-center overflow-hidden bg-[#0a0a0a]"
+        className="relative w-full overflow-hidden bg-[#0a0a0a] py-8 md:py-10"
       >
-        {/* Left Background Image (Left half) */}
-<div
-  className="hidden md:block absolute top-0 left-0 w-1/2 h-full bg-cover bg-center opacity-30 z-0"
-  style={{
-    backgroundImage: 'url("/images/products/f11.png")',
-    transform: "scaleX(-1)",
-  }}
-/>
+        {/* LEFT BG */}
+        <div
+          className="hidden md:block absolute top-0 left-0 w-1/2 h-full bg-cover bg-center opacity-20 z-0"
+          style={{
+            backgroundImage: 'url("/images/products/f11.png")',
+            transform: "scaleX(-1)",
+          }}
+        />
 
-  {/* Right Background Image (Right half) */}
-  <div
-className="absolute top-0 right-0 md:right-0 w-full md:w-1/2 h-full bg-cover bg-center opacity-30 z-0"
-    style={{ backgroundImage: 'url("/images/products/f12.png")' }}
-  />
+        {/* RIGHT BG */}
+        <div
+          className="absolute top-0 right-0 w-full md:w-1/2 h-full bg-cover bg-center opacity-20 z-0"
+          style={{
+            backgroundImage: 'url("/images/products/f12.png")',
+          }}
+        />
 
-        {/* Left dark panel */}
-        {/* <div className="absolute top-0 left-0 w-[32%] h-full z-0 bg-[radial-gradient(ellipse_60%_40%_at_70%_55%,#2a2a2a_0%,#111_40%,#050505_100%)]" /> */}
+        {/* OVERLAY */}
+        <div className="absolute inset-0 z-[1] bg-black/60" />
 
-        {/* Right dark panel */}
-        {/* <div className="absolute top-0 right-0 w-[32%] h-full z-0 bg-[radial-gradient(ellipse_60%_40%_at_30%_55%,#252525_0%,#111_40%,#050505_100%)]" /> */}
+        {/* CONTENT */}
+        <div className="relative z-10 max-w-3xl mx-auto px-5 text-center">
 
-        {/* Vignette overlay */}
-        <div className="absolute inset-0 z-[1] bg-[radial-gradient(ellipse_55%_80%_at_10%_50%,rgba(20,15,10,0.7),transparent_70%),radial-gradient(ellipse_55%_80%_at_90%_50%,rgba(10,15,20,0.7),transparent_70%),radial-gradient(ellipse_40%_60%_at_50%_50%,rgba(5,5,5,0.9),transparent_100%)]" />
-
-        {/* Main content */}
-        <div className="relative z-10 flex flex-col items-center max-w-2xl px-10 py-20 text-center">
-
-          {/* Quote */}
-          <p
-            className={`font-cormorant italic font-light text-white/90 text-xl leading-[1.85] tracking-wide mb-14 transition-all duration-700 ease-out ${
-              messageVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-7"
-            }`}
-          >
-            {active.message}
-          </p>
-
-          {/* Divider */}
+          {/* HEADING */}
           <div
-            className={`flex gap-1.5 mb-11 origin-bottom transition-all duration-500 delay-200 ease-out ${
-              isVisible ? "opacity-100 scale-y-100" : "opacity-0 scale-y-0"
+            className={`transition-all duration-700 mb-6 ${
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-4"
             }`}
           >
-            <span className="block w-px h-9 bg-white/40" />
-            <span className="block w-px h-9 bg-white/40" />
+            <p className="text-[11px] md:text-xs uppercase tracking-[0.25em] text-white/50 mb-2 font-josefin">
+              Testimonials
+            </p>
+
+            <h2 className="text-2xl md:text-4xl font-bold text-white leading-tight">
+              What Our Customers
+              <br />
+              Have to Say
+            </h2>
           </div>
 
-          {/* Avatars */}
-          <div
-            className={`flex items-center mb-7 transition-all duration-500 delay-300 ease-out ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
-            }`}
-          >
-            {testimonials.map((t, i) => {
-              const isActive = activeIndex === i;
-              const isCenter = i === 1;
+          {/* MESSAGE */}
+          <div className="max-w-2xl mx-auto">
 
-              return (
-                <div
-                  key={t.id}
-                  onClick={() => handleAvatarClick(i)}
-                  title={t.name}
-                  className={[
-                    "relative cursor-pointer transition-transform duration-300",
-                    isCenter ? "z-[3]" : isActive ? "z-[4]" : "z-[1]",
-                    i === 0 ? "-mr-[18px]" : i === 2 ? "-ml-[18px]" : "",
-                    isActive ? "scale-110" : "hover:scale-105",
-                  ].join(" ")}
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={t.avatar}
-                    alt={t.name}
+            <p
+              className={`font-cormorant italic font-light text-white/90 text-lg md:text-2xl leading-[1.6] tracking-wide mb-7 transition-all duration-700 ${
+                messageVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-5"
+              }`}
+            >
+              {active.message}
+            </p>
+
+            {/* DIVIDER */}
+            <div
+              className={`flex justify-center gap-1.5 mb-6 transition-all duration-500 delay-200 ${
+                isVisible
+                  ? "opacity-100 scale-y-100"
+                  : "opacity-0 scale-y-0"
+              }`}
+            >
+              <span className="block w-px h-6 bg-white/40" />
+              <span className="block w-px h-6 bg-white/40" />
+            </div>
+
+            {/* AVATARS */}
+            <div
+              className={`flex items-center justify-center mb-5 transition-all duration-500 delay-300 ${
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-4"
+              }`}
+            >
+              {testimonials.map((t, i) => {
+                const isActive = activeIndex === i;
+                const isCenter = i === 1;
+
+                return (
+                  <div
+                    key={t.id}
+                    onClick={() => handleAvatarClick(i)}
                     className={[
-                      "rounded-full object-cover border-[2.5px] transition-all duration-300",
-                      isCenter ? "w-[88px] h-[88px]" : "w-[68px] h-[68px]",
-                      isActive
-                        ? "border-white/55 grayscale-0 brightness-100"
-                        : "border-white/15 grayscale brightness-75",
+                      "relative cursor-pointer transition-all duration-300",
+                      i === 0 ? "-mr-4" : "",
+                      i === 2 ? "-ml-4" : "",
+                      isActive ? "scale-105 z-10" : "hover:scale-105",
                     ].join(" ")}
-                  />
-                </div>
-              );
-            })}
-          </div>
+                  >
+                    <img
+                      src={t.avatar}
+                      alt={t.name}
+                      className={[
+                        "rounded-full object-cover border-2 transition-all duration-300",
+                        isCenter ? "w-[72px] h-[72px]" : "w-[58px] h-[58px]",
+                        isActive
+                          ? "border-white/60 grayscale-0"
+                          : "border-white/20 grayscale brightness-75",
+                      ].join(" ")}
+                    />
+                  </div>
+                );
+              })}
+            </div>
 
-          {/* Author */}
-          <div
-            className={`transition-all duration-500 ease-out ${
-              messageVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
-            }`}
-          >
-            <p className="font-josefin font-normal text-[0.95rem] text-white/90 tracking-[0.12em] uppercase mb-1">
-              {active.name}
-            </p>
-            <p className="font-cormorant italic text-[0.9rem] text-white/45 tracking-wide">
-              {active.role}
-            </p>
+            {/* AUTHOR */}
+            <div
+              className={`transition-all duration-500 ${
+                messageVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-3"
+              }`}
+            >
+              <p className="font-josefin text-[12px] md:text-sm text-white/90 tracking-[0.15em] uppercase mb-1">
+                {active.name}
+              </p>
+
+              <p className="font-cormorant italic text-sm text-white/50">
+                {active.role}
+              </p>
+            </div>
           </div>
         </div>
 
-        {/* Scroll-to-top */}
+        {/* TOP BUTTON */}
         <button
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          aria-label="Scroll to top"
-          className="absolute bottom-6 right-7 z-20 w-9 h-9 rounded-full bg-[rgba(140,80,80,0.7)] hover:bg-[rgba(160,90,90,0.9)] flex items-center justify-center transition-colors duration-200"
+          onClick={() =>
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth",
+            })
+          }
+          className="absolute bottom-4 right-4 z-20 w-9 h-9 rounded-full bg-[#8c5050]/80 hover:bg-[#a05a5a] flex items-center justify-center transition-all duration-300"
         >
-          <svg viewBox="0 0 24 24" className="w-4 h-4 fill-white" xmlns="http://www.w3.org/2000/svg">
+          <svg
+            viewBox="0 0 24 24"
+            className="w-4 h-4 fill-white"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <path d="M12 4l-8 8h5v8h6v-8h5z" />
           </svg>
         </button>
