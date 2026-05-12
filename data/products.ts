@@ -197,7 +197,7 @@ export const products: Product[] = [
     sizes: ["S", "M", "L"],
     material: "Military-Grade Nylon",
     description:
-      "Military-grade nylon webbing resists tearing, fraying, and UV damage. Double-stitched at every stress point with high-tensile thread for maximum durability under pressure. Heavy-duty D-ring is corrosion-resistant and rated to withstand extreme pull forces with no deformation or failure. Soft padded mesh lining ensures comfort during extended wear in outdoor environments.",
+      "Military-grade nylon webbing resists tearing, fraying, and UV damage. Double-stitched at every stress point with high-tensile thread for maximum durability under pressure. Heavy-duty D-ring is corrosion-resistant and rated to withstand extreme pull forces, with no deformation, no rust, and no failure. Soft Padded mesh lining prevents chafing and improves comfort during extended wear in the bush, on trail, or in the field.",
     features: [
       "1.5–2 inch military-grade nylon webbing",
       "UV resistant and weatherproof",
@@ -208,9 +208,11 @@ export const products: Product[] = [
 
     // ✅ IMAGE STRUCTURE (FIRST = MAIN THUMBNAIL)
     images: [
-      "/images/products/p1.png",        // ⭐ main thumbnail (hero image)
-      "/images/products/p1-1.png",     // side angle
-      "/images/products/p1-2.png",     // top angle
+      "/images/black/b5.jpeg",     // top angle
+      "/images/black/b1.jpg",        // ⭐ main thumbnail (hero image)
+      "/images/black/b2.jpg",     // side angle
+      "/images/black/b3.jpeg",     // top angle
+      "/images/black/b4.jpeg",     // top angle
     ]
   },
 
@@ -223,7 +225,7 @@ export const products: Product[] = [
     sizes: ["S", "M", "L"],
     material: "Aluminium & Stainless Steel",
     description:
-      "Built with anodised aluminium components and stainless steel hardware for maximum strength and corrosion resistance. Designed for heavy-duty outdoor use with reinforced structure and secure D-ring anchoring.",
+      "Military-grade nylon webbing resists tearing, fraying, and UV damage. Double-stitched at every stress point with high-tensile thread for maximum durability under pressure. Heavy-duty D-ring is corrosion-resistant and rated to withstand extreme pull forces, with no deformation, no rust, and no failure. Soft Padded mesh lining prevents chafing and improves comfort during extended wear in the bush, on trail, or in the field.",
     features: [
       "Anodised aluminium components",
       "Stainless steel hardware",
@@ -233,9 +235,9 @@ export const products: Product[] = [
     ],
 
     images: [
-      "/images/products/p3.png",
-      "/images/products/p3.png",
-      "/images/products/p3.png",
+      "/images/tan/t3.jpeg",
+      "/images/tan/t1.jpeg",
+      "/images/tan/t2.jpeg",
     ]
   },
 
@@ -248,7 +250,7 @@ export const products: Product[] = [
     sizes: ["S", "M", "L"],
     material: "Padded Mesh",
     description:
-      "Soft padded mesh inner lining designed for maximum comfort and breathability during long outdoor use. Prevents chafing and irritation while maintaining durability and strength.",
+      "Military-grade nylon webbing resists tearing, fraying, and UV damage. Double-stitched at every stress point with high-tensile thread for maximum durability under pressure. Heavy-duty D-ring is corrosion-resistant and rated to withstand extreme pull forces, with no deformation, no rust, and no failure. Soft Padded mesh lining prevents chafing and improves comfort during extended wear in the bush, on trail, or in the field.",
     features: [
       "Soft padded mesh lining",
       "Breathable comfort design",
@@ -258,9 +260,9 @@ export const products: Product[] = [
     ],
 
     images: [
-      "/images/products/p4.png",
-      "/images/products/p4-1.png",
-      // "/images/products/p4-1.png",
+      "/images/blue/bb1.JPG",
+      "/images/blue/bb2.jpg",
+      "/images/blue/bb3.jpg",
     ]
   },
 
@@ -273,7 +275,7 @@ export const products: Product[] = [
     sizes: ["S", "M", "L"],
     material: "Reinforced Nylon",
     description:
-      "Reinforced nylon construction with MOLLE compatibility for attachments such as ID tags, GPS trackers, or utility pouches. Built for tactical and outdoor environments.",
+      "Military-grade nylon webbing resists tearing, fraying, and UV damage. Double-stitched at every stress point with high-tensile thread for maximum durability under pressure. Heavy-duty D-ring is corrosion-resistant and rated to withstand extreme pull forces, with no deformation, no rust, and no failure. Soft Padded mesh lining prevents chafing and improves comfort during extended wear in the bush, on trail, or in the field.",
     features: [
       "MOLLE webbing system",
       "Attachment compatibility",
@@ -283,9 +285,9 @@ export const products: Product[] = [
     ],
 
     images: [
-      "/images/products/p5.png",
-      "/images/products/p5-1.png",
-      "/images/products/p5-2.png",
+      "/images/pink/p1.JPG",
+      "/images/pink/p2.jpg",
+      "/images/pink/p3.jpg",
     ]
   },
 
@@ -298,7 +300,7 @@ export const products: Product[] = [
     sizes: ["S", "M", "L"],
     material: "Reinforced Nylon",
     description:
-      "Built-in reinforced control handle for quick control and training. Designed for active handling and strong grip situations.",
+      "Military-grade nylon webbing resists tearing, fraying, and UV damage. Double-stitched at every stress point with high-tensile thread for maximum durability under pressure. Heavy-duty D-ring is corrosion-resistant and rated to withstand extreme pull forces, with no deformation, no rust, and no failure. Soft Padded mesh lining prevents chafing and improves comfort during extended wear in the bush, on trail, or in the field.",
     features: [
       "Reinforced control handle",
       "Strong grip support",
@@ -308,9 +310,7 @@ export const products: Product[] = [
     ],
 
     images: [
-      "/images/products/p6.png",
-      "/images/products/p6-1.png",
-      "/images/products/p6-2.png",
+      "/images/orange/o1.JPG",
     ]
   },
 
@@ -323,7 +323,7 @@ export const products: Product[] = [
     sizes: ["S", "M", "L"],
     material: "Reflective Nylon",
     description:
-      "Reflective stitching enhances visibility in low-light conditions. Ideal for night walks and outdoor safety.",
+      "Military-grade nylon webbing resists tearing, fraying, and UV damage. Double-stitched at every stress point with high-tensile thread for maximum durability under pressure. Heavy-duty D-ring is corrosion-resistant and rated to withstand extreme pull forces, with no deformation, no rust, and no failure. Soft Padded mesh lining prevents chafing and improves comfort during extended wear in the bush, on trail, or in the field.",
     features: [
       "Reflective stitching",
       "Night visibility",
@@ -333,9 +333,9 @@ export const products: Product[] = [
     ],
 
     images: [
-      "/images/products/p7.png",
-      "/images/products/p7-1.png",
-      "/images/products/p7-2.png",
+      "/images/green/g1.JPG",
+      "/images/green/g2.jpg",
+      "/images/green/g3.jpg",
     ]
   }
 ];

@@ -18,7 +18,7 @@ const openSans = Open_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Your Store",
+  title: "Aus Dog - Premium Dog Accessories",
   description: "E-commerce website",
 };
 

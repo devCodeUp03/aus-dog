@@ -15,7 +15,7 @@ export interface CartItem {
 
 interface CartContextType {
   cart: CartItem[];
-  addToCart: (item: Omit<CartItem, "quantity">) => void;
+  addToCart: (item: CartItem) => void;
   removeFromCart: (
     id: number,
     color: string,
@@ -57,30 +57,30 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
   }, [cart]);
 
-  const addToCart = (item: Omit<CartItem, "quantity">) => {
-    setCart((prev) => {
-      const existing = prev.find(
-        (p) =>
-          p.id === item.id &&
-          p.color === item.color &&
-          p.material === item.material &&
-          p.size === item.size,
+  const addToCart = (item: CartItem) => {
+  setCart((prev) => {
+    const existing = prev.find(
+      (p) =>
+        p.id === item.id &&
+        p.color === item.color &&
+        p.material === item.material &&
+        p.size === item.size,
+    );
+
+    if (existing) {
+      return prev.map((p) =>
+        p.id === item.id &&
+        p.color === item.color &&
+        p.material === item.material &&
+        p.size === item.size
+          ? { ...p, quantity: p.quantity + item.quantity }
+          : p,
       );
+    }
 
-      if (existing) {
-        return prev.map((p) =>
-          p.id === item.id &&
-          p.color === item.color &&
-          p.material === item.material &&
-          p.size === item.size
-            ? { ...p, quantity: p.quantity + 1 }
-            : p,
-        );
-      }
-
-      return [...prev, { ...item, quantity: 1 }];
-    });
-  };
+    return [...prev, item];
+  });
+};
 
   const removeFromCart = (
     id: number,

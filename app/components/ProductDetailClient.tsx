@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Product } from "@/data/products";
 import { useCart } from "@/context/cart-context";
 import { toast } from "sonner";
-import { ChevronDown, Minus } from "lucide-react";
+import { ChevronDown, Minus, Plus } from "lucide-react";
 
 interface Props {
   product: Product;
@@ -18,8 +18,7 @@ export default function ProductDetailClient({ product }: Props) {
   const [selectedSize, setSelectedSize] = useState(product.sizes[0]);
   const [showDescription, setShowDescription] = useState(false);
   const [showSizeGuide, setShowSizeGuide] = useState(false);
-
-
+  const [quantity, setQuantity] = useState(1);
 
   // Material options - since product has single material, we'll make it clickable for future flexibility
   // You can modify this array if you want multiple material options
@@ -48,8 +47,8 @@ export default function ProductDetailClient({ product }: Props) {
                     key={i}
                     onClick={() => setActiveImage(img)}
                     className={`border-2 rounded ${activeImage === img
-                        ? "border-[#ff9167]"
-                        : "border-transparent"
+                      ? "border-[#ff9167]"
+                      : "border-transparent"
                       }`}
                   >
                     <Image
@@ -159,7 +158,7 @@ export default function ProductDetailClient({ product }: Props) {
               </div>
 
               <div className="text-sm text-gray-500">
-                Please be sure to measure your dog prior to purchase. Exchange incurs an additional cost (Refund and Returns Policy).
+                Exchange incurs an additional cost (Refund and Returns Policy).
               </div>
               {/* features */}
               {/* <div>
@@ -186,14 +185,41 @@ export default function ProductDetailClient({ product }: Props) {
                 </select>
               </div>
 
+              {/*  QUANTITY SELECTOR */}
+              <div>
+                <h3 className="font-semibold mb-2">Quantity</h3>
+
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}
+                    className="border border-gray-300 p-2 rounded-md hover:border-[#ff9167]"
+                  >
+                    <Minus size={16} />
+                  </button>
+
+                  <span className="w-10 text-center font-semibold">
+                    {quantity}
+                  </span>
+
+                  <button
+                    type="button"
+                    onClick={() => setQuantity((prev) => prev + 1)}
+                    className="border border-gray-300 p-2 rounded-md hover:border-[#ff9167]"
+                  >
+                    <Plus size={16} />
+                  </button>
+                </div>
+              </div>
+
               {/* Selected Options Summary */}
               <div className="bg-gray-50 p-3 rounded-lg text-sm">
                 <p className="font-semibold mb-1">Selected Options:</p>
 
 
-  <p>
-    Color: <span className="font-medium">{product.color}</span>
-  </p>
+                <p>
+                  Color: <span className="font-medium">{product.color}</span>
+                </p>
 
                 <p>
                   Material:{" "}
@@ -204,6 +230,11 @@ export default function ProductDetailClient({ product }: Props) {
                   Size:{" "}
                   <span className="font-medium">{selectedSize}</span>
                 </p>
+
+                <p>
+                  Quantity:{" "}
+                  <span className="font-medium">{quantity}</span>
+                </p>
               </div>
 
               <button
@@ -212,15 +243,20 @@ export default function ProductDetailClient({ product }: Props) {
                     id: product.id,
                     name: product.name,
                     price: product.price,
-                    color: "N/A", // temporary fix
+                    color: product.color,
                     material: product.material,
                     size: selectedSize,
+                    quantity,
                     image: activeImage,
                   });
 
                   toast.success(
-                    `${product.name} (${selectedSize}) added to cart!`
+                    `${quantity} × ${product.name} (${selectedSize}) added to cart!`,
+                    {
+                      duration: 1000,
+                    }
                   );
+
                 }}
                 className="w-full bg-[#ff9167] text-white py-3 rounded-lg hover:bg-[#df6839] font-semibold transition"
               >

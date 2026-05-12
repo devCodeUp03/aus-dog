@@ -6,17 +6,28 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const images = [
   "/images/products/p1.png",
-  "/images/belts/f1.png",
-  "/images/belts/f2.png",
   "/images/belts/f3.png",
   "/images/b4.png",
   "/images/bg2.png",
-  "/images/half.png",
   "/images/products/p4.png",
   "/images/products/p5.png",
-  "/images/products/p6.png",
-  "/images/products/p7.png",
   "/images/products/p1.png",
+  
+  "/images/gallery/g1.JPG",
+  "/images/gallery/g2.JPG",
+  "/images/gallery/g3.JPG",
+  "/images/gallery/g4.JPG",
+  "/images/gallery/g5.JPG",
+  "/images/gallery/g6.JPG",
+  "/images/gallery/g7.JPG",
+  "/images/gallery/g8.JPG",
+  "/images/gallery/g10.jpg",
+  "/images/gallery/g11.jpg",
+  "/images/gallery/g12.png",
+  "/images/gallery/g13.png",
+  "/images/gallery/g14.jpeg",
+  "/images/gallery/g15.jpeg",
+  "/images/gallery/g16.png",
 ];
 
 export default function Page() {
