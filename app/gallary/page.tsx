@@ -10,21 +10,15 @@ const images = [
   "/images/b4.png",
   "/images/bg2.png",
   "/images/products/p4.png",
-  "/images/products/p5.png",
-  "/images/products/p1.png",
   
   "/images/gallery/g1.JPG",
   "/images/gallery/g2.JPG",
   "/images/gallery/g3.JPG",
-  "/images/gallery/g4.JPG",
   "/images/gallery/g5.JPG",
   "/images/gallery/g6.JPG",
-  "/images/gallery/g7.JPG",
   "/images/gallery/g8.JPG",
   "/images/gallery/g10.jpg",
   "/images/gallery/g11.jpg",
-  "/images/gallery/g12.png",
-  "/images/gallery/g13.png",
   "/images/gallery/g14.jpeg",
   "/images/gallery/g15.jpeg",
   "/images/gallery/g16.png",
@@ -82,11 +76,11 @@ export default function Page() {
                 className={`
                   w-full object-cover transition-transform duration-500
                   group-hover:scale-110
-                  ${i % 5 === 0 ? "h-72" : ""}
-                  ${i % 5 === 1 ? "h-96" : ""}
-                  ${i % 5 === 2 ? "h-64" : ""}
-                  ${i % 5 === 3 ? "h-80" : ""}
-                  ${i % 5 === 4 ? "h-[28rem]" : ""}
+                  ${i % 5 === 0 ? "h-90" : ""}
+                  ${i % 5 === 1 ? "h-100" : ""}
+                  ${i % 5 === 2 ? "h-120" : ""}
+                  ${i % 5 === 3 ? "h-130" : ""}
+                  ${i % 5 === 4 ? "h-140" : ""}
                 `}
               />
 

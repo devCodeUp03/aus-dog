@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 const Footer: React.FC = () => {
@@ -8,7 +9,7 @@ const Footer: React.FC = () => {
       <div className="text-center py-10 border-b border-white/10">
         <h1 className="text-4xl tracking-[6px] text-white">TOP DOG</h1>
         <p className="text-sm tracking-[6px] text-[#c5c0bb] mt-2">
-          - WORKING DOG -
+          - TOP DOG -
         </p>
       </div>
 
@@ -33,15 +34,15 @@ const Footer: React.FC = () => {
             Navigation
           </h3>
           <ul className="space-y-2 text-sm">
-            <li><a href="#" className="hover:text-[#E87722]">Contact</a></li>
-            <li><a href="#" className="hover:text-[#E87722]">Product Care</a></li>
-            <li><a href="#" className="hover:text-[#E87722]">Size Guide</a></li>
-            <li><a href="#" className="hover:text-[#E87722]">FAQs</a></li>
-            <li><a href="#" className="hover:text-[#E87722]">Shipping Services</a></li>
-            <li><a href="#" className="hover:text-[#E87722]">Terms & Conditions</a></li>
-            <li><a href="#" className="hover:text-[#E87722]">Return Policy</a></li>
-            <li><a href="#" className="hover:text-[#E87722]">Privacy Policy</a></li>
-            <li><a href="#" className="hover:text-[#E87722]">Cookies Policy</a></li>
+            <li><a href="/contact" className="hover:text-[#E87722]">Contact</a></li>
+            <li><Link href="/product-care" className="hover:text-[#E87722]">Product Care</Link></li>
+            <li><Link href="/size-guide" className="hover:text-[#E87722]">Size Guide</Link></li>
+            <li><a href="/faq" className="hover:text-[#E87722]">FAQs</a></li>
+            <li><a href="/shipping-services" className="hover:text-[#E87722]">Shipping Services</a></li>
+            <li><a href="/terms-conditions" className="hover:text-[#E87722]">Terms & Conditions</a></li>
+            <li><a href="/return-refund-policy" className="hover:text-[#E87722]">Return Policy</a></li>
+            <li><a href="/privacy-policy" className="hover:text-[#E87722]">Privacy Policy</a></li>
+            <li><a href="/cookies-policy" className="hover:text-[#E87722]">Cookies Policy</a></li>
           </ul>
         </div>
 
@@ -53,8 +54,8 @@ const Footer: React.FC = () => {
           <ul className="space-y-2 text-sm">
             <li><a href="#" className="hover:text-[#E87722]">Facebook</a></li>
             <li><a href="#" className="hover:text-[#E87722]">Instagram</a></li>
-            <li><a href="#" className="hover:text-[#E87722]">TikTok</a></li>
-            <li><a href="#" className="hover:text-[#E87722]">Pinterest</a></li>
+            {/* <li><a href="#" className="hover:text-[#E87722]">TikTok</a></li> */}
+            {/* <li><a href="#" className="hover:text-[#E87722]">Pinterest</a></li> */}
           </ul>
         </div>
 

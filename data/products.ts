@@ -333,9 +333,9 @@ export const products: Product[] = [
     ],
 
     images: [
-      "/images/green/g1.JPG",
-      "/images/green/g2.jpg",
+      "/images/green/g2 (1).jpg",
       "/images/green/g3.jpg",
+      "/images/green/g1.JPG",
     ]
   }
 ];
