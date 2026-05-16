@@ -37,7 +37,7 @@ export default function CookiesPolicyPage() {
             className="max-w-5xl"
           >
             <p className="mb-5 text-sm uppercase tracking-[0.5em] text-zinc-300">
-              Top Dog Australia
+              Top Dog Working Dog
             </p>
 
             <h1 className="text-5xl font-bold text-white md:text-7xl">

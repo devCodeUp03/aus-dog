@@ -15,54 +15,25 @@ const orange = "#E87722";
 
 const sizes = [
   {
-    size: "XS",
-    neck: "20–28 cm",
-    for: "Puppies & Toy Breeds",
+    size: "Small",
+    neck: "270mm – 370mm",
+    width: "38mm",
+    for: "Terriers & Whippets",
   },
   {
-    size: "S",
-    neck: "28–36 cm",
-    for: "Small Breeds",
+    size: "Medium",
+    neck: "330mm – 430mm",
+    width: "50mm",
+    for: "Staghounds & Light Breed Lurchers",
   },
   {
-    size: "M",
-    neck: "36–46 cm",
-    for: "Medium Breeds",
-  },
-  {
-    size: "L",
-    neck: "46–56 cm",
-    for: "Large Breeds",
-  },
-  {
-    size: "XL",
-    neck: "56–66 cm",
-    for: "Extra Large Breeds",
+    size: "Large",
+    neck: "430mm – 530mm",
+    width: "50mm",
+    for: "Wolfhounds & Heavier Greyhound Cross Breeds",
   },
 ];
 
-const breedGuide = [
-  {
-    size: "XS",
-    breeds: ["Chihuahua", "Pomeranian", "Toy Poodle"],
-  },
-  {
-    size: "S",
-    breeds: ["French Bulldog", "Dachshund", "Cavoodle"],
-  },
-  {
-    size: "M",
-    breeds: ["Border Collie", "Beagle", "Cocker Spaniel"],
-  },
-  {
-    size: "L",
-    breeds: ["Labrador Retriever", "Golden Retriever", "Boxer"],
-  },
-  {
-    size: "XL",
-    breeds: ["German Shepherd", "Rottweiler", "Great Dane"],
-  },
-];
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -97,7 +68,7 @@ export default function SizeGuidePage() {
             className="max-w-5xl"
           >
             <p className="mb-5 text-sm uppercase tracking-[0.5em] text-zinc-300">
-              Top Dog Australia
+              Top Dog Working Dog
             </p>
 
             <h1 className="text-5xl font-bold leading-tight md:text-7xl xl:text-8xl">
@@ -225,68 +196,6 @@ export default function SizeGuidePage() {
                   <div>{item.for}</div>
                 </motion.div>
               ))}
-            </motion.div>
-
-            {/* BREED GUIDE */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-              transition={{ duration: 0.5 }}
-            >
-              <div className="mb-10 flex items-center gap-4">
-                <div
-                  className="flex h-14 w-14 items-center justify-center rounded-2xl text-white"
-                  style={{ backgroundColor: orange }}
-                >
-                  <Dog size={28} />
-                </div>
-
-                <h3 className="text-3xl font-bold">
-                  Breed Size Reference
-                </h3>
-              </div>
-
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {breedGuide.map((item, i) => (
-                  <motion.div
-                    whileHover={{ y: -6 }}
-                    key={i}
-                    className="rounded-[2rem] border border-zinc-200 bg-white p-8 shadow-sm"
-                  >
-                    <div
-                      className="mb-6 inline-flex rounded-full px-5 py-2 text-sm font-bold text-white"
-                      style={{ backgroundColor: orange }}
-                    >
-                      {item.size}
-                    </div>
-
-                    <div className="space-y-4">
-                      {item.breeds.map((breed, idx) => (
-                        <div
-                          key={idx}
-                          className="flex items-center gap-3"
-                        >
-                          <PawPrint
-                            size={18}
-                            color={orange}
-                          />
-
-                          <p className="text-lg text-zinc-700">
-                            {breed}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-
-              <p className="mt-8 text-lg leading-8 text-zinc-700">
-                Please note: Breed recommendations are general guides only.
-                Always measure your dog before purchasing.
-              </p>
             </motion.div>
 
             {/* FIT TIPS */}

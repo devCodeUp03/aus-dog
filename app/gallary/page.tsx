@@ -21,7 +21,6 @@ const images = [
   "/images/gallery/g11.jpg",
   "/images/gallery/g14.jpeg",
   "/images/gallery/g15.jpeg",
-  "/images/gallery/g16.png",
 ];
 
 export default function Page() {

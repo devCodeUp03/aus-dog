@@ -9,7 +9,7 @@ const Footer: React.FC = () => {
       <div className="text-center py-10 border-b border-white/10">
         <h1 className="text-4xl tracking-[6px] text-white">TOP DOG</h1>
         <p className="text-sm tracking-[6px] text-[#c5c0bb] mt-2">
-          - TOP DOG -
+          - WORKING DOG -
         </p>
       </div>
 
@@ -43,6 +43,7 @@ const Footer: React.FC = () => {
             <li><a href="/return-refund-policy" className="hover:text-[#E87722]">Return Policy</a></li>
             <li><a href="/privacy-policy" className="hover:text-[#E87722]">Privacy Policy</a></li>
             <li><a href="/cookies-policy" className="hover:text-[#E87722]">Cookies Policy</a></li>
+            <li><a href="https://Topdogworkingdog.com/customersupport" className="hover:text-[#E87722]">Customer Support</a></li>
           </ul>
         </div>
 

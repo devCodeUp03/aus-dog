@@ -23,7 +23,7 @@ export default function PrivacyPolicyPage() {
         <div className="relative z-10 flex h-full items-center justify-center px-6 text-center">
           <div className="max-w-4xl">
             <p className="mb-5 text-sm uppercase tracking-[0.45em] text-orange-200">
-              Top Dog Australia
+              Top Dog Working Dog
             </p>
 
             <h1 className="text-5xl font-bold leading-tight text-white md:text-7xl">
@@ -45,7 +45,7 @@ export default function PrivacyPolicyPage() {
           {/* INTRO */}
           <div className="border-l-4 pl-6" style={{ borderColor: orange }}>
             <h2 className="text-3xl font-bold md:text-4xl">
-              Welcome to Top Dog Australia
+              Welcome to Top Dog Working Dog
             </h2>
 
             <p className="mt-4 text-lg leading-8 text-zinc-700">

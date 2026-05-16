@@ -14,12 +14,12 @@ const faqSections = [
     title: "General",
     questions: [
       {
-        q: "What is Top Dog Australia?",
-        a: "Top Dog Australia is a premium dog accessories brand focused on stylish, durable, and high-quality products designed for modern dog owners and their pets.",
+        q: "What is Top Dog?",
+        a: "Top Dog Working Dog is a premium dog accessories brand focused on stylish, durable, and high-quality products designed for modern dog owners and their pets.",
       },
       {
         q: "What products do you sell?",
-        a: "We currently offer premium dog collars and accessories designed with comfort, durability, and aesthetics in mind. More product categories may be added in the future.",
+        a: "We currently offer premium dog collars designed with comfort, durability, and aesthetics in mind. More product categories may be added in the future.",
       },
       {
         q: "Are your products suitable for all dog breeds?",
@@ -182,7 +182,7 @@ export default function FAQPage() {
       {/* HERO */}
       <section className="relative h-[70vh] min-h-[600px] overflow-hidden">
         <Image
-          src="/images/gallery/g16.png" // replace image
+          src="/images/products/f11.png" // replace image
           alt="FAQ Background"
           fill
           priority
@@ -201,7 +201,7 @@ export default function FAQPage() {
             className="max-w-5xl"
           >
             <p className="mb-5 text-sm uppercase tracking-[0.5em] text-zinc-300">
-              Top Dog Australia
+              Top Dog Working Dog
             </p>
 
             <h1 className="text-5xl font-bold leading-tight md:text-7xl xl:text-8xl">

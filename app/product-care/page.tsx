@@ -46,7 +46,7 @@ export default function ProductCarePage() {
             className="max-w-5xl"
           >
             <p className="mb-5 text-sm uppercase tracking-[0.5em] text-zinc-300">
-              Top Dog Australia
+              Top Dog Working Dog
             </p>
 
             <h1 className="text-5xl font-bold leading-tight md:text-7xl xl:text-8xl">
@@ -115,7 +115,6 @@ export default function ProductCarePage() {
                 {[
                   "Wipe away dirt, mud, or moisture after use",
                   "Avoid prolonged exposure to direct sunlight",
-                  "Store products in a cool, dry place",
                   "Inspect collars and hardware regularly",
                 ].map((item, i) => (
                   <motion.div
@@ -251,7 +250,6 @@ export default function ProductCarePage() {
 
               <div className="grid gap-6 md:grid-cols-3">
                 {[
-                  "Rinse saltwater or chlorine after use",
                   "Dry products thoroughly after rain",
                   "Long-term moisture may reduce lifespan",
                 ].map((item, i) => (

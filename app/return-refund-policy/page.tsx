@@ -23,7 +23,7 @@ export default function ReturnRefundPolicyPage() {
         <div className="relative z-10 flex h-full items-center justify-center px-6 text-center">
           <div className="max-w-4xl">
             <p className="mb-5 text-sm uppercase tracking-[0.45em] text-orange-200">
-              Top Dog Australia
+              Top Dog Working Dog
             </p>
 
             <h1 className="text-5xl font-bold leading-tight text-white md:text-7xl">
@@ -80,7 +80,7 @@ export default function ReturnRefundPolicyPage() {
             </div>
 
             <p className="mt-6 text-zinc-700">
-              For hygiene reasons, used items may not be accepted unless faulty.
+              For hygiene reasons, used items will not be accepted unless faulty.
             </p>
           </div>
 
