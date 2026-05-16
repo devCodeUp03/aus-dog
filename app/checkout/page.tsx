@@ -44,11 +44,11 @@ export default function CheckoutPage() {
   const [quote, setQuote] = useState<ShippingQuote | null>(null);
 
   // Redirect to login if not authenticated
-  useEffect(() => {
-    if (!isAuthenticated) {
-      router.push("/login?next=/checkout");
-    }
-  }, [isAuthenticated, router]);
+  // useEffect(() => {
+  //   if (!isAuthenticated) {
+  //     router.push("/login?next=/checkout");
+  //   }
+  // }, [isAuthenticated, router]);
 
   const subtotal = useMemo(
     () => cart.reduce((acc, item) => acc + item.price * item.quantity, 0),
@@ -107,15 +107,15 @@ export default function CheckoutPage() {
   };
 
   // Show loading while checking auth
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen bg-gray-50 py-14 px-4">
-        <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow p-8 text-center">
-          <div className="animate-pulse">Checking authentication...</div>
-        </div>
-      </div>
-    );
-  }
+  // if (!isAuthenticated) {
+  //   return (
+  //     <div className="min-h-screen bg-gray-50 py-14 px-4">
+  //       <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow p-8 text-center">
+  //         <div className="animate-pulse">Checking authentication...</div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   if (cart.length === 0) {
     return (

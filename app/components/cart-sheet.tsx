@@ -174,7 +174,7 @@ export default function CartSheet() {
               </Link>
 
               <Link
-                href="/"
+                href="/products"
                 className="block text-center w-full mt-2 text-sm text-gray-500 hover:text-[#ff9167] transition"
               >
                 Continue Shopping

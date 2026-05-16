@@ -22,7 +22,9 @@ export default function PetHeroSection() {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") closeModal()
     }
+
     window.addEventListener("keydown", handleKeyDown)
+
     return () => window.removeEventListener("keydown", handleKeyDown)
   }, [])
 
@@ -33,19 +35,27 @@ export default function PetHeroSection() {
 
   const paragraphVariant = {
     hidden: { opacity: 0, y: 15 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.2 } },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, delay: 0.2 },
+    },
   }
 
   const buttonVariant = {
     hidden: { opacity: 0, y: 15 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.4 } },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, delay: 0.4 },
+    },
   }
 
   return (
-    <section className="grid grid-cols-1 md:grid-cols-3 w-full mb-0">
+    <section className="grid grid-cols-1 lg:grid-cols-3 w-full overflow-hidden">
 
       {/* LEFT IMAGE */}
-      <div className="w-full h-full md:h-screen">
+      <div className="w-full h-[280px] sm:h-[400px] md:h-[500px] lg:h-screen">
         <img
           src="/images/belts/f1.png"
           alt="Left visual"
@@ -54,11 +64,11 @@ export default function PetHeroSection() {
       </div>
 
       {/* CENTER CONTENT */}
-      <div className="flex items-center justify-center px-6 md:px-10 py-4 md:py-6">
-        <div className="max-w-xl text-center md:text-left space-y-3 md:space-y-4">
+      <div className="flex items-center justify-center px-5 sm:px-8 md:px-10 py-8 md:py-10 lg:py-6">
+        <div className="max-w-xl text-center lg:text-left space-y-4 md:space-y-5">
 
           <motion.span
-            className="text-gray-600 font-medium tracking-wide text-sm md:text-lg"
+            className="text-gray-600 font-medium tracking-wide text-sm sm:text-base md:text-lg"
             variants={textVariant}
             initial="hidden"
             whileInView="visible"
@@ -68,7 +78,14 @@ export default function PetHeroSection() {
           </motion.span>
 
           <motion.h1
-            className="font-extrabold text-4xl md:text-5xl leading-tight text-gray-900"
+            className="
+              font-extrabold
+              text-3xl
+              sm:text-4xl
+              md:text-5xl
+              leading-tight
+              text-gray-900
+            "
             variants={textVariant}
             initial="hidden"
             whileInView="visible"
@@ -78,21 +95,32 @@ export default function PetHeroSection() {
           </motion.h1>
 
           <motion.p
-            className="text-gray-600 text-base md:text-lg leading-relaxed"
+            className="
+              text-gray-600
+              text-sm
+              sm:text-base
+              md:text-lg
+              leading-relaxed
+            "
             variants={paragraphVariant}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
           >
-            Every detail at Top Dog is built with intention. From precision stitching to carefully selected materials, our products are engineered to perform without compromise, balancing strength, comfort, and refined design in every piece. This is where durability meets style, created for dogs that live actively and owners who expect more. See the craftsmanship, feel the difference, and discover what truly sets Top Dog apart.
+            Every detail at Top Dog is built with intention. From precision
+            stitching to carefully selected materials, our products are
+            engineered to perform without compromise, balancing strength,
+            comfort, and refined design in every piece. This is where durability
+            meets style, created for dogs that live actively and owners who
+            expect more. See the craftsmanship, feel the difference, and
+            discover what truly sets Top Dog apart.
           </motion.p>
 
-          
         </div>
       </div>
 
       {/* RIGHT IMAGE */}
-      <div className="w-full h-[300px] md:h-screen">
+      <div className="w-full h-[280px] sm:h-[400px] md:h-[500px] lg:h-screen">
         <img
           src="/images/belts/f3.png"
           alt="Right visual"
@@ -111,7 +139,14 @@ export default function PetHeroSection() {
             onClick={closeModal}
           >
             <motion.div
-              className="relative w-full max-w-3xl bg-black rounded-xl overflow-hidden"
+              className="
+                relative
+                w-full
+                max-w-3xl
+                bg-black
+                rounded-xl
+                overflow-hidden
+              "
               initial={{ scale: 0.85 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.85 }}
@@ -120,22 +155,35 @@ export default function PetHeroSection() {
               {/* Close button */}
               <button
                 onClick={closeModal}
-                className="absolute top-3 right-3 z-10 text-white bg-red-500 rounded-full w-8 h-8 flex items-center justify-center"
+                className="
+                  absolute
+                  top-3
+                  right-3
+                  z-10
+                  text-white
+                  bg-red-500
+                  rounded-full
+                  w-8
+                  h-8
+                  flex
+                  items-center
+                  justify-center
+                "
               >
                 ✕
               </button>
 
               {/* VIDEO */}
               <div className="relative w-full aspect-video bg-black">
-  <video
-    ref={videoRef}
-    controls
-    autoPlay
-    className="absolute inset-0 w-full h-full object-cover"
-  >
-    <source src="/vedio/vedio1.MP4" type="video/mp4" />
-  </video>
-</div>
+                <video
+                  ref={videoRef}
+                  controls
+                  autoPlay
+                  className="absolute inset-0 w-full h-full object-cover"
+                >
+                  <source src="/vedio/vedio1.MP4" type="video/mp4" />
+                </video>
+              </div>
             </motion.div>
           </motion.div>
         )}

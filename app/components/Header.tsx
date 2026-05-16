@@ -36,14 +36,12 @@ export default function Header() {
 
   return (
     <header
-  className={`sticky top-0 z-50 transition-all duration-500 ${
-    showNavbar ? "translate-y-0" : "-translate-y-full"
-  } ${
-    scrolled
-      ? "bg-white backdrop-blur-xl shadow-xl border-b border-gray-200"
-      : "bg-white/90 backdrop-blur-md shadow-lg"
-  }`}
->
+      className={`sticky top-0 z-50 transition-all duration-500 ${showNavbar ? "translate-y-0" : "-translate-y-full"
+        } ${scrolled
+          ? "bg-white backdrop-blur-xl shadow-xl border-b border-gray-200"
+          : "bg-white/90 backdrop-blur-md shadow-lg"
+        }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
@@ -144,17 +142,25 @@ export default function Header() {
           </div>
 
           {/* Mobile Menu Button - Fixed hydration by wrapping in conditional */}
-          <button
-            className="md:hidden p-2 rounded-xl hover:text-[#ff9167] transition-all duration-300 transform hover:scale-105"
-            aria-label="Toggle menu"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? (
-              <X size={24} className="text-[#ff9167]" />
-            ) : (
-              <Menu size={24} className="text-gray-700" />
-            )}
-          </button>
+          {/* Mobile Right Actions */}
+          <div className="md:hidden flex items-center gap-2">
+
+            {/* Cart */}
+            <CartSheet />
+
+            {/* Mobile Menu Button */}
+            <button
+              className="p-2 rounded-xl hover:text-[#ff9167] transition-all duration-300"
+              aria-label="Toggle menu"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? (
+                <X size={24} className="text-[#ff9167]" />
+              ) : (
+                <Menu size={24} className="text-gray-700" />
+              )}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -165,59 +171,19 @@ export default function Header() {
             {[
               { href: "/", label: "Home" },
               { href: "/products", label: "Products" },
-              { href: "/about", label: "About Us" },
+              { href: "/gallary", label: "Gallary" },
               { href: "/contact", label: "Contact" },
             ].map((item, index) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-gray-700 hover:text-[#ff9167] font-semibold py-3 px-4 rounded-xl hover:text-[#ff9167] transition-all duration-300"
+                className="text-gray-700 hover:text-white font-semibold py-3 px-4 rounded-xl hover:bg-[#ff9167] transition-all duration-300"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {item.label}
               </Link>
             ))}
 
-            <div className="pt-4 mt-2 border-t border-purple-100">
-              {!isAuthenticated ? (
-                <div className="flex gap-3">
-                  <Link
-                    href="/login"
-                    className="flex-1 text-center bg-gradient-to-r from-[#ff9167] to-[#df6839] text-white py-3 rounded-xl font-bold hover:shadow-lg transition-all duration-300"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Login
-                  </Link>
-                  <Link
-                    href="/register"
-                    className="flex-1 text-center border-2 border-[#ff9167] text-[#ff9167] py-3 rounded-xl font-bold hover:text-[#ff9167] transition-all duration-300"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Register
-                  </Link>
-                </div>
-              ) : (
-                <>
-                  <Link
-                    href="/dashboard"
-                    className="block text-center bg-gradient-to-r from-[#ff9167] to-[#df6839] text-white py-3 rounded-xl font-bold hover:shadow-lg transition-all duration-300 mb-2"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <LayoutDashboard size={16} className="inline mr-2" />
-                    Dashboard
-                  </Link>
-                  <button
-                    onClick={() => {
-                      logout();
-                      setMobileMenuOpen(false);
-                    }}
-                    className="w-full text-center text-red-600 font-bold py-3 px-4 rounded-xl hover:bg-red-50 transition-all duration-300"
-                  >
-                    Logout
-                  </button>
-                </>
-              )}
-            </div>
           </nav>
         </div>
       )}

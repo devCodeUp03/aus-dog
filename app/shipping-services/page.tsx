@@ -26,7 +26,7 @@ export default function ShippingServicesPage() {
       {/* HERO */}
       <section className="relative h-[75vh] min-h-[650px] overflow-hidden">
         <Image
-          src="/images/gallery/g7.jpg" // replace
+          src="/images/gallery/g14.jpeg" 
           alt="Shipping Services"
           fill
           priority
