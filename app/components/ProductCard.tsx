@@ -18,26 +18,25 @@ const ProductCard = ({ product }: ProductCardProps) => {
       <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group">
 
         {/* Image */}
-        <div className="relative aspect-video overflow-hidden bg-gray-100">
+        <div className="relative aspect-square overflow-hidden bg-gray-100">
           <Image
             src={previewImage}
             alt={product.name}
-            width={400}
-            height={300}
-            className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-500"
           />
         </div>
 
         {/* Content */}
-        <div className="p-5">
+        <div className="p-3 sm:p-5">
 
-          <h3 className="text-lg font-bold text-gray-800 mt-1 line-clamp-2">
+          <h3 className="text-sm sm:text-lg font-bold text-gray-800 mt-1 line-clamp-2">
             {product.name}
           </h3>
 
           {/* Price */}
           <div className="mt-4 pt-4 border-t flex items-center justify-start">
-            <div className="font-semibold text-[#df6839]">
+            <div className="font-semibold text-[#df6839] text-sm sm:text-base">
               AUD ${product.price.toFixed(2)}
             </div>
           </div>

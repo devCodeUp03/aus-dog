@@ -34,8 +34,6 @@ export const products: Product[] = [
       "/images/black/b5.jpeg",     // top angle
       "/images/black/b1.jpg",        // ⭐ main thumbnail (hero image)
       "/images/black/b2.jpg",     // side angle
-      "/images/black/b3.jpeg",     // top angle
-      "/images/black/b4.jpeg",     // top angle
     ]
   },
 
