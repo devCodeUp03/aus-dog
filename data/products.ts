@@ -31,8 +31,8 @@ export const products: Product[] = [
     ],
 
     images: [
-      "/images/black/b5.jpeg",     // top angle
-      "/images/black/b1.jpg",        // ⭐ main thumbnail (hero image)
+      "/images/black/b1.jpg",    
+      "/images/black/b5.jpg",     // top angle
       "/images/black/b2.jpg",     // side angle
     ]
   },
@@ -56,8 +56,8 @@ export const products: Product[] = [
     ],
 
     images: [
-      "/images/tan/t3.jpeg",
       "/images/tan/t1.jpeg",
+      "/images/tan/t3.jpeg",
       "/images/tan/t2.jpeg",
     ]
   },
@@ -81,7 +81,7 @@ export const products: Product[] = [
     ],
 
     images: [
-      "/images/blue/bb1.JPG",
+      "/images/blue/bb1.jpg",
       "/images/blue/bb2.jpg",
       "/images/blue/bb3.jpg",
     ]
@@ -131,7 +131,9 @@ export const products: Product[] = [
     ],
 
     images: [
-      "/images/orange/o1.JPG",
+      "/images/orange/o1.jpg",
+      "/images/orange/o2.jpg",
+      "/images/orange/o3.jpg",
     ]
   },
 
@@ -154,9 +156,9 @@ export const products: Product[] = [
     ],
 
     images: [
-      "/images/green/g2 (1).jpg",
-      "/images/green/g3.jpg",
-      "/images/green/g1.JPG",
+      "/images/green/g1.png",
+      "/images/green/g2.png",
+      "/images/green/g3.png",
     ]
   }
 ];

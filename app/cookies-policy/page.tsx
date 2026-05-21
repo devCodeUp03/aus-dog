@@ -69,12 +69,6 @@ export default function CookiesPolicyPage() {
           {/* WHAT ARE COOKIES */}
           <div className="grid gap-10 lg:grid-cols-2">
             <div>
-              <p
-                className="mb-4 text-sm font-semibold uppercase tracking-[0.3em]"
-                style={{ color: orange }}
-              >
-                01
-              </p>
 
               <h3 className="text-3xl font-bold">
                 What Are Cookies?

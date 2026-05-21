@@ -38,11 +38,13 @@ export default function HeroSlider() {
 
   return (
     <>
-      <section className="relative w-full overflow-hidden">
-        <div className="relative w-full">
+      {/* ── OUTER WRAPPER: wave lives here, outside overflow-hidden ── */}
+      <div className="relative w-full" style={{ marginBottom: "-4px" }}>
 
-          {/* ── IMAGES — slide 0 is `relative` so it drives the wrapper height.
-               All others are `absolute inset-0` and fade in/out on top. ── */}
+        {/* ── INNER: overflow-hidden only wraps the images ── */}
+        <div className="relative w-full overflow-hidden">
+
+          {/* ── IMAGES ── */}
           {slides.map((s, i) => (
             <div
               key={i}
@@ -61,25 +63,17 @@ export default function HeroSlider() {
             </div>
           ))}
 
-          {/* ── GRADIENT OVERLAY ─────────────────────────────────────── */}
+          {/* ── GRADIENT OVERLAY ── */}
           <div className="absolute inset-0 z-20 bg-gradient-to-t from-black/65 via-black/15 to-transparent" />
 
-          {/* ── HERO TEXT
-               Key idea: ALL sizing uses `clamp()` tied to viewport width (vw).
-               This makes every value — font, padding, gap — scale smoothly
-               with the image width, which is always 100vw.
-               Result: text looks identical proportionally on every screen size,
-               exactly like it does on desktop, just physically smaller.
-          ──────────────────────────────────────────────────────────────── */}
+          {/* ── HERO TEXT ── */}
           <AnimatePresence mode="wait">
             <motion.div
               key={current}
               className="absolute inset-x-0 bottom-0 z-30 flex flex-col items-end text-right"
               style={{
-                /* Right padding: 4% of viewport width — mirrors desktop feel */
-                paddingRight: "clamp(12px, 4vw, 64px)",
-                paddingLeft:  "clamp(12px, 4vw, 64px)",
-                /* Bottom padding: scales so text sits above the wave */
+                paddingRight:  "clamp(12px, 4vw, 64px)",
+                paddingLeft:   "clamp(12px, 4vw, 64px)",
                 paddingBottom: "clamp(80px, 12vw, 160px)",
               }}
               initial={{ opacity: 0, y: 20 }}
@@ -87,13 +81,12 @@ export default function HeroSlider() {
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
             >
-              {/* Width of the text block: ~40% of viewport, capped at 480px */}
               <div style={{ width: "clamp(160px, 42vw, 480px)" }}>
 
                 <motion.h1
                   className="font-extrabold leading-tight text-white font-satoshi drop-shadow-md"
                   style={{
-                    fontSize: "clamp(11px, 2.6vw, 48px)",
+                    fontSize:     "clamp(11px, 2.6vw, 48px)",
                     marginBottom: "clamp(4px, 0.6vw, 12px)",
                   }}
                   initial={{ opacity: 0, x: -20 }}
@@ -106,7 +99,7 @@ export default function HeroSlider() {
                 <motion.p
                   className="font-medium text-white/90 font-satoshi leading-relaxed drop-shadow"
                   style={{
-                    fontSize: "clamp(8px, 1.3vw, 18px)",
+                    fontSize:     "clamp(8px, 1.3vw, 18px)",
                     marginBottom: "clamp(6px, 1vw, 20px)",
                   }}
                   initial={{ opacity: 0, x: -20 }}
@@ -125,7 +118,7 @@ export default function HeroSlider() {
                     <button
                       className="bg-[#ff8800] rounded-full text-white font-semibold hover:scale-105 active:scale-95 transition-transform shadow-lg"
                       style={{
-                        fontSize:     "clamp(7px, 1.1vw, 16px)",
+                        fontSize:      "clamp(7px, 1.1vw, 16px)",
                         paddingTop:    "clamp(4px, 0.55vw, 10px)",
                         paddingBottom: "clamp(4px, 0.55vw, 10px)",
                         paddingLeft:   "clamp(10px, 1.6vw, 28px)",
@@ -140,7 +133,7 @@ export default function HeroSlider() {
             </motion.div>
           </AnimatePresence>
 
-          {/* ── DOT NAVIGATION ───────────────────────────────────────── */}
+          {/* ── DOT NAVIGATION ── */}
           <div
             className="absolute top-1/2 -translate-y-1/2 flex flex-col z-40"
             style={{
@@ -166,12 +159,12 @@ export default function HeroSlider() {
             ))}
           </div>
 
-          {/* ── NEXT BUTTON ──────────────────────────────────────────── */}
+          {/* ── NEXT BUTTON ── */}
           <button
             onClick={nextSlide}
             className="absolute flex items-center gap-1 text-white/90 hover:text-white transition-colors z-40 font-semibold"
             style={{
-              bottom:   "clamp(10px, 2vw, 28px)",
+              bottom:   "clamp(100px, 2vw, 28px)",
               left:     "clamp(12px, 3vw, 64px)",
               fontSize: "clamp(7px, 1vw, 14px)",
             }}
@@ -179,33 +172,42 @@ export default function HeroSlider() {
             NEXT →
           </button>
 
-          {/* ── WAVE DIVIDER ─────────────────────────────────────────── */}
-          <svg
-            className="absolute bottom-0 left-0 w-full z-30 pointer-events-none"
-            viewBox="0 0 1440 200"
-            preserveAspectRatio="none"
-          >
-            <path
-              fill="#fff"
-              d="
-                M0,160 
-                C180,40 360,240 540,120 
-                C720,0 900,220 1080,100 
-                C1260,-20 1440,180 1440,160 
-                L1440,200 
-                L0,200 
-                Z
-              "
-            />
-          </svg>
         </div>
-      </section>
+        {/* ── overflow-hidden div ends here ── */}
 
-      <section>
+        {/* ── WAVE DIVIDER: now outside overflow-hidden, on the outer wrapper ──
+            Positioned absolute on the outer div so slide repaints never touch it.
+            z-index is high enough to sit above the image stack.
+        ── */}
+        <svg
+          style={{ display: "block", marginBottom: "-4px", pointerEvents: "none" }}
+          className="absolute bottom-0 left-0 w-full z-40"
+          viewBox="0 0 1440 200"
+          preserveAspectRatio="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill="#ffffff"
+            d="
+              M0,160
+              C180,40 360,240 540,120
+              C720,0 900,220 1080,100
+              C1260,-20 1440,180 1440,160
+              L1440,202
+              L0,202
+              Z
+            "
+          />
+        </svg>
+
+      </div>
+      {/* ── outer wrapper ends here ── */}
+
+      <div className="relative z-10 -mt-[3px] bg-white">
         <Feature />
-      </section>
+      </div>
 
-      <section className="mb-20 sm:mb-28">
+      <section className="mb-20 mt-10 sm:mt-0 sm:mb-28">
         <TestimonialSection />
       </section>
     </>

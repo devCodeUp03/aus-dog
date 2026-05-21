@@ -9,7 +9,6 @@ const images = [
   "/images/belts/f3.png",
   "/images/b4.png",
   "/images/bg2.png",
-  "/images/products/p4.png",
   "/images/gallery/g1.JPG",
   "/images/gallery/g2.JPG",
   "/images/gallery/g3.JPG",

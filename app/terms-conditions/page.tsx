@@ -96,10 +96,6 @@ export default function TermsConditionsPage() {
               className="grid gap-10 lg:grid-cols-2"
             >
               <div>
-                <p className="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-zinc-500">
-                  01
-                </p>
-
                 <h3 className="text-3xl font-bold">
                   Acceptance of Terms
                 </h3>
