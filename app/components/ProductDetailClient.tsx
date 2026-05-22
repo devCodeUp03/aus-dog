@@ -29,7 +29,8 @@ export default function ProductDetailClient({ product }: Props) {
 
             {/* IMAGE SECTION */}
             <div className="p-4 sm:p-6">
-              <div className="relative w-full h-[280px] sm:h-[380px] md:h-[450px] lg:h-[560px] bg-gray-100 rounded-md overflow-hidden mb-4">
+              {/* Main image: tall aspect ratio matches portrait product photos, object-cover fills fully */}
+              <div className="relative w-full aspect-[3/4] bg-gray-100 rounded-md overflow-hidden mb-4">
                 <Image
                   src={activeImage}
                   alt={product.name}
@@ -38,13 +39,13 @@ export default function ProductDetailClient({ product }: Props) {
                 />
               </div>
 
-              {/* thumbnails */}
+              {/* Thumbnails: square containers, object-cover fills with no gaps */}
               <div className="flex gap-2 flex-wrap">
                 {product.images.map((img, i) => (
                   <button
                     key={i}
                     onClick={() => setActiveImage(img)}
-                    className={`border-2 rounded-md overflow-hidden ${
+                    className={`relative border-2 rounded-md overflow-hidden w-14 h-14 sm:w-16 sm:h-16 flex-shrink-0 ${
                       activeImage === img
                         ? "border-[#ff9167]"
                         : "border-transparent"
@@ -53,9 +54,8 @@ export default function ProductDetailClient({ product }: Props) {
                     <Image
                       src={img}
                       alt={`product-angle-${i}`}
-                      width={70}
-                      height={70}
-                      className="object-cover w-14 h-14 sm:w-16 sm:h-16"
+                      fill
+                      className="object-cover"
                     />
                   </button>
                 ))}
