@@ -81,7 +81,7 @@ export const products: Product[] = [
     ],
 
     images: [
-      "/images/blue/bb1.jpg",
+      "/images/blue/bb1.png",
       "/images/blue/bb2.jpg",
       "/images/blue/bb3.jpg",
     ]
@@ -131,7 +131,7 @@ export const products: Product[] = [
     ],
 
     images: [
-      "/images/orange/o1.jpg",
+      "/images/orange/o1.png",
       "/images/orange/o2.jpg",
       "/images/orange/o3.jpg",
     ]
