@@ -1,133 +1,351 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/context/cart-context";
 import { useAuth } from "@/context/auth-context";
-import { apiFetch } from "@/lib/api";
 import { toast } from "sonner";
 
 type ShippingAddress = {
-  full_name: string;
+  email: string;
+  first_name: string;
+  last_name: string;
   address_line1: string;
-  address_line2?: string;
-  city: string;
-  state?: string;
+  suburb: string;
+  state: string;
   postal_code: string;
   country: string;
-  phone?: string;
+  phone: string;
 };
 
-type ShippingQuote = {
-  amount: number;
-  currency: string;
-  rate_name: string;
-};
+type ShippingMethod =
+  | "standard"
+  | "express";
 
 export default function CheckoutPage() {
   const { cart } = useCart();
-  const { isAuthenticated, user } = useAuth();
+  const { user } = useAuth();
   const router = useRouter();
-  const [processingPayment, setProcessingPayment] = useState(false);
 
-  const [addr, setAddr] = useState<ShippingAddress>({
-    full_name: "",
-    address_line1: "",
-    address_line2: "",
-    city: "",
-    state: "",
-    postal_code: "",
-    country: "AU",
-    phone: "",
-  });
+  const [mounted, setMounted] =
+    useState(false);
 
-  const [quote, setQuote] = useState<ShippingQuote | null>(null);
+  const [processingPayment, setProcessingPayment] =
+    useState(false);
 
-  // Redirect to login if not authenticated
-  // useEffect(() => {
-  //   if (!isAuthenticated) {
-  //     router.push("/login?next=/checkout");
-  //   }
-  // }, [isAuthenticated, router]);
+  const [paymentMethod, setPaymentMethod] =
+    useState("stripe");
+
+  const [shippingMethod, setShippingMethod] =
+    useState<ShippingMethod>(
+      "standard",
+    );
+
+  const [shakeField, setShakeField] =
+    useState<string | null>(null);
+
+  const [errors, setErrors] =
+    useState<
+      Record<string, string>
+    >({});
+
+  const [addr, setAddr] =
+    useState<ShippingAddress>({
+      email: "",
+      first_name: "",
+      last_name: "",
+      address_line1: "",
+      suburb: "",
+      state: "",
+      postal_code: "",
+      country: "Australia",
+      phone: "",
+    });
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const subtotal = useMemo(
-    () => cart.reduce((acc, item) => acc + item.price * item.quantity, 0),
+    () =>
+      cart.reduce(
+        (acc, item) =>
+          acc +
+          item.price *
+            item.quantity,
+        0,
+      ),
     [cart],
   );
 
-  const total = quote ? subtotal + quote.amount / 100 : subtotal;
+  // SHIPPING CHARGE
+  const deliveryCharge =
+    shippingMethod === "express"
+      ? 15
+      : 12;
 
-  const handlePayment = async () => {
-    if (
-      !addr.full_name ||
-      !addr.address_line1 ||
-      !addr.city ||
-      !addr.postal_code
-    ) {
-      toast.error("Please fill in all shipping details");
-      return;
+  const total =
+    subtotal + deliveryCharge;
+
+  // VALIDATION
+  const validateField = (
+    field: string,
+    value: string,
+  ) => {
+    switch (field) {
+      case "email":
+        if (
+          !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+            value,
+          )
+        ) {
+          return "Enter a valid email";
+        }
+
+        return "";
+
+      case "first_name":
+      case "last_name":
+        if (
+          value.trim().length < 2
+        ) {
+          return "Minimum 2 characters required";
+        }
+
+        return "";
+
+      case "address_line1":
+        if (
+          value.trim().length < 5
+        ) {
+          return "Enter a valid address";
+        }
+
+        return "";
+
+      case "suburb":
+        if (
+          value.trim().length < 2
+        ) {
+          return "Suburb is too short";
+        }
+
+        return "";
+
+      case "postal_code":
+        if (
+          !/^[0-9]{4}$/.test(
+            value,
+          )
+        ) {
+          return "Australian postcode must be 4 digits";
+        }
+
+        return "";
+
+      case "phone":
+        if (
+          !/^[0-9]{8,15}$/.test(
+            value,
+          )
+        ) {
+          return "Enter a valid phone number";
+        }
+
+        return "";
+
+      case "state":
+        if (!value) {
+          return "Please select a state";
+        }
+
+        return "";
+
+      default:
+        return "";
     }
-
-    setProcessingPayment(true);
-
-    // Simulate payment processing
-    setTimeout(() => {
-      // Create order object
-      const newOrder = {
-        id: `ORD-${Date.now()}`,
-        date: new Date().toISOString().split("T")[0],
-        time: new Date().toLocaleTimeString(),
-        total: total,
-        subtotal: subtotal,
-        shipping: quote ? quote.amount / 100 : 0,
-        status: "processing",
-        items: cart.length,
-        cartItems: cart.map((item) => ({
-          ...item,
-          subtotal: item.price * item.quantity,
-        })),
-        shippingAddress: addr,
-        userName: user?.username || "aezakmi",
-        userEmail: user?.email || "admin@ausdog.com",
-        timestamp: new Date().toISOString(),
-      };
-
-      // Get existing orders
-      const existingOrders = localStorage.getItem("ausdog_orders");
-      const orders = existingOrders ? JSON.parse(existingOrders) : [];
-      orders.unshift(newOrder);
-      localStorage.setItem("ausdog_orders", JSON.stringify(orders));
-
-      toast.success("Payment successful! Redirecting to dashboard...");
-
-      setTimeout(() => {
-        router.push("/dashboard");
-      }, 1500);
-    }, 1500);
   };
 
-  // Show loading while checking auth
-  // if (!isAuthenticated) {
-  //   return (
-  //     <div className="min-h-screen bg-gray-50 py-14 px-4">
-  //       <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow p-8 text-center">
-  //         <div className="animate-pulse">Checking authentication...</div>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+  const handleValidation = (
+    field: string,
+    value: string,
+  ) => {
+    const error = validateField(
+      field,
+      value,
+    );
+
+    setErrors((prev) => ({
+      ...prev,
+      [field]: error,
+    }));
+
+    if (error) {
+      setShakeField(field);
+
+      setTimeout(() => {
+        setShakeField(null);
+      }, 300);
+    }
+  };
+
+  const inputClass = (
+    field: string,
+  ) =>
+    `w-full border rounded-xl px-4 py-3 outline-none transition-all duration-200
+    focus:ring-2 focus:ring-[#ee6d49]
+    ${
+      errors[field]
+        ? "border-red-500"
+        : "border-gray-300"
+    }
+    ${
+      !errors[field] &&
+      addr[
+        field as keyof ShippingAddress
+      ]
+        ? "border-green-500"
+        : ""
+    }
+    ${
+      shakeField === field
+        ? "animate-[shake_0.3s_ease-in-out]"
+        : ""
+    }`;
+
+  const handlePayment =
+    async () => {
+      const requiredFields = [
+        "email",
+        "first_name",
+        "last_name",
+        "address_line1",
+        "suburb",
+        "state",
+        "postal_code",
+        "phone",
+      ];
+
+      let hasError = false;
+
+      requiredFields.forEach(
+        (field) => {
+          const value =
+            addr[
+              field as keyof ShippingAddress
+            ];
+
+          const error =
+            validateField(
+              field,
+              value,
+            );
+
+          if (error) {
+            hasError = true;
+
+            setErrors(
+              (prev) => ({
+                ...prev,
+                [field]:
+                  error,
+              }),
+            );
+
+            setShakeField(
+              field,
+            );
+
+            setTimeout(() => {
+              setShakeField(
+                null,
+              );
+            }, 300);
+          }
+        },
+      );
+
+      if (hasError) {
+        toast.error(
+          "Please fix the form errors",
+        );
+
+        return;
+      }
+
+      try {
+        setProcessingPayment(
+          true,
+        );
+
+        const res =
+          await fetch(
+            "/api/stripe/create-checkout-session",
+            {
+              method:
+                "POST",
+              headers: {
+                "Content-Type":
+                  "application/json",
+              },
+              body: JSON.stringify(
+                {
+                  cart,
+                  shippingAddress:
+                    addr,
+                  paymentMethod,
+                  shippingMethod,
+                  deliveryCharge,
+                },
+              ),
+            },
+          );
+
+        const data =
+          await res.json();
+
+        if (data.url) {
+          window.location.href =
+            data.url;
+        } else {
+          toast.error(
+            "Unable to initiate payment",
+          );
+        }
+      } catch (error) {
+        toast.error(
+          "Payment failed",
+        );
+      } finally {
+        setProcessingPayment(
+          false,
+        );
+      }
+    };
+
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        Loading checkout...
+      </div>
+    );
+  }
 
   if (cart.length === 0) {
     return (
       <div className="min-h-screen bg-gray-50 py-14 px-4">
-        <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow p-8 text-center">
-          <h1 className="text-2xl font-bold">Your cart is empty</h1>
-          <p className="text-gray-600 mt-2">
-            Add products to continue checkout.
-          </p>
+        <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow p-8 text-center">
+          <h1 className="text-2xl font-bold">
+            Your cart is empty
+          </h1>
+
           <button
-            onClick={() => router.push("/products")}
-            className="mt-4 bg-[#ee6d49] text-white px-6 py-2 rounded-lg hover:bg-[#df6839] transition cursor-pointer"
+            onClick={() =>
+              router.push(
+                "/products",
+              )
+            }
+            className="mt-5 bg-[#ee6d49] hover:bg-[#df6839] text-white px-6 py-3 rounded-xl"
           >
             Continue Shopping
           </button>
@@ -138,203 +356,703 @@ export default function CheckoutPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 py-14 px-4">
-      <div className="max-w-5xl mx-auto grid lg:grid-cols-2 gap-8">
-        {/* Left: forms */}
-        <div className="bg-white rounded-2xl shadow p-8 space-y-8">
+      <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-8">
+        {/* LEFT */}
+        <div className="bg-white rounded-3xl shadow-lg p-8 space-y-8">
           <div>
-            <h1 className="text-3xl font-extrabold">Checkout</h1>
-            <p className="text-gray-600 mt-1">Complete your purchase</p>
-          </div>
+            <h1 className="text-4xl font-extrabold">
+              Checkout
+            </h1>
 
-          {/* Logged in as user */}
-          <div className="bg-green-50 p-3 rounded-lg border border-green-200">
-            <p className="text-sm text-green-800">
-              ✅ Logged in as{" "}
-              <span className="font-semibold">{user?.username || "Admin"}</span>
+            <p className="text-gray-500 mt-2">
+              Complete your order
+              securely
             </p>
           </div>
 
-          <div className="space-y-4">
-            <h2 className="text-lg font-bold">Shipping details</h2>
-            <div className="grid gap-3">
+          {/* USER */}
+          <div className="bg-green-50 border border-green-200 rounded-xl p-4">
+            <p className="text-green-800 text-sm">
+              ✅ Logged in as{" "}
+              <span className="font-semibold">
+                {user?.username ||
+                  "Guest"}
+              </span>
+            </p>
+          </div>
+
+          {/* SHIPPING DETAILS */}
+          <div className="space-y-5">
+            <h2 className="text-2xl font-bold">
+              Shipping Details
+            </h2>
+
+            {/* EMAIL */}
+            <div>
               <input
-                className="border rounded-lg px-4 py-3"
-                placeholder="Full name *"
-                value={addr.full_name}
-                onChange={(e) =>
-                  setAddr((a) => ({ ...a, full_name: e.target.value }))
+                type="email"
+                className={inputClass(
+                  "email",
+                )}
+                placeholder="Email Address *"
+                value={
+                  addr.email
                 }
-              />
-              <input
-                className="border rounded-lg px-4 py-3"
-                placeholder="Address line 1 *"
-                value={addr.address_line1}
-                onChange={(e) =>
-                  setAddr((a) => ({ ...a, address_line1: e.target.value }))
-                }
-              />
-              <input
-                className="border rounded-lg px-4 py-3"
-                placeholder="Address line 2 (optional)"
-                value={addr.address_line2 ?? ""}
-                onChange={(e) =>
-                  setAddr((a) => ({ ...a, address_line2: e.target.value }))
-                }
-              />
-              <div className="grid grid-cols-2 gap-3">
-                <input
-                  className="border rounded-lg px-4 py-3"
-                  placeholder="City *"
-                  value={addr.city}
-                  onChange={(e) =>
-                    setAddr((a) => ({ ...a, city: e.target.value }))
-                  }
-                />
-                <input
-                  className="border rounded-lg px-4 py-3"
-                  placeholder="State"
-                  value={addr.state ?? ""}
-                  onChange={(e) =>
-                    setAddr((a) => ({ ...a, state: e.target.value }))
-                  }
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <input
-                  className="border rounded-lg px-4 py-3"
-                  placeholder="Postcode *"
-                  value={addr.postal_code}
-                  onChange={(e) =>
-                    setAddr((a) => ({ ...a, postal_code: e.target.value }))
-                  }
-                />
-                <input
-                  className="border rounded-lg px-4 py-3"
-                  placeholder="Country"
-                  value={addr.country}
-                  onChange={(e) =>
-                    setAddr((a) => ({
+                onChange={(
+                  e,
+                ) => {
+                  setAddr(
+                    (
+                      a,
+                    ) => ({
                       ...a,
-                      country: e.target.value.toUpperCase(),
-                    }))
-                  }
-                />
-              </div>
-            </div>
+                      email:
+                        e
+                          .target
+                          .value,
+                    }),
+                  );
 
-            <div className="flex gap-3 flex-wrap">
-              <button
-                className="border-2 border-[#ee6d49] text-[#ee6d49] px-4 py-3 rounded-lg font-semibold cursor-pointer hover:bg-purple-50 transition"
-                onClick={async () => {
-                  try {
-                    const q = await apiFetch<ShippingQuote>(
-                      "/shipping/quote/",
-                      {
-                        method: "POST",
-                        body: JSON.stringify({
-                          country: addr.country,
-                          state: addr.state ?? "",
-                          postal_code: addr.postal_code,
-                        }),
-                      },
-                    );
-                    setQuote(q);
-                    toast.success(
-                      `Delivery: ${(q.amount / 100).toFixed(2)} ${q.currency.toUpperCase()}`,
-                    );
-                  } catch (e: unknown) {
-                    toast.error(
-                      e instanceof Error
-                        ? e.message
-                        : "Failed to quote shipping",
-                    );
-                  }
+                  handleValidation(
+                    "email",
+                    e.target
+                      .value,
+                  );
                 }}
-              >
-                Calculate delivery
-              </button>
+              />
+
+              {errors.email && (
+                <p className="text-red-500 text-sm mt-1">
+                  {
+                    errors.email
+                  }
+                </p>
+              )}
             </div>
 
-            {quote && (
-              <div className="text-sm text-gray-700 bg-blue-50 p-3 rounded-lg">
-                Delivery:{" "}
-                <span className="font-semibold">
-                  ${(quote.amount / 100).toFixed(2)}{" "}
-                  {quote.currency.toUpperCase()}
-                </span>{" "}
-                ({quote.rate_name})
+            {/* NAMES */}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <input
+                  className={inputClass(
+                    "first_name",
+                  )}
+                  placeholder="First Name *"
+                  value={
+                    addr.first_name
+                  }
+                  onChange={(
+                    e,
+                  ) => {
+                    setAddr(
+                      (
+                        a,
+                      ) => ({
+                        ...a,
+                        first_name:
+                          e
+                            .target
+                            .value,
+                      }),
+                    );
+
+                    handleValidation(
+                      "first_name",
+                      e.target
+                        .value,
+                    );
+                  }}
+                />
+
+                {errors.first_name && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {
+                      errors.first_name
+                    }
+                  </p>
+                )}
               </div>
-            )}
+
+              <div>
+                <input
+                  className={inputClass(
+                    "last_name",
+                  )}
+                  placeholder="Last Name *"
+                  value={
+                    addr.last_name
+                  }
+                  onChange={(
+                    e,
+                  ) => {
+                    setAddr(
+                      (
+                        a,
+                      ) => ({
+                        ...a,
+                        last_name:
+                          e
+                            .target
+                            .value,
+                      }),
+                    );
+
+                    handleValidation(
+                      "last_name",
+                      e.target
+                        .value,
+                    );
+                  }}
+                />
+
+                {errors.last_name && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {
+                      errors.last_name
+                    }
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {/* COUNTRY */}
+            <input
+              readOnly
+              value={
+                addr.country
+              }
+              className="w-full border border-gray-200 bg-gray-100 rounded-xl px-4 py-3"
+            />
+
+            {/* ADDRESS */}
+            <div>
+              <input
+                className={inputClass(
+                  "address_line1",
+                )}
+                placeholder="Street Address *"
+                value={
+                  addr.address_line1
+                }
+                onChange={(
+                  e,
+                ) => {
+                  setAddr(
+                    (
+                      a,
+                    ) => ({
+                      ...a,
+                      address_line1:
+                        e
+                          .target
+                          .value,
+                    }),
+                  );
+
+                  handleValidation(
+                    "address_line1",
+                    e.target
+                      .value,
+                  );
+                }}
+              />
+
+              {errors.address_line1 && (
+                <p className="text-red-500 text-sm mt-1">
+                  {
+                    errors.address_line1
+                  }
+                </p>
+              )}
+            </div>
+
+            {/* SUBURB */}
+            <div>
+              <input
+                className={inputClass(
+                  "suburb",
+                )}
+                placeholder="Suburb *"
+                value={
+                  addr.suburb
+                }
+                onChange={(
+                  e,
+                ) => {
+                  setAddr(
+                    (
+                      a,
+                    ) => ({
+                      ...a,
+                      suburb:
+                        e
+                          .target
+                          .value,
+                    }),
+                  );
+
+                  handleValidation(
+                    "suburb",
+                    e.target
+                      .value,
+                  );
+                }}
+              />
+
+              {errors.suburb && (
+                <p className="text-red-500 text-sm mt-1">
+                  {
+                    errors.suburb
+                  }
+                </p>
+              )}
+            </div>
+
+            {/* STATE + POSTCODE */}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <select
+                  className={inputClass(
+                    "state",
+                  )}
+                  value={
+                    addr.state
+                  }
+                  onChange={(
+                    e,
+                  ) => {
+                    setAddr(
+                      (
+                        a,
+                      ) => ({
+                        ...a,
+                        state:
+                          e
+                            .target
+                            .value,
+                      }),
+                    );
+
+                    handleValidation(
+                      "state",
+                      e.target
+                        .value,
+                    );
+                  }}
+                >
+                  <option value="">
+                    Select State *
+                  </option>
+
+                  <option value="Victoria">
+                    Victoria
+                  </option>
+
+                  <option value="New South Wales">
+                    New South
+                    Wales
+                  </option>
+
+                  <option value="Queensland">
+                    Queensland
+                  </option>
+
+                  <option value="Western Australia">
+                    Western
+                    Australia
+                  </option>
+
+                  <option value="South Australia">
+                    South
+                    Australia
+                  </option>
+
+                  <option value="Tasmania">
+                    Tasmania
+                  </option>
+
+                  <option value="Australian Capital Territory">
+                    ACT
+                  </option>
+
+                  <option value="Northern Territory">
+                    Northern
+                    Territory
+                  </option>
+                </select>
+
+                {errors.state && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {
+                      errors.state
+                    }
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <input
+                  maxLength={4}
+                  className={inputClass(
+                    "postal_code",
+                  )}
+                  placeholder="Postcode *"
+                  value={
+                    addr.postal_code
+                  }
+                  onChange={(
+                    e,
+                  ) => {
+                    const value =
+                      e.target.value.replace(
+                        /\D/g,
+                        "",
+                      );
+
+                    setAddr(
+                      (
+                        a,
+                      ) => ({
+                        ...a,
+                        postal_code:
+                          value,
+                      }),
+                    );
+
+                    handleValidation(
+                      "postal_code",
+                      value,
+                    );
+                  }}
+                />
+
+                {errors.postal_code && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {
+                      errors.postal_code
+                    }
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {/* PHONE */}
+            <div>
+              <input
+                type="tel"
+                className={inputClass(
+                  "phone",
+                )}
+                placeholder="Phone Number *"
+                value={
+                  addr.phone
+                }
+                onChange={(
+                  e,
+                ) => {
+                  const value =
+                    e.target.value.replace(
+                      /\D/g,
+                      "",
+                    );
+
+                  setAddr(
+                    (
+                      a,
+                    ) => ({
+                      ...a,
+                      phone:
+                        value,
+                    }),
+                  );
+
+                  handleValidation(
+                    "phone",
+                    value,
+                  );
+                }}
+              />
+
+              {errors.phone && (
+                <p className="text-red-500 text-sm mt-1">
+                  {
+                    errors.phone
+                  }
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* DELIVERY OPTIONS */}
+          <div className="space-y-4">
+            <h2 className="text-2xl font-bold">
+              Delivery Method
+            </h2>
+
+            {/* STANDARD */}
+            <label className="flex items-center gap-4 border rounded-2xl p-5 cursor-pointer hover:border-[#ee6d49] transition">
+              <input
+                type="radio"
+                name="shipping"
+                value="standard"
+                checked={
+                  shippingMethod ===
+                  "standard"
+                }
+                onChange={() =>
+                  setShippingMethod(
+                    "standard",
+                  )
+                }
+              />
+
+              <div>
+                <p className="font-semibold">
+                  Standard Delivery
+                </p>
+
+                <p className="text-sm text-gray-500">
+                  AUD $12.00
+                </p>
+              </div>
+            </label>
+
+            {/* EXPRESS */}
+            <label className="flex items-center gap-4 border rounded-2xl p-5 cursor-pointer hover:border-[#ee6d49] transition">
+              <input
+                type="radio"
+                name="shipping"
+                value="express"
+                checked={
+                  shippingMethod ===
+                  "express"
+                }
+                onChange={() =>
+                  setShippingMethod(
+                    "express",
+                  )
+                }
+              />
+
+              <div>
+                <p className="font-semibold">
+                  Express Post
+                </p>
+
+                <p className="text-sm text-gray-500">
+                  AUD $15.00
+                </p>
+              </div>
+            </label>
+          </div>
+
+          {/* PAYMENT */}
+          <div className="space-y-4">
+            <h2 className="text-2xl font-bold">
+              Payment Method
+            </h2>
+
+            {/* STRIPE */}
+            <label className="flex items-center gap-4 border rounded-2xl p-5 cursor-pointer hover:border-[#ee6d49] transition">
+              <input
+                type="radio"
+                name="payment"
+                value="stripe"
+                checked={
+                  paymentMethod ===
+                  "stripe"
+                }
+                onChange={(
+                  e,
+                ) =>
+                  setPaymentMethod(
+                    e.target
+                      .value,
+                  )
+                }
+              />
+
+              <div>
+                <p className="font-semibold">
+                  Card / Google
+                  Pay
+                </p>
+
+                <p className="text-sm text-gray-500">
+                  Visa,
+                  Mastercard,
+                  Google Pay
+                  via Stripe
+                </p>
+              </div>
+            </label>
+
+            {/* PAYPAL */}
+            <label className="flex items-center gap-4 border rounded-2xl p-5 cursor-pointer hover:border-[#ee6d49] transition">
+              <input
+                type="radio"
+                name="payment"
+                value="paypal"
+                checked={
+                  paymentMethod ===
+                  "paypal"
+                }
+                onChange={(
+                  e,
+                ) =>
+                  setPaymentMethod(
+                    e.target
+                      .value,
+                  )
+                }
+              />
+
+              <div>
+                <p className="font-semibold">
+                  PayPal
+                </p>
+
+                <p className="text-sm text-gray-500">
+                  Secure
+                  checkout via
+                  PayPal
+                </p>
+              </div>
+            </label>
           </div>
         </div>
 
-        {/* Right: order summary */}
+        {/* RIGHT */}
         <div className="space-y-6">
-          <div className="bg-white rounded-2xl shadow p-8">
-            <h2 className="text-lg font-bold mb-4">Order summary</h2>
-            <div className="space-y-3 max-h-96 overflow-y-auto">
-              {cart.map((item) => (
-                <div
-                  key={`${item.id}-${item.color}-${item.material}-${item.size}`}
-                  className="flex justify-between text-sm border-b pb-2"
-                >
-                  <div>
-                    <div className="font-semibold">{item.name}</div>
-                    <div className="text-gray-500 text-xs">
-                      {item.color} • {item.material} • {item.size} • Qty:{" "}
-                      {item.quantity}
+          <div className="bg-white rounded-3xl shadow-lg p-8">
+            <h2 className="text-2xl font-bold mb-6">
+              Order Summary
+            </h2>
+
+            {/* ITEMS */}
+            <div className="space-y-4 max-h-96 overflow-y-auto">
+              {cart.map(
+                (item) => (
+                  <div
+                    key={`${item.id}-${item.size}`}
+                    className="flex justify-between border-b pb-4"
+                  >
+                    <div>
+                      <p className="font-semibold">
+                        {
+                          item.name
+                        }
+                      </p>
+
+                      <p className="text-sm text-gray-500">
+                        {
+                          item.color
+                        }{" "}
+                        •{" "}
+                        {
+                          item.material
+                        }{" "}
+                        •{" "}
+                        {
+                          item.size
+                        }
+                      </p>
+
+                      <p className="text-sm text-gray-500">
+                        Qty:{" "}
+                        {
+                          item.quantity
+                        }
+                      </p>
                     </div>
+
+                    <p className="font-semibold">
+                      $
+                      {(
+                        item.price *
+                        item.quantity
+                      ).toFixed(
+                        2,
+                      )}
+                    </p>
                   </div>
-                  <div className="font-semibold">
-                    ${(item.price * item.quantity).toFixed(2)}
-                  </div>
-                </div>
-              ))}
+                ),
+              )}
             </div>
-            <div className="border-t mt-5 pt-5 space-y-2 text-sm">
+
+            {/* TOTALS */}
+            <div className="border-t mt-6 pt-6 space-y-4">
               <div className="flex justify-between">
-                <span className="text-gray-600">Subtotal</span>
-                <span className="font-semibold">${subtotal.toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Delivery</span>
+                <span className="text-gray-600">
+                  Subtotal
+                </span>
+
                 <span className="font-semibold">
-                  {quote ? `$${(quote.amount / 100).toFixed(2)}` : "—"}
+                  $
+                  {subtotal.toFixed(
+                    2,
+                  )}
                 </span>
               </div>
-              <div className="border-t pt-2 mt-2">
-                <div className="flex justify-between text-base">
-                  <span className="font-bold">Total</span>
-                  <span className="font-extrabold text-[#d56539] text-xl">
-                    {quote
-                      ? `$${(subtotal + quote.amount / 100).toFixed(2)}`
-                      : `$${subtotal.toFixed(2)}`}
-                  </span>
-                </div>
+
+              <div className="flex justify-between">
+                <span className="text-gray-600">
+                  Delivery
+                </span>
+
+                <span className="font-semibold">
+                  AUD $
+                  {deliveryCharge.toFixed(
+                    2,
+                  )}
+                </span>
+              </div>
+
+              <div className="border-t pt-4 flex justify-between items-center">
+                <span className="text-xl font-bold">
+                  Total
+                </span>
+
+                <span className="text-3xl font-extrabold text-[#ee6d49]">
+                  AUD $
+                  {total.toFixed(
+                    2,
+                  )}
+                </span>
               </div>
             </div>
 
+            {/* PAY BUTTON */}
             <button
-              onClick={handlePayment}
-              disabled={processingPayment}
-              className={`w-full mt-6 py-3 rounded-lg font-semibold transition cursor-pointer ${
+              onClick={
+                handlePayment
+              }
+              disabled={
+                processingPayment
+              }
+              className={`w-full mt-8 py-4 rounded-2xl font-semibold transition-all ${
                 processingPayment
                   ? "bg-gray-300 cursor-not-allowed"
                   : "bg-[#ee6d49] hover:bg-[#df6839] text-white"
               }`}
             >
               {processingPayment ? (
-                <div className="flex items-center justify-center gap-2">
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  Processing Payment...
+                <div className="flex items-center justify-center gap-3">
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+
+                  Processing...
                 </div>
               ) : (
-                `Pay Now $${quote ? (subtotal + quote.amount / 100).toFixed(2) : subtotal.toFixed(2)}`
+                `Pay Now AUD $${total.toFixed(
+                  2,
+                )}`
               )}
             </button>
 
-            <p className="text-xs text-gray-500 text-center mt-3">
-              Secure payment powered by AusDog
+            <p className="text-center text-xs text-gray-500 mt-4">
+              Secure payment
+              powered by Stripe &
+              PayPal
             </p>
           </div>
         </div>
