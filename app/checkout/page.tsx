@@ -215,6 +215,12 @@ export default function CheckoutPage() {
 
   const handlePayment =
     async () => {
+      // Only Stripe is implemented — block other payment methods
+      if (paymentMethod !== "stripe") {
+        toast.error("Selected payment method is not available yet. Please choose Card/Stripe.");
+        return;
+      }
+
       const requiredFields = [
         "email",
         "first_name",
@@ -278,39 +284,75 @@ export default function CheckoutPage() {
           true,
         );
 
-        const res =
-          await fetch(
-            "/api/stripe/create-checkout-session",
-            {
-              method:
-                "POST",
-              headers: {
-                "Content-Type":
-                  "application/json",
-              },
-              body: JSON.stringify(
-                {
-                  cart,
-                  shippingAddress:
-                    addr,
-                  paymentMethod,
-                  shippingMethod,
-                  deliveryCharge,
-                },
-              ),
-            },
-          );
+        const payload = {
+          userId: user?.id ?? null,
+          items: cart.map((it: any) => ({
+            name: it.name,
+            variant: it.variant ?? "",
+            quantity: it.quantity,
+            price: it.price,
+            color: it.color ?? "",
+            size: it.size ?? "",
+          })),
+          amount: subtotal,
+          deliveryFee: deliveryCharge,
+          email: addr.email,
+          firstName: addr.first_name,
+          lastName: addr.last_name,
+          address: addr.address_line1,
+          suburb: addr.suburb,
+          state: addr.state,
+          postcode: addr.postal_code,
+          phone: addr.phone,
+          country: addr.country,
+        };
 
-        const data =
-          await res.json();
+        const backendHost = (process.env.NEXT_PUBLIC_BACKEND_URL || "").replace(/\/$/, "");
+        const endpoint = backendHost
+          ? `${backendHost}/api/payments/stripe`
+          : "/api/payments/stripe";
 
-        if (data.url) {
-          window.location.href =
-            data.url;
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        let data: any = null;
+        try {
+          data = await res.json();
+        } catch (err) {
+          console.error("Non-JSON response from payments endpoint", err);
+        }
+
+        if (!res.ok) {
+          const msg = data?.message || data?.error || `Payment API returned ${res.status}`;
+          console.error("Payment API error", res.status, data);
+          toast.error(msg);
+          return;
+        }
+
+        // Save order info to sessionStorage
+        try {
+          const orderInfo = {
+            orderId: data?.orderId || data?.order_id || null,
+            username: data?.username || `${addr.first_name} ${addr.last_name}`,
+            items: data?.items || payload.items,
+            total: total,
+          };
+          sessionStorage.setItem("lastOrder", JSON.stringify(orderInfo));
+        } catch (err) {
+          console.warn("Could not persist order info to sessionStorage", err);
+        }
+
+        const redirectUrl = data?.session_url || data?.url || data?.sessionUrl;
+
+        if (redirectUrl) {
+          // Redirect to Stripe Checkout
+          window.location.href = redirectUrl;
         } else {
-          toast.error(
-            "Unable to initiate payment",
-          );
+          // No Stripe session URL returned — go back to products page
+          router.push("/products");
         }
       } catch (error) {
         toast.error(

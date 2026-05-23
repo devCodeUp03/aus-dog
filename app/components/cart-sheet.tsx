@@ -45,7 +45,7 @@ export default function CartSheet() {
         </button>
       </SheetTrigger>
 
-      <SheetContent className="w-[450px] sm:w-[540px]">
+      <SheetContent className="w-[28.125rem] sm:w-[33.75rem]">
         <SheetHeader className="border-b pb-4">
           <SheetTitle className="text-2xl">Your Cart</SheetTitle>
           <p className="text-sm text-gray-500 mt-1">
@@ -73,7 +73,7 @@ export default function CartSheet() {
                 key={`${item.id}-${item.color}-${item.material}-${item.size}`}
                 className="flex gap-4 border-b pb-4 last:border-0"
               >
-                <div className="w-20 h-20 bg-gray-50 rounded-md overflow-hidden flex-shrink-0">
+                <div className="w-20 h-20 bg-gray-50 rounded-md overflow-hidden shrink-0">
                   <Image
                     src={item.image}
                     alt={item.name}
