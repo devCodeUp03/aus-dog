@@ -213,13 +213,14 @@ export default function CheckoutPage() {
         : ""
     }`;
 
+  const backendHost = (process.env.NEXT_PUBLIC_BACKEND_URL || "").replace(/\/$/, "");
+
   const handlePayment =
     async () => {
       // Only Stripe is implemented — block other payment methods
-      if (paymentMethod !== "stripe") {
-        toast.error("Selected payment method is not available yet. Please choose Card/Stripe.");
-        return;
-      }
+    const endpoint = paymentMethod === "paypal"
+  ? `${backendHost}/api/payments/paypal`
+  : `${backendHost}/api/payments/stripe`;
 
       const requiredFields = [
         "email",
@@ -307,10 +308,11 @@ export default function CheckoutPage() {
           country: addr.country,
         };
 
-        const backendHost = (process.env.NEXT_PUBLIC_BACKEND_URL || "").replace(/\/$/, "");
-        const endpoint = backendHost
-          ? `${backendHost}/api/payments/stripe`
-          : "/api/payments/stripe";
+// FIXED - routes to correct endpoint based on selected payment method
+const backendHost = (process.env.NEXT_PUBLIC_BACKEND_URL || "").replace(/\/$/, "");
+const endpoint = paymentMethod === "paypal"
+  ? `${backendHost}/api/payments/paypal`
+  : `${backendHost}/api/payments/stripe`;
 
         const res = await fetch(endpoint, {
           method: "POST",
