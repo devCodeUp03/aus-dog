@@ -1,29 +1,23 @@
-import { NextResponse } from "next/server"
-import type { NextRequest } from "next/server"
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-const PROTECTED_PATHS = ["/dashboard"]
+export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
 
-export function middleware(req: NextRequest) {
-  const { pathname } = req.nextUrl
+  // Protect all /admin routes except /admin/login
+  if (pathname.startsWith("/admin") && !pathname.startsWith("/admin/login")) {
+    const token = request.cookies.get("admin_token")?.value;
 
-  const isProtected = PROTECTED_PATHS.some((p) => pathname === p || pathname.startsWith(`${p}/`))
-  if (!isProtected) return NextResponse.next()
-
-  const access = req.cookies.get("ausdog_access")?.value
-
-  // ✅ Allow bypass token through without any backend check
-  if (access === "bypass-access-token-aezakmi") return NextResponse.next()
-
-  if (!access) {
-    const url = req.nextUrl.clone()
-    url.pathname = "/login"
-    url.searchParams.set("next", pathname)
-    return NextResponse.redirect(url)
+    if (!token) {
+      const loginUrl = new URL("/admin/login", request.url);
+      loginUrl.searchParams.set("from", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
   }
 
-  return NextResponse.next()
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/dashboard"],
-}
+  matcher: ["/admin/:path*"],
+};

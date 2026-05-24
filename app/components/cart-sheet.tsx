@@ -36,7 +36,6 @@ export default function CartSheet() {
         <button className="relative">
           <ShoppingCart className="w-8 h-7 text-[#ff9167] cursor-pointer hover:text-[#df6839] transition-colors duration-300" />
 
-          {/* ✅ Only render badge after client mount */}
           {mounted && totalItems > 0 && (
             <span className="absolute -top-2 -right-2 bg-[#60a879] text-white text-xs rounded-full px-2">
               {totalItems}
@@ -59,7 +58,7 @@ export default function CartSheet() {
               <ShoppingCart className="w-16 h-16 text-gray-300 mx-auto mb-4" />
               <p className="text-gray-500">Your cart is empty</p>
               <Link
-                href="/"
+                href="/products"
                 className="inline-block mt-4 text-[#ff9167] hover:underline"
               >
                 Continue Shopping →

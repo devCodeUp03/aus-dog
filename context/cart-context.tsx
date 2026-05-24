@@ -34,7 +34,7 @@ interface CartContextType {
     material: string,
     size: string,
   ) => void;
-  clearCart: () => void; // ✅ Added clearCart function
+  clearCart: () => void; 
 }
 
 const CartContext = createContext<CartContextType | null>(null);

@@ -86,7 +86,7 @@ export default function Header() {
           <div className="hidden md:flex items-center gap-3">
             <CartSheet />
 
-            <div className="relative group">
+            {/* <div className="relative group">
               <button
                 className="flex items-center gap-2 text-black font-semibold px-3 py-2 rounded-xl hover:text-[#ff9167] transition-all duration-300 transform hover:scale-105"
                 aria-label="User menu"
@@ -138,7 +138,7 @@ export default function Header() {
                   </div>
                 )}
               </div>
-            </div>
+            </div> */}
           </div>
 
           {/* Mobile Menu Button - Fixed hydration by wrapping in conditional */}

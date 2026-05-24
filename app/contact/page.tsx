@@ -26,26 +26,52 @@ export default function ContactPage() {
     }
   };
 
-  const handleSubmit = () => {
-    if (!formData.firstName || !formData.email || !formData.message) {
-      setSubmitMessage('Please fill in all required fields.');
-      return;
-    }
+  const handleSubmit = async () => {
+  if (!formData.firstName || !formData.email || !formData.message) {
+    setSubmitMessage("Please fill in all required fields.");
+    return;
+  }
+
+  try {
     setIsSubmitting(true);
-    setSubmitMessage('');
-    setTimeout(() => {
-      setSubmitMessage('Message sent successfully! We will get back to you soon.');
-      setFormData({
-        firstName: '',
-        lastName: '',
-        email: '',
-        subject: '',
-        message: ''
-      });
-      setCharCount(0);
-      setIsSubmitting(false);
-    }, 1500);
-  };
+    setSubmitMessage("");
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/contact`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message);
+    }
+
+    setSubmitMessage(
+      "Message sent successfully! We will get back to you soon."
+    );
+
+    setFormData({
+      firstName: "",
+      lastName: "",
+      email: "",
+      subject: "",
+      message: "",
+    });
+
+    setCharCount(0);
+  } catch (error) {
+    setSubmitMessage("Failed to send message.");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   const contactInfo = [
   // {
