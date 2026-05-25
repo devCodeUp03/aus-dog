@@ -113,10 +113,6 @@ export default function ProductDetailClient({ product }: Props) {
                 )}
               </div>
 
-              <p className="text-xs sm:text-sm text-gray-500">
-                Exchange incurs an additional cost (Refund and Returns Policy).
-              </p>
-
               {/* SIZE SELECTOR */}
               <div>
                 <h3 className="font-semibold mb-2 text-sm sm:text-base">
@@ -170,6 +166,10 @@ export default function ProductDetailClient({ product }: Props) {
                 <p>Size: <span className="font-medium">{selectedSize}</span></p>
                 <p>Quantity: <span className="font-medium">{quantity}</span></p>
               </div>
+
+               <p className="text-xs italic sm:text-sm text-blue-500">
+                **Exchange incurs an additional cost (Refund and Returns Policy).
+              </p>
 
               {/* BUTTON */}
               <button
