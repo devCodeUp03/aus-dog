@@ -56,7 +56,7 @@ const ProductsPage = () => {
          gap-3 sm:gap-5 lg:gap-8
         ">
           {filteredProducts.map((product: Product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard key={product.id} product={product} originalPrice={50}  />
           ))}
         </div>
 

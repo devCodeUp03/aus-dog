@@ -1,22 +1,23 @@
 'use client';
-
 import Link from 'next/link';
 import Image from 'next/image';
 import { Product } from '@/data/products';
 
 interface ProductCardProps {
   product: Product;
+  originalPrice?: number;
 }
 
-const ProductCard = ({ product }: ProductCardProps) => {
-
-  // first image for preview
+const ProductCard = ({ product, originalPrice }: ProductCardProps) => {
   const previewImage = product.images?.[0] || "/placeholder.png";
+  const hasDiscount = originalPrice !== undefined && originalPrice > product.price;
+  const discountPercent = hasDiscount
+    ? Math.round(((originalPrice! - product.price) / originalPrice!) * 100)
+    : null;
 
   return (
     <Link href={`/products/${product.id}`} className="block">
       <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group">
-
         {/* Image */}
         <div className="relative aspect-square overflow-hidden bg-gray-100">
           <Image
@@ -29,18 +30,37 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
         {/* Content */}
         <div className="p-3 sm:p-5">
-
           <h3 className="text-sm sm:text-lg font-bold text-gray-800 mt-1 line-clamp-2">
             {product.name}
           </h3>
 
-          {/* Price */}
-          <div className="mt-4 pt-4 border-t flex items-center justify-start">
-            <div className="font-semibold text-[#df6839] text-sm sm:text-base">
-              AUD ${product.price.toFixed(2)}
+          {/* Discount badge row */}
+          {hasDiscount && (
+            <div className="flex items-center gap-2 mt-3">
+              <span className="bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded">
+                {discountPercent}% off
+              </span>
+              <span className="text-red-600 text-xs font-semibold">
+                Limited time deal
+              </span>
             </div>
-          </div>
+          )}
 
+          {/* Price row */}
+          <div className="mt-1 flex items-baseline gap-2">
+            <span className="font-bold text-gray-900 text-base sm:text-lg">
+              <span className="text-sm align-super">$</span>
+              {Math.floor(product.price)}
+              <span className="">
+                {(product.price % 1).toFixed(2).slice(1)}
+              </span>
+            </span>
+            {hasDiscount && (
+              <span className="text-gray-500 line-through  text-sm">
+                A${originalPrice!.toFixed(2)}
+              </span>
+            )}
+          </div>
         </div>
       </div>
     </Link>

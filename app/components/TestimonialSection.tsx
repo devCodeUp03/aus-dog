@@ -6,34 +6,47 @@ interface Testimonial {
   id: number;
   name: string;
   role: string;
+  rating: number;
   message: string;
-  avatar: string;
+  image: string;
 }
 
 const testimonials: Testimonial[] = [
   {
     id: 1,
-    name: "S i m o n e",
+    name: "A S H",
     role: "Pet Owner",
+    rating: 5,
     message:
-      "Managing a high-drive hunting dog requires trust in your equipment. This collar is the perfect match for his intensity. It doesn’t just look the part; the build quality is exceptional.",
-    avatar: "https://i.pravatar.cc/150?img=47",
+    "We've been using these collars on our hunting dogs and they've been great. Nice strong collars with awesome colours and designs, and they hold up really well out in the field. Comfortable, durable and exactly what we were after.",
+    image: "/images/testimonials/ash.png",
   },
   {
     id: 2,
-    name: "S t e v e",
-    role: "Happy Customer",
+    name: "S i m o n",
+    role: "Pet Owner",
+    rating: 5,
     message:
-      "A very happy hunting dog owner. I love the collar from Top Dog, which is sturdy and matches my dog’s hyper energy.",
-    avatar: "https://i.pravatar.cc/150?img=33",
+      "Year after year having to replace collars due to them perishing from the extreme conditions, I came across the top dog collars. Going on their 2nd season now and I can't fault them. Colour hasn't faded at all, stitching all in place these collars have been put to the test week after week in all conditions . Highly recommend",
+    image: "/images/testimonials/simon.png",
   },
   {
     id: 3,
-    name: "A l e x i",
-    role: "Animal Lover",
+    name: "S A M",
+    role: "Pet Owner",
+    rating: 5,
     message:
-      "The build quality is exceptional. I finally have a collar that can keep up with his pace while keeping me firmly in command.",
-    avatar: "https://i.pravatar.cc/150?img=45",
+      "Collars that stand up and and stand out in the field.Great range of colour options too!",
+    image: "/images/testimonials/sam.png",
+  },
+  {
+    id: 4,
+    name: "P R E E T I N A",
+    role: "Pet Owner",
+    rating: 5,
+    message:
+      "Absolutely love this collar. I got it in tan and the quality is incredible. The collar is very sturdy, durable, and clearly made to handle strong dogs",
+    image: "/images/testimonials/preetina.png",
   },
 ];
 
@@ -151,6 +164,31 @@ export default function TestimonialSection() {
               {active.message}
             </p>
 
+            {/* STARS */}
+<div
+  className={`flex justify-center gap-1 mb-5 transition-all duration-500 ${
+    messageVisible
+      ? "opacity-100 translate-y-0"
+      : "opacity-0 translate-y-3"
+  }`}
+>
+  {[...Array(active.rating)].map((_, i) => (
+    <svg
+      key={i}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className="w-5 h-5 text-yellow-400"
+    >
+      <path
+        fillRule="evenodd"
+        d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.258 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.372 21.18c-.996.608-2.231-.29-1.96-1.425l1.258-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
+        clipRule="evenodd"
+      />
+    </svg>
+  ))}
+</div>
+
             {/* DIVIDER */}
             <div
               className={`flex justify-center gap-1.5 mb-6 transition-all duration-500 delay-200 ${
@@ -187,7 +225,7 @@ export default function TestimonialSection() {
                     ].join(" ")}
                   >
                     <img
-                      src={t.avatar}
+                      src={t.image}
                       alt={t.name}
                       className={[
                         "rounded-full object-cover border-2 transition-all duration-300",

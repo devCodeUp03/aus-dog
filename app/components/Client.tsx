@@ -207,9 +207,9 @@ export default function HeroSlider() {
         <Feature />
       </div>
 
-      {/* <section className="mb-20 mt-10 sm:mt-0 sm:mb-28">
+      <section className="mb-20 mt-10 sm:mt-0 sm:mb-28">
         <TestimonialSection />
-      </section> */}
+      </section>
     </>
   )
 }
