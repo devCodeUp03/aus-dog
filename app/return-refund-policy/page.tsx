@@ -56,18 +56,20 @@ export default function ReturnRefundPolicyPage() {
 
           {/* RETURNS */}
           <div className="rounded-3xl border p-8" style={{ borderColor: orange }}>
-            <h3 className="mb-6 text-2xl font-bold">Returns</h3>
-
+            <h3 className="mb-6 text-2xl font-bold">Returns & Refunds</h3>
             <p className="mb-6 text-lg text-zinc-700">
-              We accept returns within 14 days of receiving your order.
+              A refund or return is only eligible if your item meets <strong>all</strong> of the
+              following conditions. Refunds will <strong>not</strong> be issued for any of the
+              reasons listed below:
             </p>
 
-            <div className="grid gap-4 md:grid-cols-2">
+            {/* Non-refundable reasons */}
+            <div className="grid gap-4 md:grid-cols-2 mb-6">
               {[
-                "Be unused and in original condition",
-                "Have original packaging and tags attached",
-                "No signs of wear, dirt, or washing",
-                "Include proof of purchase",
+                "Change of mind or you no longer have a use for the product",
+                "You dislike the product after purchase or it doesn't meet personal preference",
+                "Incorrect size ordered — please check our size guide before purchasing",
+                "Clearance or sale items — all discounted items are final sale and non-refundable",
               ].map((item, i) => (
                 <div
                   key={i}
@@ -79,8 +81,37 @@ export default function ReturnRefundPolicyPage() {
               ))}
             </div>
 
-            <p className="mt-6 text-zinc-700">
-              For hygiene reasons, used items will not be accepted unless faulty.
+            {/* Shipping note */}
+            <div className="rounded-2xl bg-zinc-100 p-5 mb-4 text-zinc-700 text-sm leading-relaxed">
+              <p className="font-semibold text-zinc-900 mb-1">📦 Return Shipping</p>
+              <p>
+                Customers are responsible for all return shipping costs unless the item is faulty
+                or damaged upon arrival. Original shipping costs are non-refundable under any
+                circumstances.
+              </p>
+            </div>
+
+            {/* Tracking note */}
+            <div className="rounded-2xl bg-zinc-100 p-5 text-zinc-700 text-sm leading-relaxed">
+              <p className="font-semibold text-zinc-900 mb-1">⚠️ Important Notice</p>
+              <p>
+                We strongly recommend using a trackable shipping service or purchasing shipping
+                insurance when sending your return. Please retain your tracking number until you
+                receive written confirmation of your refund. We cannot guarantee receipt of returned
+                items and accept no responsibility for parcels lost in transit.
+              </p>
+            </div>
+
+            <p className="mt-6 text-sm text-zinc-500">
+              For return requests, please send a text message with your reason and tracking number,
+              or email us at{" "}
+              <a
+                href="mailto:info@topdogworkingdog.com"
+                style={{ color: orange }}
+                className="font-medium"
+              >
+                info@topdogworkingdog.com
+              </a>
             </p>
           </div>
 
@@ -120,15 +151,6 @@ export default function ReturnRefundPolicyPage() {
               <li>• Sent back to original payment method</li>
               <li>• Shipping fees are non-refundable unless faulty</li>
             </ul>
-          </div>
-
-          {/* EXCHANGE */}
-          <div className="rounded-3xl border p-8" style={{ borderColor: orange }}>
-            <h3 className="mb-4 text-2xl font-bold">Exchanges</h3>
-
-            <p className="text-lg text-zinc-700">
-              Contact support for size or colour exchanges (subject to availability).
-            </p>
           </div>
 
           {/* SHIPPING */}

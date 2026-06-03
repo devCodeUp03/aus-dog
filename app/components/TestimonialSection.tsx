@@ -48,6 +48,15 @@ const testimonials: Testimonial[] = [
       "Absolutely love this collar. I got it in tan and the quality is incredible. The collar is very sturdy, durable, and clearly made to handle strong dogs",
     image: "/images/testimonials/preetina.png",
   },
+  {
+    id: 5,
+    name: "C H R I S T I E",
+    role: "Pet Owner",
+    rating: 5,
+    message:
+      "I bought 2 large collars for my blue heeler and Mastiff cross. They are a great fit, excellent buckles that are super strong and sturdy and its a nice wide fit collar. And awesome colours that really stand out! Would highly recommend Top Dog Colllars.",
+    image: "/images/testimonials/christi.png",
+  },
 ];
 
 export default function TestimonialSection() {

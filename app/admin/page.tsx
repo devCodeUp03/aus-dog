@@ -64,23 +64,38 @@ function OrderDrawer({
 }: {
   order: Order;
   onClose: () => void;
-  onStatusChange: (id: string, status: OrderStatus) => Promise<void>;
+onStatusChange: (id: string, status: OrderStatus, trackingNumber?: string) => Promise<void>;
 }) {
   const [saving, setSaving] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
+  const [trackingNumber, setTrackingNumber] = useState("");
+  const [trackingError, setTrackingError] = useState("");
   const currentIdx = STATUS_ORDER.indexOf(order.status);
+  const nextStatus = STATUS_ORDER[currentIdx + 1];
 
-  const handleAdvance = async () => {
+const handleAdvance = async () => {
     if (currentIdx >= STATUS_ORDER.length - 1) return;
-    const nextStatus = STATUS_ORDER[currentIdx + 1];
+
+    if (nextStatus === "SHIPPING") {
+      if (!trackingNumber.trim()) {
+        setTrackingError("Tracking number is required before marking as Shipped.");
+        return;
+      }
+      // Basic Australia Post / CouriersPlease format validation
+      if (trackingNumber.trim().length < 6) {
+        setTrackingError("Please enter a valid Australian tracking number.");
+        return;
+      }
+    }
+
+    setTrackingError("");
     setSaving(true);
-    await onStatusChange(order.id, nextStatus);
+    await onStatusChange(order.id, nextStatus, trackingNumber.trim() || undefined);
     setEmailSent(true);
     setSaving(false);
     setTimeout(() => setEmailSent(false), 4000);
   };
 
-  const nextStatus = STATUS_ORDER[currentIdx + 1];
 
   return (
     <div className="fixed inset-0 z-50 flex">
@@ -204,6 +219,37 @@ function OrderDrawer({
             <section>
               <h3 className="text-xs uppercase tracking-widest text-gray-500 mb-3">Advance Order</h3>
               <div className="bg-white/5 rounded-xl p-4 space-y-3">
+
+              {nextStatus === "SHIPPING" && (
+                  <div className="space-y-2">
+                    <label className="text-xs uppercase tracking-widest text-gray-500">
+                      📦 Australian Tracking Number <span className="text-[#ee6d49]">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={trackingNumber}
+                      onChange={(e) => {
+                        setTrackingNumber(e.target.value);
+                        if (e.target.value.trim()) setTrackingError("");
+                      }}
+                      placeholder="e.g. 7XX1234567890"
+                      className={`w-full bg-white/5 border rounded-lg px-3 py-2.5 text-sm text-white placeholder-gray-600 outline-none transition font-mono ${
+                        trackingError
+                          ? "border-red-500/50 focus:border-red-500"
+                          : "border-white/10 focus:border-[#ee6d49]"
+                      }`}
+                    />
+                    {trackingError && (
+                      <p className="text-red-400 text-xs flex items-center gap-1">
+                        <span>⚠</span> {trackingError}
+                      </p>
+                    )}
+                    <p className="text-gray-600 text-xs">
+                      This will be included in the shipping email sent to the customer.
+                    </p>
+                  </div>
+                )}
+
                 <div className="flex items-start gap-3">
                   <div className="w-8 h-8 rounded-lg bg-[#ee6d49]/10 flex items-center justify-center text-sm flex-shrink-0">
                     📧
@@ -307,24 +353,24 @@ export default function AdminPage() {
 
   useEffect(() => { fetchOrders(); }, []);
 
-  const handleStatusChange = async (id: string, status: OrderStatus) => {
-    try {
-      const res = await adminFetch(`/api/admin/orders/${id}/status`, {
-        method: "PATCH",
-        body:   JSON.stringify({ status }),
-      });
-      if (res.status === 401) { router.push("/admin/login"); return; }
-      if (!res.ok) throw new Error("Update failed");
+  const handleStatusChange = async (id: string, status: OrderStatus, trackingNumber?: string) => {
+  try {
+    const res = await adminFetch(`/api/admin/orders/${id}/status`, {
+      method: "PATCH",
+      body: JSON.stringify({ status, trackingNumber }),  // ← pass tracking number
+    });
+    if (res.status === 401) { router.push("/admin/login"); return; }
+    if (!res.ok) throw new Error("Update failed");
 
-      setOrders((prev) =>
-        prev.map((o) => (o.id === id ? { ...o, status } : o))
-      );
-      if (selected?.id === id) setSelected((prev) => prev ? { ...prev, status } : null);
-      showToast(`Marked as ${statusConfig[status].label} — email sent to customer 📧`);
-    } catch {
-      showToast("Failed to update status", "err");
-    }
-  };
+    setOrders((prev) =>
+      prev.map((o) => (o.id === id ? { ...o, status } : o))
+    );
+    if (selected?.id === id) setSelected((prev) => prev ? { ...prev, status } : null);
+    showToast(`Marked as ${statusConfig[status].label} — email sent to customer 📧`);
+  } catch {
+    showToast("Failed to update status", "err");
+  }
+};
 
   const counts = useMemo(
     () => ({

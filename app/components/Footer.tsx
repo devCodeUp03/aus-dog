@@ -53,8 +53,18 @@ const Footer: React.FC = () => {
             Find Us On
           </h3>
           <ul className="space-y-2 text-sm">
-            <li><a href="#" className="hover:text-[#E87722]">Facebook</a></li>
-            <li><a href="#" className="hover:text-[#E87722]">Instagram</a></li>
+            <li><a
+              href="https://www.facebook.com/topdog"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#E87722]"
+            >Facebook</a></li>
+            <li><a
+              href="https://www.instagram.com/topdog"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#E87722]"
+            >Instagram</a></li>
             {/* <li><a href="#" className="hover:text-[#E87722]">TikTok</a></li> */}
             {/* <li><a href="#" className="hover:text-[#E87722]">Pinterest</a></li> */}
           </ul>
@@ -72,7 +82,7 @@ const Footer: React.FC = () => {
       </div>
 
       {/* Payment Methods */}
-<div className="flex justify-center gap-3 sm:gap-8 flex-nowrap py-4 border-t border-white/10 items-center overflow-x-auto">
+      <div className="flex justify-center gap-3 sm:gap-8 flex-nowrap py-4 border-t border-white/10 items-center overflow-x-auto">
 
         <div className="w-16 sm:w-24 h-20  flex items-center justify-center opacity-80 hover:opacity-100 transition">
           <img
