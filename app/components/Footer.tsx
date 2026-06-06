@@ -54,13 +54,13 @@ const Footer: React.FC = () => {
           </h3>
           <ul className="space-y-2 text-sm">
             <li><a
-              href="https://www.facebook.com/topdog"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-[#E87722]"
+            href="https://www.facebook.com/share/1FZZk7Mj5R/?mibextid=wwXIfr"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-[#E87722]"
             >Facebook</a></li>
             <li><a
-              href="https://www.instagram.com/topdog"
+            href="https://www.instagram.com/topdog.workingdog/"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-[#E87722]"
