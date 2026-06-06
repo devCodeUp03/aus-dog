@@ -19,12 +19,10 @@ const ProductsPage = () => {
     <div className="min-h-screen bg-gray-50 py-10 sm:py-12 lg:py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
 
-        {/* TITLE */}
         <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-8 sm:mb-10 lg:mb-12 text-center">
           Dog Collars Collection
         </h1>
 
-        {/* SEARCH */}
         <div className="mb-10 sm:mb-12 flex justify-center">
           <input
             type="text"
@@ -49,7 +47,6 @@ const ProductsPage = () => {
           />
         </div>
 
-        {/* GRID */}
         <div className="
           grid
          grid-cols-2 sm:grid-cols-2 lg:grid-cols-3
@@ -60,7 +57,6 @@ const ProductsPage = () => {
           ))}
         </div>
 
-        {/* EMPTY STATE */}
         {filteredProducts.length === 0 && (
           <div className="text-center py-16 sm:py-20">
             <p className="text-base sm:text-lg lg:text-xl text-gray-500">

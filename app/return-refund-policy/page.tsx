@@ -63,13 +63,31 @@ export default function ReturnRefundPolicyPage() {
               reasons listed below:
             </p>
 
-            {/* Non-refundable reasons */}
+            <p className="font-semibold text-lg mb-3">We do <strong>not</strong> issue refunds for:</p>
             <div className="grid gap-4 md:grid-cols-2 mb-6">
               {[
                 "Change of mind or you no longer have a use for the product",
                 "You dislike the product after purchase or it doesn't meet personal preference",
                 "Incorrect size ordered — please check our size guide before purchasing",
                 "Clearance or sale items — all discounted items are final sale and non-refundable",
+              ].map((item, i) => (
+                <div
+                  key={i}
+                  className="rounded-2xl p-5 text-white font-medium"
+                  style={{ backgroundColor: orange }}
+                >
+                  {item}
+                </div>
+              ))}
+            </div>
+
+            <p className="font-semibold text-lg mb-3">To be eligible, your item must:</p>
+            <div className="grid gap-4 md:grid-cols-2 mb-6">
+              {[
+                "Be unused and in original condition",
+                "Have original packaging and tags attached",
+                "Show no signs of wear, dirt, or washing",
+                "Include proof of purchase",
               ].map((item, i) => (
                 <div
                   key={i}
