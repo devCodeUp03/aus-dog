@@ -72,7 +72,7 @@ export default function CheckoutPage() {
         (acc, item) =>
           acc +
           item.price *
-            item.quantity,
+          item.quantity,
         0,
       ),
     [cart],
@@ -194,23 +194,20 @@ export default function CheckoutPage() {
   ) =>
     `w-full border rounded-xl px-4 py-3 outline-none transition-all duration-200
     focus:ring-2 focus:ring-[#ee6d49]
-    ${
-      errors[field]
-        ? "border-red-500"
-        : "border-gray-300"
+    ${errors[field]
+      ? "border-red-500"
+      : "border-gray-300"
     }
-    ${
-      !errors[field] &&
+    ${!errors[field] &&
       addr[
-        field as keyof ShippingAddress
+      field as keyof ShippingAddress
       ]
-        ? "border-green-500"
-        : ""
+      ? "border-green-500"
+      : ""
     }
-    ${
-      shakeField === field
-        ? "animate-[shake_0.3s_ease-in-out]"
-        : ""
+    ${shakeField === field
+      ? "animate-[shake_0.3s_ease-in-out]"
+      : ""
     }`;
 
   const backendHost = (process.env.NEXT_PUBLIC_BACKEND_URL || "").replace(/\/$/, "");
@@ -218,9 +215,9 @@ export default function CheckoutPage() {
   const handlePayment =
     async () => {
       // Only Stripe is implemented — block other payment methods
-    const endpoint = paymentMethod === "paypal"
-  ? `${backendHost}/api/payments/paypal`
-  : `${backendHost}/api/payments/stripe`;
+      const endpoint = paymentMethod === "paypal"
+        ? `${backendHost}/api/payments/paypal`
+        : `${backendHost}/api/payments/stripe`;
 
       const requiredFields = [
         "email",
@@ -239,7 +236,7 @@ export default function CheckoutPage() {
         (field) => {
           const value =
             addr[
-              field as keyof ShippingAddress
+            field as keyof ShippingAddress
             ];
 
           const error =
@@ -308,11 +305,11 @@ export default function CheckoutPage() {
           country: addr.country,
         };
 
-// FIXED - routes to correct endpoint based on selected payment method
-const backendHost = (process.env.NEXT_PUBLIC_BACKEND_URL || "").replace(/\/$/, "");
-const endpoint = paymentMethod === "paypal"
-  ? `${backendHost}/api/payments/paypal`
-  : `${backendHost}/api/payments/stripe`;
+        // FIXED - routes to correct endpoint based on selected payment method
+        const backendHost = (process.env.NEXT_PUBLIC_BACKEND_URL || "").replace(/\/$/, "");
+        const endpoint = paymentMethod === "paypal"
+          ? `${backendHost}/api/payments/paypal`
+          : `${backendHost}/api/payments/stripe`;
 
         const res = await fetch(endpoint, {
           method: "POST",
@@ -684,44 +681,38 @@ const endpoint = paymentMethod === "paypal"
                     );
                   }}
                 >
-                  <option value="">
-                    Select State *
-                  </option>
+                  <option value="">Select State *</option>
 
-                  <option value="Victoria">
-                    Victoria
+                  <option value="Australian Capital Territory">
+                    ACT
                   </option>
 
                   <option value="New South Wales">
-                    New South
-                    Wales
+                    New South Wales
+                  </option>
+
+                  <option value="Northern Territory">
+                    Northern Territory
                   </option>
 
                   <option value="Queensland">
                     Queensland
                   </option>
 
-                  <option value="Western Australia">
-                    Western
-                    Australia
-                  </option>
-
                   <option value="South Australia">
-                    South
-                    Australia
+                    South Australia
                   </option>
 
                   <option value="Tasmania">
                     Tasmania
                   </option>
 
-                  <option value="Australian Capital Territory">
-                    ACT
+                  <option value="Victoria">
+                    Victoria
                   </option>
 
-                  <option value="Northern Territory">
-                    Northern
-                    Territory
+                  <option value="Western Australia">
+                    Western Australia
                   </option>
                 </select>
 
@@ -1074,11 +1065,10 @@ const endpoint = paymentMethod === "paypal"
               disabled={
                 processingPayment
               }
-              className={`w-full mt-8 py-4 rounded-2xl font-semibold transition-all ${
-                processingPayment
+              className={`w-full mt-8 py-4 rounded-2xl font-semibold transition-all ${processingPayment
                   ? "bg-gray-300 cursor-not-allowed"
                   : "bg-[#ee6d49] hover:bg-[#df6839] text-white"
-              }`}
+                }`}
             >
               {processingPayment ? (
                 <div className="flex items-center justify-center gap-3">

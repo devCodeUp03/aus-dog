@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import { Facebook, Instagram } from "lucide-react";
 
 const Footer: React.FC = () => {
   return (
@@ -52,22 +53,28 @@ const Footer: React.FC = () => {
           <h3 className="text-sm uppercase tracking-widest text-white mb-4">
             Find Us On
           </h3>
-          <ul className="space-y-2 text-sm">
-            <li><a
-            href="https://www.facebook.com/share/1FZZk7Mj5R/?mibextid=wwXIfr"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-[#E87722]"
-            >Facebook</a></li>
-            <li><a
-            href="https://www.instagram.com/topdog.workingdog/"
+
+          <div className="flex items-center gap-4">
+            <a
+              href="https://www.facebook.com/share/1FZZk7Mj5R/?mibextid=wwXIfr"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-[#E87722]"
-            >Instagram</a></li>
-            {/* <li><a href="#" className="hover:text-[#E87722]">TikTok</a></li> */}
-            {/* <li><a href="#" className="hover:text-[#E87722]">Pinterest</a></li> */}
-          </ul>
+              className="hover:text-[#E87722] transition"
+              aria-label="Facebook"
+            >
+              <Facebook size={24} />
+            </a>
+
+            <a
+              href="https://www.instagram.com/topdog.workingdog/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#E87722] transition"
+              aria-label="Instagram"
+            >
+              <Instagram size={24} />
+            </a>
+          </div>
         </div>
 
         {/* Contact */}

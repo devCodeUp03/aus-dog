@@ -20,6 +20,14 @@ export default function ProductDetailClient({ product }: Props) {
   const [showSizeGuide, setShowSizeGuide] = useState(false);
   const [quantity, setQuantity] = useState(1);
 
+  const originalPrice = 50;
+  const hasDiscount = originalPrice > product.price;
+
+
+  const discountPercent = hasDiscount
+    ? Math.round(((originalPrice - product.price) / originalPrice) * 100)
+    : 0;
+
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center py-6 sm:py-10 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-6xl">
@@ -45,11 +53,10 @@ export default function ProductDetailClient({ product }: Props) {
                   <button
                     key={i}
                     onClick={() => setActiveImage(img)}
-                    className={`relative border-2 rounded-md overflow-hidden w-14 h-14 sm:w-16 sm:h-16 flex-shrink-0 ${
-                      activeImage === img
+                    className={`relative border-2 rounded-md overflow-hidden w-14 h-14 sm:w-16 sm:h-16 flex-shrink-0 ${activeImage === img
                         ? "border-[#ff9167]"
                         : "border-transparent"
-                    }`}
+                      }`}
                   >
                     <Image
                       src={img}
@@ -69,9 +76,31 @@ export default function ProductDetailClient({ product }: Props) {
                 {product.name}
               </h1>
 
-              <p className="text-2xl sm:text-3xl font-bold text-[#df6839]">
-                AUD ${product.price.toFixed(2)}
-              </p>
+              <div>
+                {hasDiscount && (
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">
+                      {discountPercent}% OFF
+                    </span>
+
+                    <span className="text-red-600 text-sm font-semibold">
+                      Limited Time Deal
+                    </span>
+                  </div>
+                )}
+
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl sm:text-3xl font-bold text-[#df6839]">
+                    AUD ${product.price.toFixed(2)}
+                  </span>
+
+                  {hasDiscount && (
+                    <span className="text-gray-500 line-through text-lg">
+                      AUD ${originalPrice.toFixed(2)}
+                    </span>
+                  )}
+                </div>
+              </div>
 
               {/* DESCRIPTION */}
               <div className="border-t border-b border-gray-200">
@@ -167,7 +196,7 @@ export default function ProductDetailClient({ product }: Props) {
                 <p>Quantity: <span className="font-medium">{quantity}</span></p>
               </div>
 
-               <p className="text-xs italic sm:text-sm text-blue-500">
+              <p className="text-xs italic sm:text-sm text-blue-500">
                 **Exchange incurs an additional cost (Refund and Returns Policy).
               </p>
 
