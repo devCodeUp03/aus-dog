@@ -138,8 +138,8 @@ function OrderDrawer({
                   return (
                     <div key={s} className="flex flex-col items-center z-10 flex-1">
                       <div className={`w-10 h-10 rounded-full flex items-center justify-center text-lg transition-all duration-300 ${done ? "bg-[#ee6d49] shadow-lg shadow-[#ee6d49]/30" :
-                          active ? "bg-[#ee6d49]/20 border-2 border-[#ee6d49]" :
-                            "bg-white/10 border-2 border-white/10"
+                        active ? "bg-[#ee6d49]/20 border-2 border-[#ee6d49]" :
+                          "bg-white/10 border-2 border-white/10"
                         }`}>
                         {done ? "✓" : cfg.icon}
                       </div>
@@ -238,8 +238,8 @@ function OrderDrawer({
                       }}
                       placeholder="e.g. 7XX1234567890"
                       className={`w-full bg-white/5 border rounded-lg px-3 py-2.5 text-sm text-white placeholder-gray-600 outline-none transition font-mono ${trackingError
-                          ? "border-red-500/50 focus:border-red-500"
-                          : "border-white/10 focus:border-[#ee6d49]"
+                        ? "border-red-500/50 focus:border-red-500"
+                        : "border-white/10 focus:border-[#ee6d49]"
                         }`}
                     />
                     {trackingError && (
@@ -274,8 +274,8 @@ function OrderDrawer({
                   onClick={handleAdvance}
                   disabled={saving}
                   className={`w-full py-2.5 rounded-lg font-semibold text-sm transition flex items-center justify-center gap-2 ${saving
-                      ? "bg-white/10 text-gray-500 cursor-not-allowed"
-                      : "bg-[#ee6d49] hover:bg-[#df6839] text-white"
+                    ? "bg-white/10 text-gray-500 cursor-not-allowed"
+                    : "bg-[#ee6d49] hover:bg-[#df6839] text-white"
                     }`}
                 >
                   {saving ? (
@@ -330,11 +330,19 @@ export default function AdminPage() {
     setTimeout(() => setToast(null), 4000);
   };
 
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 15;
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [confirmDelete, setConfirmDelete] = useState<Order | null>(null);
+
+  useEffect(() => { setPage(1); }, [tab, search]);
+
   const handleLogout = () => {
     clearAdminToken();
     document.cookie = "admin_token=; path=/; max-age=0";
     router.push("/admin/login");
   };
+
 
   // ── Fetch orders ──
   const fetchOrders = async () => {
@@ -444,6 +452,32 @@ export default function AdminPage() {
     return list;
   }, [orders, tab, search]);
 
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const paginated = useMemo(
+    () => filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE),
+    [filtered, page]
+  );
+
+  const handleDeleteOrder = async (id: string) => {
+    setDeletingId(id);
+    try {
+      const res = await adminFetch(`/api/admin/orders/${id}`, { method: "DELETE" });
+      if (res.status === 401) { router.push("/admin/login"); return; }
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.message || "Delete failed");
+      }
+      setOrders((prev) => prev.filter((o) => o.id !== id));
+      setConfirmDelete(null);
+      if (selected?.id === id) setSelected(null);
+      showToast("Order deleted successfully");
+    } catch (e: any) {
+      showToast(e.message || "Failed to delete order", "err");
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
   const tabConfig: { key: Tab; label: string; icon: string; countKey?: keyof typeof counts }[] = [
     { key: "PENDING", label: "Pending", icon: "🕐", countKey: "PENDING" },
     { key: "SHIPPING", label: "Shipping", icon: "🚚", countKey: "SHIPPING" },
@@ -464,17 +498,17 @@ export default function AdminPage() {
       style={{ fontFamily: "'DM Mono', 'Fira Code', monospace" }}
     >
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@700;800&display=swap');
-        * { box-sizing: border-box; }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
-        .row-hover:hover { background: rgba(255,255,255,0.04); }
-        @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
-        .fade-in { animation: fadeIn 0.3s ease both; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .animate-spin { animation: spin 1s linear infinite; }
-      `}</style>
+      @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@700;800&display=swap');
+      * { box-sizing: border-box; }
+      ::-webkit-scrollbar { width: 6px; }
+      ::-webkit-scrollbar-track { background: transparent; }
+      ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+      .row-hover:hover { background: rgba(255,255,255,0.04); }
+      @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+      .fade-in { animation: fadeIn 0.3s ease both; }
+      @keyframes spin { to { transform: rotate(360deg); } }
+      .animate-spin { animation: spin 1s linear infinite; }
+    `}</style>
 
       {/* Toast */}
       {toast && (
@@ -493,9 +527,41 @@ export default function AdminPage() {
         />
       )}
 
+      {/* Confirm Delete Modal */}
+      {confirmDelete && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 backdrop-blur-sm">
+          <div className="bg-[#0f1117] border border-white/10 rounded-2xl p-6 max-w-sm w-full mx-4 fade-in">
+            <div className="w-12 h-12 rounded-full bg-red-500/10 flex items-center justify-center text-2xl mb-4">🗑️</div>
+            <h3 className="text-white font-bold text-lg mb-2">Delete Order #{confirmDelete.orderNumber}?</h3>
+            <p className="text-gray-400 text-sm mb-6">
+              This will permanently delete this order and all its items. This action cannot be undone.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setConfirmDelete(null)}
+                className="flex-1 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 border border-white/10 transition"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => handleDeleteOrder(confirmDelete.id)}
+                disabled={deletingId === confirmDelete.id}
+                className="flex-1 py-2.5 rounded-lg text-sm font-semibold bg-red-500 hover:bg-red-600 text-white transition flex items-center justify-center gap-2"
+              >
+                {deletingId === confirmDelete.id ? (
+                  <>
+                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Deleting…
+                  </>
+                ) : "Delete Order"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="flex min-h-screen">
 
-        {/* ── Sidebar ── */}
         <aside className="w-56 shrink-0 bg-[#0b0d13] border-r border-white/[0.07] flex flex-col py-8 px-4 sticky top-0 h-screen">
           <div className="mb-8 px-2">
             <p className="text-[10px] uppercase tracking-[0.2em] text-gray-600 mb-1">Admin</p>
@@ -521,7 +587,6 @@ export default function AdminPage() {
                     {counts[countKey]}
                   </span>
                 ) : (
-                  // Show out-of-stock warning badge on Inventory if any
                   outOfStockCount > 0 ? (
                     <span className="text-xs px-1.5 py-0.5 rounded-full bg-red-500/20 text-red-400">
                       {outOfStockCount} ⚠
@@ -559,7 +624,6 @@ export default function AdminPage() {
           </div>
         </aside>
 
-        {/* ── Main ── */}
         <main className="flex-1 p-8 overflow-auto">
 
           {/* Stats */}
@@ -570,13 +634,9 @@ export default function AdminPage() {
             <StatCard label="Revenue" value={`$${revenue.toFixed(0)}`} sub="from completed orders" accent="text-[#ee6d49]" />
           </div>
 
-          {/* ══════════════════════════════════════════
-              INVENTORY TAB
-          ══════════════════════════════════════════ */}
+          {/* INVENTORY TAB */}
           {tab === "INVENTORY" ? (
             <div className="fade-in">
-
-              {/* Inventory header */}
               <div className="flex items-center gap-3 mb-6">
                 <h2 className="text-base font-semibold text-white">📦 Inventory Management</h2>
                 <button
@@ -587,7 +647,6 @@ export default function AdminPage() {
                 </button>
               </div>
 
-              {/* Inventory summary cards */}
               <div className="grid grid-cols-3 gap-4 mb-6">
                 <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
                   <p className="text-xs uppercase tracking-widest text-gray-500 mb-1">Total Products</p>
@@ -603,7 +662,6 @@ export default function AdminPage() {
                 </div>
               </div>
 
-              {/* Inventory table */}
               {invLoading ? (
                 <div className="flex items-center justify-center h-40 text-gray-500 text-sm">Loading inventory…</div>
               ) : (
@@ -622,7 +680,6 @@ export default function AdminPage() {
                         const isOutOfStock = stock !== undefined && stock === 0;
                         const isLowStock = stock !== undefined && stock > 0 && stock <= 5;
                         const isEditing = stockEdits[product.id] !== undefined;
-
                         return (
                           <tr key={product.id} className="border-b border-white/[0.04] row-hover transition">
                             <td className="px-4 py-4">
@@ -640,18 +697,14 @@ export default function AdminPage() {
                                 <span className="text-xs font-bold bg-emerald-500/20 text-emerald-400 px-2.5 py-1 rounded-lg">In Stock — {stock}</span>
                               )}
                             </td>
-                            <td className="px-4 py-4 text-gray-400 font-mono">
-                              {stock ?? "—"}
-                            </td>
+                            <td className="px-4 py-4 text-gray-400 font-mono">{stock ?? "—"}</td>
                             <td className="px-4 py-4">
                               <input
                                 type="number"
                                 min={0}
                                 placeholder={stock?.toString() ?? "0"}
                                 value={stockEdits[product.id] ?? ""}
-                                onChange={(e) =>
-                                  setStockEdits((prev) => ({ ...prev, [product.id]: e.target.value }))
-                                }
+                                onChange={(e) => setStockEdits((prev) => ({ ...prev, [product.id]: e.target.value }))}
                                 className="bg-white/5 border border-white/10 focus:border-[#ee6d49] rounded-lg px-3 py-1.5 w-24 text-white text-sm outline-none transition font-mono"
                               />
                             </td>
@@ -679,9 +732,6 @@ export default function AdminPage() {
             </div>
 
           ) : (
-            /* ══════════════════════════════════════════
-               ORDERS TABS (PENDING / SHIPPING / COMPLETED)
-            ══════════════════════════════════════════ */
             <>
               <div className="mb-6">
                 <input
@@ -715,45 +765,108 @@ export default function AdminPage() {
                   <p className="text-sm">No {statusConfig[tab as OrderStatus]?.label.toLowerCase()} orders</p>
                 </div>
               ) : (
-                <div className="rounded-2xl border border-white/[0.07] overflow-hidden">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="border-b border-white/[0.07] bg-white/[0.03]">
-                        {["Order", "Customer", "Items", "Total", "Payment", "Date", "Status", ""].map((h) => (
-                          <th key={h} className="text-left px-4 py-3 text-xs uppercase tracking-widest text-gray-600 font-medium">{h}</th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {filtered.map((order) => (
-                        <tr
-                          key={order.id}
-                          className="border-b border-white/[0.04] row-hover cursor-pointer transition"
-                          onClick={() => setSelected(order)}
-                        >
-                          <td className="px-4 py-3.5 font-mono text-[#ee6d49]">#{order.orderNumber}</td>
-                          <td className="px-4 py-3.5">
-                            <p className="text-white font-medium">{order.firstName} {order.lastName}</p>
-                            <p className="text-gray-500 text-xs">{order.email}</p>
-                          </td>
-                          <td className="px-4 py-3.5 text-gray-400">{order.items.length} item{order.items.length !== 1 ? "s" : ""}</td>
-                          <td className="px-4 py-3.5 text-white font-semibold">${order.total.toFixed(2)}</td>
-                          <td className="px-4 py-3.5">
-                            <span className={`text-xs font-bold px-2 py-0.5 rounded-lg ${order.paymentMethod === "STRIPE" ? "bg-violet-500/20 text-violet-300" : "bg-blue-500/20 text-blue-300"
-                              }`}>
-                              {order.paymentMethod}
-                            </span>
-                          </td>
-                          <td className="px-4 py-3.5 text-gray-500 text-xs">
-                            {new Date(order.createdAt).toLocaleDateString("en-AU")}
-                          </td>
-                          <td className="px-4 py-3.5"><StatusBadge status={order.status} /></td>
-                          <td className="px-4 py-3.5 text-gray-600 text-xs hover:text-white transition">View →</td>
+                <>
+                  <div className="rounded-2xl border border-white/[0.07] overflow-hidden">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="border-b border-white/[0.07] bg-white/[0.03]">
+                          {["Order", "Customer", "Items", "Total", "Payment", "Date", "Status", "", ""].map((h, i) => (
+                            <th key={i} className="text-left px-4 py-3 text-xs uppercase tracking-widest text-gray-600 font-medium">{h}</th>
+                          ))}
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                      </thead>
+                      <tbody>
+                        {paginated.map((order) => (
+                          <tr
+                            key={order.id}
+                            className="border-b border-white/[0.04] row-hover cursor-pointer transition"
+                          >
+                            <td className="px-4 py-3.5 font-mono text-[#ee6d49]" onClick={() => setSelected(order)}>
+                              #{order.orderNumber}
+                            </td>
+                            <td className="px-4 py-3.5" onClick={() => setSelected(order)}>
+                              <p className="text-white font-medium">{order.firstName} {order.lastName}</p>
+                              <p className="text-gray-500 text-xs">{order.email}</p>
+                            </td>
+                            <td className="px-4 py-3.5 text-gray-400" onClick={() => setSelected(order)}>
+                              {order.items.length} item{order.items.length !== 1 ? "s" : ""}
+                            </td>
+                            <td className="px-4 py-3.5 text-white font-semibold" onClick={() => setSelected(order)}>
+                              ${order.total.toFixed(2)}
+                            </td>
+                            <td className="px-4 py-3.5" onClick={() => setSelected(order)}>
+                              <span className={`text-xs font-bold px-2 py-0.5 rounded-lg ${order.paymentMethod === "STRIPE"
+                                  ? "bg-violet-500/20 text-violet-300"
+                                  : "bg-blue-500/20 text-blue-300"
+                                }`}>
+                                {order.paymentMethod}
+                              </span>
+                            </td>
+                            <td className="px-4 py-3.5 text-gray-500 text-xs" onClick={() => setSelected(order)}>
+                              {new Date(order.createdAt).toLocaleDateString("en-AU")}
+                            </td>
+                            <td className="px-4 py-3.5" onClick={() => setSelected(order)}>
+                              <StatusBadge status={order.status} />
+                            </td>
+                            <td className="px-4 py-3.5 text-gray-600 text-xs hover:text-white transition" onClick={() => setSelected(order)}>
+                              View →
+                            </td>
+
+                            {/* Delete — all 3 tabs, SHIPPING shows disabled */}
+                            <td className="px-4 py-3.5">
+                              {order.status === "SHIPPING" ? (
+                                <span
+                                  title="Cannot delete in-transit orders"
+                                  className="text-gray-700 w-7 h-7 flex items-center justify-center cursor-not-allowed"
+                                >
+                                  🚫
+                                </span>
+                              ) : (
+                                <button
+                                  onClick={(e) => { e.stopPropagation(); setConfirmDelete(order); }}
+                                  className="text-red-500/50 hover:text-red-400 hover:bg-red-500/10 rounded-lg w-7 h-7 flex items-center justify-center transition"
+                                  title="Delete order"
+                                >
+                                  🗑️
+                                </button>
+                              )}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+
+                  {/* Pagination */}
+                  {filtered.length > PAGE_SIZE && (
+                    <div className="flex items-center justify-between mt-4 px-1">
+                      <p className="text-xs text-gray-500">
+                        Showing {(page - 1) * PAGE_SIZE + 1}–{Math.min(page * PAGE_SIZE, filtered.length)} of {filtered.length}
+                      </p>
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => setPage((p) => Math.max(1, p - 1))}
+                          disabled={page === 1}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-medium transition ${page === 1 ? "text-gray-600 cursor-not-allowed" : "text-gray-300 hover:bg-white/5"
+                            }`}
+                        >
+                          ← Prev
+                        </button>
+                        <span className="text-xs text-gray-500 px-2">
+                          Page {page} of {totalPages}
+                        </span>
+                        <button
+                          onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                          disabled={page === totalPages}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-medium transition ${page === totalPages ? "text-gray-600 cursor-not-allowed" : "text-gray-300 hover:bg-white/5"
+                            }`}
+                        >
+                          Next →
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </>
               )}
             </>
           )}

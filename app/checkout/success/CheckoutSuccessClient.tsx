@@ -27,6 +27,20 @@ export default function CheckoutSuccessPage() {
       const isPaypal = searchParams.get("paypal") === "true";
       const paypalToken = searchParams.get("token"); // PayPal injects this
 
+      if (isPaypal && success === "false") {
+        // Still call verify to clean up the DB order
+        const backendHost = (process.env.NEXT_PUBLIC_BACKEND_URL || "").replace(/\/$/, "");
+        try {
+          await fetch(`${backendHost}/api/payments/verify-paypal`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ orderId, success: "false" }),
+          });
+        } catch (_) {}
+        setStatus("failed");
+        return;
+      }
+      
       // Read order info saved by checkout page
       try {
         const saved = sessionStorage.getItem("lastOrder");
