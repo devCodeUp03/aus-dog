@@ -3,8 +3,11 @@ import { useEffect, useState } from "react";
 
 export type InventoryItem = {
   productId: number;
+  size: string;
   stock: number;
 };
+
+const SIZES = ["Small", "Medium", "Large"];
 
 export function useInventory() {
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
@@ -20,10 +23,25 @@ export function useInventory() {
       .finally(() => setLoading(false));
   }, []);
 
-  const getStock = (productId: number) => {
-    const item = inventory.find((i) => i.productId === productId);
-    return item?.stock ?? null; // null = not configured yet
+   const getStockForSize = (productId: number, size: string): number | null => {
+    const item = inventory.find((i) => i.productId === productId && i.size === size);
+    return item?.stock ?? null;
   };
 
-  return { inventory, loading, getStock };
+  const isProductOutOfStock = (productId: number): boolean => {
+    return SIZES.every((size) => {
+      const item = inventory.find((i) => i.productId === productId && i.size === size);
+      return item !== undefined && item.stock === 0;
+    });
+  };
+
+  const getLowestStock = (productId: number): number | null => {
+    const values = inventory
+      .filter((i) => i.productId === productId)
+      .map((i) => i.stock);
+    if (values.length === 0) return null;
+    return Math.min(...values);
+  };
+
+  return { inventory, loading, getStockForSize, isProductOutOfStock, getLowestStock };
 }

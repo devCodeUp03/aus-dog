@@ -56,7 +56,7 @@ const Footer: React.FC = () => {
 
           <div className="flex items-center gap-4">
             <a
-              href="https://www.facebook.com/share/1FZZk7Mj5R/?mibextid=wwXIfr"
+              href="https://www.facebook.com/share/1H9s56GFBx/"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-[#E87722] transition"
@@ -66,7 +66,7 @@ const Footer: React.FC = () => {
             </a>
 
             <a
-              href="https://www.instagram.com/topdog.workingdog/"
+              href="https://www.instagram.com/topdogworkingdog/"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-[#E87722] transition"

@@ -233,7 +233,7 @@ export default function DashboardPage() {
               {/* Continue Shopping at the very bottom of sidebar */}
               <div className="p-3 border-t border-orange-100">
                 <button
-                  onClick={() => router.push("/products")}
+                  onClick={() => router.push("/")}
                   className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-orange-50 hover:bg-orange-100 text-[#ff9167] font-bold text-sm transition-all cursor-pointer"
                 >
                   <ShoppingCart size={16} /> Continue Shopping
@@ -514,7 +514,7 @@ export default function DashboardPage() {
                     <ShoppingBag className="w-12 h-12 text-gray-200 mx-auto mb-3" />
                     <p className="text-gray-400">Your cart is empty.</p>
                     <button
-                      onClick={() => router.push("/products")}
+                      onClick={() => router.push("/")}
                       className="mt-4 px-5 py-2 bg-gradient-to-r from-[#ff9167] to-[#df6839] text-white rounded-xl font-bold text-sm hover:shadow-lg transition-all cursor-pointer"
                     >
                       Start Shopping

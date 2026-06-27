@@ -16,14 +16,13 @@ const ProductCard = ({ product, originalPrice }: ProductCardProps) => {
     ? Math.round(((originalPrice! - product.price) / originalPrice!) * 100)
     : null;
 
-      const { getStock } = useInventory(); 
-        const stock = getStock(product.id); 
-
-          const isOutOfStock = stock !== null && stock === 0;
-  const isLowStock = stock !== null && stock > 0 && stock <= 5;
+  const { isProductOutOfStock, getLowestStock } = useInventory();
+  const isOutOfStock = isProductOutOfStock(product.id);
+  const lowestStock = getLowestStock(product.id);
+  const isLowStock = !isOutOfStock && lowestStock !== null && lowestStock > 0 && lowestStock <= 5;
 
   return (
-    <Link href={isOutOfStock ? "#" : `/products/${product.id}`} className="block">
+    <Link href={isOutOfStock ? "#" : `/products/${product.id}`} className="block" onClick={(e) => { if (isOutOfStock) e.preventDefault(); }}>
       <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group">
         {/* Image */}
         <div className="relative aspect-square overflow-hidden bg-gray-100">
@@ -33,7 +32,6 @@ const ProductCard = ({ product, originalPrice }: ProductCardProps) => {
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-500"
           />
-
           {isOutOfStock && (
             <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
               <span className="bg-white text-red-600 font-bold text-sm px-4 py-2 rounded-full">
@@ -44,18 +42,18 @@ const ProductCard = ({ product, originalPrice }: ProductCardProps) => {
           {isLowStock && (
             <div className="absolute bottom-2 left-2">
               <span className="bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                Only {stock} left!
+                Only {lowestStock} left!
               </span>
             </div>
           )}
         </div>
+
         {/* Content */}
         <div className="p-3 sm:p-5">
           <h3 className="text-sm sm:text-lg font-bold text-gray-800 mt-1 line-clamp-2">
             {product.name}
           </h3>
 
-          {/* Discount badge row */}
           {hasDiscount && (
             <div className="flex items-center gap-2 mt-3">
               <span className="bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded">
@@ -67,7 +65,6 @@ const ProductCard = ({ product, originalPrice }: ProductCardProps) => {
             </div>
           )}
 
-          {/* Price row */}
           <div className="mt-1 flex items-baseline gap-2">
             <span className="font-bold text-gray-900 text-base sm:text-lg">
               <span className="text-sm align-super">$</span>
@@ -77,10 +74,10 @@ const ProductCard = ({ product, originalPrice }: ProductCardProps) => {
               </span>
             </span>
             {hasDiscount && (
-              <span className="text-gray-500 line-through  text-sm">
+              <span className="text-gray-500 line-through text-sm">
                 A${originalPrice!.toFixed(2)}
               </span>
-             )}
+            )}
           </div>
         </div>
       </div>

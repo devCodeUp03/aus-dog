@@ -40,7 +40,8 @@ type Order = {
 };
 
 type Tab = "PENDING" | "SHIPPING" | "COMPLETED" | "INVENTORY";
-type StockMap = Record<number, number>;
+type StockMap = Record<string, number>;
+const SIZES = ["Small", "Medium", "Large"] as const;
 
 const statusConfig: Record<OrderStatus, { label: string; cls: string; icon: string; description: string }> = {
   PENDING: { label: "Pending", icon: "🕐", description: "Order received, being prepared", cls: "bg-amber-100 text-amber-700 border-amber-200" },
@@ -61,10 +62,10 @@ function StatusBadge({ status }: { status: OrderStatus }) {
 
 function StatCard({ label, value, sub, accent }: { label: string; value: string | number; sub?: string; accent?: string }) {
   return (
-    <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
-      <p className="text-xs uppercase tracking-widest text-gray-500 mb-1">{label}</p>
-      <p className={`text-3xl font-bold ${accent || "text-white"}`}>{value}</p>
-      {sub && <p className="text-xs text-gray-500 mt-1">{sub}</p>}
+    <div className="bg-white border border-gray-200 shadow-sm rounded-2xl p-5">
+      <p className="text-xs uppercase tracking-widest text-gray-600 mb-1">{label}</p>
+      <p className={`text-3xl font-bold ${accent || "text-gray-900"}`}>{value}</p>
+      {sub && <p className="text-xs text-gray-600 mt-1">{sub}</p>}
     </div>
   );
 }
@@ -108,23 +109,23 @@ function OrderDrawer({
   return (
     <div className="fixed inset-0 z-50 flex">
       <div className="flex-1 bg-black/40 backdrop-blur-sm" onClick={onClose} />
-      <div className="w-full max-w-xl bg-[#0f1117] border-l border-white/10 h-full overflow-y-auto flex flex-col shadow-2xl">
+      <div className="w-full max-w-xl bg-white border-l border-gray-200 h-full overflow-y-auto flex flex-col shadow-2xl">
 
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-white/10">
+        <div className="flex items-center justify-between px-6 py-5 border-b border-gray-200 shadow-sm">
           <div>
-            <p className="text-xs text-gray-500 uppercase tracking-widest mb-1">Order Details</p>
-            <h2 className="text-xl font-bold text-white font-mono">#{order.orderNumber}</h2>
+            <p className="text-xs text-gray-600 uppercase tracking-widest mb-1">Order Details</p>
+            <h2 className="text-xl font-bold text-gray-900 font-mono">#{order.orderNumber}</h2>
           </div>
-          <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition">✕</button>
+          <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-gray-900 hover:bg-white/10 transition">✕</button>
         </div>
 
         <div className="p-6 space-y-6 flex-1">
 
           {/* Progress Tracker */}
           <section>
-            <h3 className="text-xs uppercase tracking-widest text-gray-500 mb-4">Fulfillment Progress</h3>
-            <div className="bg-white/5 rounded-xl p-5">
+            <h3 className="text-xs uppercase tracking-widest text-gray-600 mb-4">Fulfillment Progress</h3>
+            <div className="bg-white rounded-xl p-5">
               <div className="flex items-center justify-between relative">
                 <div className="absolute top-5 left-[16.66%] right-[16.66%] h-0.5 bg-white/10 z-0" />
                 <div
@@ -139,11 +140,11 @@ function OrderDrawer({
                     <div key={s} className="flex flex-col items-center z-10 flex-1">
                       <div className={`w-10 h-10 rounded-full flex items-center justify-center text-lg transition-all duration-300 ${done ? "bg-[#ee6d49] shadow-lg shadow-[#ee6d49]/30" :
                         active ? "bg-[#ee6d49]/20 border-2 border-[#ee6d49]" :
-                          "bg-white/10 border-2 border-white/10"
+                          "bg-white/10 border-2 border-gray-200 shadow-sm"
                         }`}>
                         {done ? "✓" : cfg.icon}
                       </div>
-                      <p className={`text-xs mt-2 font-medium ${active ? "text-[#ee6d49]" : done ? "text-white" : "text-gray-600"}`}>
+                      <p className={`text-xs mt-2 font-medium ${active ? "text-[#ee6d49]" : done ? "text-gray-900" : "text-gray-600"}`}>
                         {cfg.label}
                       </p>
                     </div>
@@ -155,18 +156,18 @@ function OrderDrawer({
 
           {/* Customer */}
           <section>
-            <h3 className="text-xs uppercase tracking-widest text-gray-500 mb-3">Customer</h3>
-            <div className="bg-white/5 rounded-xl p-4 space-y-2">
+            <h3 className="text-xs uppercase tracking-widest text-gray-600 mb-3">Customer</h3>
+            <div className="bg-white rounded-xl p-4 space-y-2">
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-full bg-[#ee6d49]/20 flex items-center justify-center text-[#ee6d49] font-bold text-sm">
                   {order.firstName[0]}{order.lastName[0]}
                 </div>
                 <div>
-                  <p className="text-white font-semibold">{order.firstName} {order.lastName}</p>
+                  <p className="text-gray-900 font-semibold">{order.firstName} {order.lastName}</p>
                   <p className="text-gray-400 text-sm">{order.email}</p>
                 </div>
               </div>
-              <div className="pt-2 border-t border-white/10 text-sm text-gray-400 space-y-1">
+              <div className="pt-2 border-t border-gray-200 shadow-sm text-sm text-gray-400 space-y-1">
                 <p>📱 {order.phone}</p>
                 <p>📍 {order.address}, {order.suburb} {order.postcode}, {order.state}, {order.country}</p>
               </div>
@@ -175,32 +176,32 @@ function OrderDrawer({
 
           {/* Items */}
           <section>
-            <h3 className="text-xs uppercase tracking-widest text-gray-500 mb-3">Items</h3>
+            <h3 className="text-xs uppercase tracking-widest text-gray-600 mb-3">Items</h3>
             <div className="space-y-2">
               {order.items.map((item) => (
-                <div key={item.id} className="bg-white/5 rounded-xl p-4 flex justify-between items-start">
+                <div key={item.id} className="bg-white rounded-xl p-4 flex justify-between items-start">
                   <div>
-                    <p className="text-white font-medium text-sm">{item.productName}</p>
-                    <p className="text-gray-500 text-xs mt-0.5">
+                    <p className="text-gray-900 font-medium text-sm">{item.productName}</p>
+                    <p className="text-gray-600 text-xs mt-0.5">
                       {[item.color, item.size, item.variant].filter(Boolean).join(" · ")}
                     </p>
-                    <p className="text-gray-500 text-xs">Qty: {item.quantity}</p>
+                    <p className="text-gray-600 text-xs">Qty: {item.quantity}</p>
                   </div>
-                  <p className="text-white font-semibold text-sm">${(item.price * item.quantity).toFixed(2)}</p>
+                  <p className="text-gray-900 font-semibold text-sm">${(item.price * item.quantity).toFixed(2)}</p>
                 </div>
               ))}
             </div>
           </section>
 
           {/* Totals */}
-          <section className="bg-white/5 rounded-xl p-4 space-y-2 text-sm">
+          <section className="bg-white rounded-xl p-4 space-y-2 text-sm">
             <div className="flex justify-between text-gray-400">
               <span>Subtotal</span><span>${order.subtotal.toFixed(2)}</span>
             </div>
             <div className="flex justify-between text-gray-400">
               <span>Delivery</span><span>${order.deliveryFee.toFixed(2)}</span>
             </div>
-            <div className="flex justify-between text-white font-bold text-base border-t border-white/10 pt-2 mt-2">
+            <div className="flex justify-between text-gray-900 font-bold text-base border-t border-gray-200 shadow-sm pt-2 mt-2">
               <span>Total</span>
               <span className="text-[#ee6d49]">AUD ${order.total.toFixed(2)}</span>
             </div>
@@ -208,8 +209,8 @@ function OrderDrawer({
 
           {/* Payment */}
           <section>
-            <h3 className="text-xs uppercase tracking-widest text-gray-500 mb-3">Payment</h3>
-            <div className="bg-white/5 rounded-xl p-4 flex items-center gap-3">
+            <h3 className="text-xs uppercase tracking-widest text-gray-600 mb-3">Payment</h3>
+            <div className="bg-white rounded-xl p-4 flex items-center gap-3">
               <span className={`px-2.5 py-1 rounded-lg text-xs font-bold ${order.paymentMethod === "STRIPE" ? "bg-violet-500/20 text-violet-300" : "bg-blue-500/20 text-blue-300"
                 }`}>
                 {order.paymentMethod}
@@ -221,12 +222,12 @@ function OrderDrawer({
           {/* Advance Status */}
           {order.status !== "COMPLETED" && (
             <section>
-              <h3 className="text-xs uppercase tracking-widest text-gray-500 mb-3">Advance Order</h3>
-              <div className="bg-white/5 rounded-xl p-4 space-y-3">
+              <h3 className="text-xs uppercase tracking-widest text-gray-600 mb-3">Advance Order</h3>
+              <div className="bg-white rounded-xl p-4 space-y-3">
 
                 {nextStatus === "SHIPPING" && (
                   <div className="space-y-2">
-                    <label className="text-xs uppercase tracking-widest text-gray-500">
+                    <label className="text-xs uppercase tracking-widest text-gray-600">
                       📦 Australian Tracking Number <span className="text-[#ee6d49]">*</span>
                     </label>
                     <input
@@ -237,9 +238,9 @@ function OrderDrawer({
                         if (e.target.value.trim()) setTrackingError("");
                       }}
                       placeholder="e.g. 7XX1234567890"
-                      className={`w-full bg-white/5 border rounded-lg px-3 py-2.5 text-sm text-white placeholder-gray-600 outline-none transition font-mono ${trackingError
+                      className={`w-full bg-white border rounded-lg px-3 py-2.5 text-sm text-gray-900 placeholder-gray-600 outline-none transition font-mono ${trackingError
                         ? "border-red-500/50 focus:border-red-500"
-                        : "border-white/10 focus:border-[#ee6d49]"
+                        : "border-gray-200 shadow-sm focus:border-[#ee6d49]"
                         }`}
                     />
                     {trackingError && (
@@ -258,8 +259,8 @@ function OrderDrawer({
                     📧
                   </div>
                   <p className="text-gray-400 text-xs leading-relaxed pt-1">
-                    Advancing to <strong className="text-white">{nextStatus && statusConfig[nextStatus].label}</strong> will
-                    automatically send a notification email to <strong className="text-white">{order.email}</strong>.
+                    Advancing to <strong className="text-gray-900">{nextStatus && statusConfig[nextStatus].label}</strong> will
+                    automatically send a notification email to <strong className="text-gray-900">{order.email}</strong>.
                   </p>
                 </div>
 
@@ -274,8 +275,8 @@ function OrderDrawer({
                   onClick={handleAdvance}
                   disabled={saving}
                   className={`w-full py-2.5 rounded-lg font-semibold text-sm transition flex items-center justify-center gap-2 ${saving
-                    ? "bg-white/10 text-gray-500 cursor-not-allowed"
-                    : "bg-[#ee6d49] hover:bg-[#df6839] text-white"
+                    ? "bg-white/10 text-gray-600 cursor-not-allowed"
+                    : "bg-[#ee6d49] hover:bg-[#df6839] text-gray-900"
                     }`}
                 >
                   {saving ? (
@@ -320,8 +321,8 @@ export default function AdminPage() {
 
   // ── Inventory state ──
   const [stockMap, setStockMap] = useState<StockMap>({});
-  const [stockEdits, setStockEdits] = useState<Record<number, string>>({});
-  const [stockSaving, setStockSaving] = useState<number | null>(null);
+  const [stockEdits, setStockEdits] = useState<Record<string, string>>({});
+  const [stockSaving, setStockSaving] = useState<string | null>(null);
   const [invLoading, setInvLoading] = useState(false);
 
   // ── Helpers ──
@@ -371,7 +372,7 @@ export default function AdminPage() {
       const data = await res.json();
       if (data.success) {
         const map: StockMap = {};
-        data.inventory.forEach((i: any) => { map[i.productId] = i.stock; });
+      data.inventory.forEach((i: any) => { map[`${i.productId}-${i.size}`] = i.stock; });
         setStockMap(map);
       }
     } catch { }
@@ -401,29 +402,30 @@ export default function AdminPage() {
   };
 
   // ── Stock save ──
-  const handleStockSave = async (productId: number) => {
-    const newStock = parseInt(stockEdits[productId]);
-    if (isNaN(newStock) || newStock < 0) {
-      showToast("Enter a valid stock number", "err");
-      return;
-    }
-    setStockSaving(productId);
-    try {
-      const res = await adminFetch(`/api/admin/inventory/${productId}`, {
-        method: "PATCH",
-        body: JSON.stringify({ stock: newStock }),
-      });
-      if (res.status === 401) { router.push("/admin/login"); return; }
-      if (!res.ok) throw new Error();
-      setStockMap((prev) => ({ ...prev, [productId]: newStock }));
-      setStockEdits((prev) => { const n = { ...prev }; delete n[productId]; return n; });
-      showToast("Stock updated ✓");
-    } catch {
-      showToast("Failed to update stock", "err");
-    } finally {
-      setStockSaving(null);
-    }
-  };
+  const handleStockSave = async (productId: number, size: string) => {
+  const key = `${productId}-${size}`;
+  const newStock = parseInt(stockEdits[key]);
+  if (isNaN(newStock) || newStock < 0) {
+    showToast("Enter a valid stock number", "err");
+    return;
+  }
+  setStockSaving(key);
+  try {
+    const res = await adminFetch(`/api/admin/inventory/${productId}/${size}`, {
+      method: "PATCH",
+      body: JSON.stringify({ stock: newStock }),
+    });
+    if (res.status === 401) { router.push("/admin/login"); return; }
+    if (!res.ok) throw new Error();
+    setStockMap((prev) => ({ ...prev, [key]: newStock }));
+    setStockEdits((prev) => { const n = { ...prev }; delete n[key]; return n; });
+    showToast("Stock updated ✓");
+  } catch {
+    showToast("Failed to update stock", "err");
+  } finally {
+    setStockSaving(null);
+  }
+};
 
   // ── Derived data ──
   const counts = useMemo(() => ({
@@ -486,15 +488,15 @@ export default function AdminPage() {
   ];
 
   // ── Inventory stock helpers ──
-  const totalProducts = products.length;
-  const outOfStockCount = products.filter((p) => stockMap[p.id] !== undefined && stockMap[p.id] === 0).length;
-  const lowStockCount = products.filter((p) => stockMap[p.id] !== undefined && stockMap[p.id] > 0 && stockMap[p.id] <= 5).length;
-
+  const allKeys = products.flatMap((p) => SIZES.map((s) => `${p.id}-${s}`));
+const outOfStockCount = allKeys.filter((k) => stockMap[k] !== undefined && stockMap[k] === 0).length;
+const lowStockCount = allKeys.filter((k) => stockMap[k] !== undefined && stockMap[k] > 0 && stockMap[k] <= 5).length;
+const totalProducts = allKeys.length;
   // ─────────────────────────────────────────────────────────────────────────────
 
   return (
     <div
-      className="min-h-screen bg-[#080a0f] text-white"
+      className="min-h-screen bg-white text-gray-900"
       style={{ fontFamily: "'DM Mono', 'Fira Code', monospace" }}
     >
       <style>{`
@@ -512,7 +514,7 @@ export default function AdminPage() {
 
       {/* Toast */}
       {toast && (
-        <div className={`fixed top-4 right-4 z-[100] px-4 py-3 rounded-xl text-sm font-medium shadow-lg fade-in max-w-xs ${toast.type === "ok" ? "bg-emerald-500 text-white" : "bg-red-500 text-white"
+        <div className={`fixed top-4 right-4 z-[100] px-4 py-3 rounded-xl text-sm font-medium shadow-lg fade-in max-w-xs ${toast.type === "ok" ? "bg-emerald-500 text-gray-900" : "bg-red-500 text-gray-900"
           }`}>
           {toast.msg}
         </div>
@@ -530,23 +532,23 @@ export default function AdminPage() {
       {/* Confirm Delete Modal */}
       {confirmDelete && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 backdrop-blur-sm">
-          <div className="bg-[#0f1117] border border-white/10 rounded-2xl p-6 max-w-sm w-full mx-4 fade-in">
+          <div className="bg-[#0f1117] border border-gray-200 shadow-sm rounded-2xl p-6 max-w-sm w-full mx-4 fade-in">
             <div className="w-12 h-12 rounded-full bg-red-500/10 flex items-center justify-center text-2xl mb-4">🗑️</div>
-            <h3 className="text-white font-bold text-lg mb-2">Delete Order #{confirmDelete.orderNumber}?</h3>
+            <h3 className="text-gray-900 font-bold text-lg mb-2">Delete Order #{confirmDelete.orderNumber}?</h3>
             <p className="text-gray-400 text-sm mb-6">
               This will permanently delete this order and all its items. This action cannot be undone.
             </p>
             <div className="flex gap-3">
               <button
                 onClick={() => setConfirmDelete(null)}
-                className="flex-1 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white/5 border border-white/10 transition"
+                className="flex-1 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-white border border-gray-200 shadow-sm transition"
               >
                 Cancel
               </button>
               <button
                 onClick={() => handleDeleteOrder(confirmDelete.id)}
                 disabled={deletingId === confirmDelete.id}
-                className="flex-1 py-2.5 rounded-lg text-sm font-semibold bg-red-500 hover:bg-red-600 text-white transition flex items-center justify-center gap-2"
+                className="flex-1 py-2.5 rounded-lg text-sm font-semibold bg-red-500 hover:bg-red-600 text-gray-900 transition flex items-center justify-center gap-2"
               >
                 {deletingId === confirmDelete.id ? (
                   <>
@@ -562,10 +564,10 @@ export default function AdminPage() {
 
       <div className="flex min-h-screen">
 
-        <aside className="w-56 shrink-0 bg-[#0b0d13] border-r border-white/[0.07] flex flex-col py-8 px-4 sticky top-0 h-screen">
+        <aside className="w-56 shrink-0 bg-white border-r border-gray-200 flex flex-col py-8 px-4 sticky top-0 h-screen">
           <div className="mb-8 px-2">
             <p className="text-[10px] uppercase tracking-[0.2em] text-gray-600 mb-1">Admin</p>
-            <h1 className="text-lg font-bold text-white" style={{ fontFamily: "'Syne', sans-serif" }}>
+            <h1 className="text-lg font-bold text-gray-900" style={{ fontFamily: "'Syne', sans-serif" }}>
               Order Portal
             </h1>
           </div>
@@ -576,13 +578,13 @@ export default function AdminPage() {
                 key={key}
                 onClick={() => { setTab(key); setSearch(""); }}
                 className={`w-full text-left px-3 py-2.5 rounded-lg text-sm transition-all flex items-center justify-between ${tab === key
-                    ? "bg-[#ee6d49]/10 text-[#ee6d49] font-medium"
-                    : "text-gray-400 hover:text-white hover:bg-white/5"
+                    ? "bg-orange-100 text-orange-600 font-medium"
+                    : "text-gray-400 hover:text-gray-900 hover:bg-white"
                   }`}
               >
                 <span>{icon} {label}</span>
                 {countKey ? (
-                  <span className={`text-xs px-1.5 py-0.5 rounded-full ${tab === key ? "bg-[#ee6d49]/20 text-[#ee6d49]" : "bg-white/10 text-gray-500"
+                  <span className={`text-xs px-1.5 py-0.5 rounded-full ${tab === key ? "bg-[#ee6d49]/20 text-[#ee6d49]" : "bg-white/10 text-gray-600"
                     }`}>
                     {counts[countKey]}
                   </span>
@@ -598,9 +600,9 @@ export default function AdminPage() {
           </nav>
 
           <div className="mt-6 px-2">
-            <div className="bg-white/5 rounded-xl p-3 space-y-2">
+            <div className="bg-white rounded-xl p-3 space-y-2">
               <p className="text-[10px] uppercase tracking-widest text-gray-600">Auto Emails</p>
-              <div className="space-y-1.5 text-xs text-gray-500">
+              <div className="space-y-1.5 text-xs text-gray-600">
                 <div className="flex items-center gap-2"><span>📧</span><span>On payment</span></div>
                 <div className="flex items-center gap-2"><span>🚚</span><span>On shipping</span></div>
                 <div className="flex items-center gap-2"><span>✅</span><span>On completion</span></div>
@@ -611,7 +613,7 @@ export default function AdminPage() {
           <div className="mt-auto px-2 space-y-1">
             <button
               onClick={() => { fetchOrders(); fetchInventory(); }}
-              className="w-full text-xs text-gray-500 hover:text-white transition py-2 flex items-center gap-2"
+              className="w-full text-xs text-gray-600 hover:text-gray-900 transition py-2 flex items-center gap-2"
             >
               <span>↻</span> Refresh
             </button>
@@ -638,19 +640,19 @@ export default function AdminPage() {
           {tab === "INVENTORY" ? (
             <div className="fade-in">
               <div className="flex items-center gap-3 mb-6">
-                <h2 className="text-base font-semibold text-white">📦 Inventory Management</h2>
+                <h2 className="text-base font-semibold text-gray-900">📦 Inventory Management</h2>
                 <button
                   onClick={fetchInventory}
-                  className="ml-auto text-xs text-gray-500 hover:text-white transition flex items-center gap-1"
+                  className="ml-auto text-xs text-gray-600 hover:text-gray-900 transition flex items-center gap-1"
                 >
                   <span>↻</span> Refresh
                 </button>
               </div>
 
               <div className="grid grid-cols-3 gap-4 mb-6">
-                <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-                  <p className="text-xs uppercase tracking-widest text-gray-500 mb-1">Total Products</p>
-                  <p className="text-2xl font-bold text-white">{totalProducts}</p>
+                <div className="bg-white border border-gray-200 shadow-sm rounded-2xl p-4">
+                  <p className="text-xs uppercase tracking-widest text-gray-600 mb-1">Total Products</p>
+                  <p className="text-2xl font-bold text-gray-900">{totalProducts}</p>
                 </div>
                 <div className="bg-red-500/5 border border-red-500/20 rounded-2xl p-4">
                   <p className="text-xs uppercase tracking-widest text-red-500/70 mb-1">Out of Stock</p>
@@ -663,68 +665,76 @@ export default function AdminPage() {
               </div>
 
               {invLoading ? (
-                <div className="flex items-center justify-center h-40 text-gray-500 text-sm">Loading inventory…</div>
+                <div className="flex items-center justify-center h-40 text-gray-600 text-sm">Loading inventory…</div>
               ) : (
-                <div className="rounded-2xl border border-white/[0.07] overflow-hidden">
+                <div className="rounded-2xl border border-gray-200 overflow-hidden">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr className="border-b border-white/[0.07] bg-white/[0.03]">
+                      <tr className="border-b border-gray-200 bg-orange-50">
                         {["Product", "Status", "Current Stock", "Update Stock", ""].map((h) => (
                           <th key={h} className="text-left px-4 py-3 text-xs uppercase tracking-widest text-gray-600 font-medium">{h}</th>
                         ))}
                       </tr>
                     </thead>
                     <tbody>
-                      {products.map((product) => {
-                        const stock = stockMap[product.id];
-                        const isOutOfStock = stock !== undefined && stock === 0;
-                        const isLowStock = stock !== undefined && stock > 0 && stock <= 5;
-                        const isEditing = stockEdits[product.id] !== undefined;
-                        return (
-                          <tr key={product.id} className="border-b border-white/[0.04] row-hover transition">
-                            <td className="px-4 py-4">
-                              <p className="text-white font-medium">{product.name}</p>
-                              <p className="text-gray-500 text-xs mt-0.5">{product.color} · {product.material}</p>
-                            </td>
-                            <td className="px-4 py-4">
-                              {stock === undefined ? (
-                                <span className="text-xs text-gray-500 bg-white/5 px-2.5 py-1 rounded-lg">Not set</span>
-                              ) : isOutOfStock ? (
-                                <span className="text-xs font-bold bg-red-500/20 text-red-400 px-2.5 py-1 rounded-lg">Out of Stock</span>
-                              ) : isLowStock ? (
-                                <span className="text-xs font-bold bg-orange-500/20 text-orange-400 px-2.5 py-1 rounded-lg">Low — {stock} left</span>
-                              ) : (
-                                <span className="text-xs font-bold bg-emerald-500/20 text-emerald-400 px-2.5 py-1 rounded-lg">In Stock — {stock}</span>
-                              )}
-                            </td>
-                            <td className="px-4 py-4 text-gray-400 font-mono">{stock ?? "—"}</td>
-                            <td className="px-4 py-4">
-                              <input
-                                type="number"
-                                min={0}
-                                placeholder={stock?.toString() ?? "0"}
-                                value={stockEdits[product.id] ?? ""}
-                                onChange={(e) => setStockEdits((prev) => ({ ...prev, [product.id]: e.target.value }))}
-                                className="bg-white/5 border border-white/10 focus:border-[#ee6d49] rounded-lg px-3 py-1.5 w-24 text-white text-sm outline-none transition font-mono"
-                              />
-                            </td>
-                            <td className="px-4 py-4">
-                              <button
-                                disabled={!isEditing || stockSaving === product.id}
-                                onClick={() => handleStockSave(product.id)}
-                                className="bg-[#ee6d49] disabled:bg-white/10 disabled:text-gray-600 text-white px-4 py-1.5 rounded-lg text-xs font-semibold hover:bg-[#df6839] transition"
-                              >
-                                {stockSaving === product.id ? (
-                                  <span className="flex items-center gap-1.5">
-                                    <span className="w-3 h-3 border border-white/30 border-t-white rounded-full animate-spin" />
-                                    Saving…
-                                  </span>
-                                ) : "Save"}
-                              </button>
-                            </td>
-                          </tr>
-                        );
-                      })}
+                      {products.map((product) => (
+  SIZES.map((size, idx) => {
+    const key = `${product.id}-${size}`;
+    const stock = stockMap[key];
+    const isOutOfStock = stock !== undefined && stock === 0;
+    const isLowStock = stock !== undefined && stock > 0 && stock <= 5;
+    const isEditing = stockEdits[key] !== undefined;
+    return (
+      <tr key={key} className="border-b border-white/[0.04] row-hover transition">
+        <td className="px-4 py-4">
+          {idx === 0 && (
+            <>
+              <p className="text-gray-900 font-medium">{product.name}</p>
+              <p className="text-gray-600 text-xs mt-0.5">{product.color} · {product.material}</p>
+            </>
+          )}
+          <p className="text-gray-400 text-xs mt-1">{size}</p>
+        </td>
+        <td className="px-4 py-4">
+          {stock === undefined ? (
+            <span className="text-xs text-gray-600 bg-white px-2.5 py-1 rounded-lg">Not set</span>
+          ) : isOutOfStock ? (
+            <span className="text-xs font-bold bg-red-500/20 text-red-400 px-2.5 py-1 rounded-lg">Out of Stock</span>
+          ) : isLowStock ? (
+            <span className="text-xs font-bold bg-orange-500/20 text-orange-400 px-2.5 py-1 rounded-lg">Low — {stock} left</span>
+          ) : (
+            <span className="text-xs font-bold bg-emerald-500/20 text-emerald-400 px-2.5 py-1 rounded-lg">In Stock — {stock}</span>
+          )}
+        </td>
+        <td className="px-4 py-4 text-gray-400 font-mono">{stock ?? "—"}</td>
+        <td className="px-4 py-4">
+          <input
+            type="number"
+            min={0}
+            placeholder={stock?.toString() ?? "0"}
+            value={stockEdits[key] ?? ""}
+            onChange={(e) => setStockEdits((prev) => ({ ...prev, [key]: e.target.value }))}
+            className="bg-white border border-gray-200 shadow-sm focus:border-[#ee6d49] rounded-lg px-3 py-1.5 w-24 text-gray-900 text-sm outline-none transition font-mono"
+          />
+        </td>
+        <td className="px-4 py-4">
+          <button
+            disabled={!isEditing || stockSaving === key}
+            onClick={() => handleStockSave(product.id, size)}
+            className="bg-[#ee6d49] disabled:bg-white/10 disabled:text-gray-600 text-gray-900 px-4 py-1.5 rounded-lg text-xs font-semibold hover:bg-[#df6839] transition"
+          >
+            {stockSaving === key ? (
+              <span className="flex items-center gap-1.5">
+                <span className="w-3 h-3 border border-white/30 border-t-white rounded-full animate-spin" />
+                Saving…
+              </span>
+            ) : "Save"}
+          </button>
+        </td>
+      </tr>
+    );
+  })
+))}
                     </tbody>
                   </table>
                 </div>
@@ -739,21 +749,21 @@ export default function AdminPage() {
                   placeholder="Search name, email, order #…"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="w-full max-w-md bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-gray-600 outline-none focus:border-[#ee6d49] transition"
+                  className="w-full max-w-md bg-white border border-gray-200 shadow-sm rounded-xl px-4 py-2.5 text-sm text-gray-900 placeholder-gray-600 outline-none focus:border-[#ee6d49] transition"
                 />
               </div>
 
               <div className="flex items-center gap-3 mb-4">
-                <h2 className="text-base font-semibold text-white">
+                <h2 className="text-base font-semibold text-gray-900">
                   {statusConfig[tab as OrderStatus]?.icon} {statusConfig[tab as OrderStatus]?.label} Orders
                 </h2>
-                <span className="text-xs text-gray-500 bg-white/5 px-2 py-0.5 rounded-full">
+                <span className="text-xs text-gray-600 bg-white px-2 py-0.5 rounded-full">
                   {filtered.length} {filtered.length === 1 ? "order" : "orders"}
                 </span>
               </div>
 
               {loading ? (
-                <div className="flex items-center justify-center h-64 text-gray-500 text-sm">Loading orders…</div>
+                <div className="flex items-center justify-center h-64 text-gray-600 text-sm">Loading orders…</div>
               ) : error ? (
                 <div className="flex flex-col items-center justify-center h-64 gap-4">
                   <p className="text-red-400 text-sm">{error}</p>
@@ -766,10 +776,10 @@ export default function AdminPage() {
                 </div>
               ) : (
                 <>
-                  <div className="rounded-2xl border border-white/[0.07] overflow-hidden">
+                  <div className="rounded-2xl border border-gray-200 overflow-hidden">
                     <table className="w-full text-sm">
                       <thead>
-                        <tr className="border-b border-white/[0.07] bg-white/[0.03]">
+                        <tr className="border-b border-gray-200 bg-orange-50">
                           {["Order", "Customer", "Items", "Total", "Payment", "Date", "Status", "", ""].map((h, i) => (
                             <th key={i} className="text-left px-4 py-3 text-xs uppercase tracking-widest text-gray-600 font-medium">{h}</th>
                           ))}
@@ -785,13 +795,13 @@ export default function AdminPage() {
                               #{order.orderNumber}
                             </td>
                             <td className="px-4 py-3.5" onClick={() => setSelected(order)}>
-                              <p className="text-white font-medium">{order.firstName} {order.lastName}</p>
-                              <p className="text-gray-500 text-xs">{order.email}</p>
+                              <p className="text-gray-900 font-medium">{order.firstName} {order.lastName}</p>
+                              <p className="text-gray-600 text-xs">{order.email}</p>
                             </td>
                             <td className="px-4 py-3.5 text-gray-400" onClick={() => setSelected(order)}>
                               {order.items.length} item{order.items.length !== 1 ? "s" : ""}
                             </td>
-                            <td className="px-4 py-3.5 text-white font-semibold" onClick={() => setSelected(order)}>
+                            <td className="px-4 py-3.5 text-gray-900 font-semibold" onClick={() => setSelected(order)}>
                               ${order.total.toFixed(2)}
                             </td>
                             <td className="px-4 py-3.5" onClick={() => setSelected(order)}>
@@ -802,13 +812,13 @@ export default function AdminPage() {
                                 {order.paymentMethod}
                               </span>
                             </td>
-                            <td className="px-4 py-3.5 text-gray-500 text-xs" onClick={() => setSelected(order)}>
+                            <td className="px-4 py-3.5 text-gray-600 text-xs" onClick={() => setSelected(order)}>
                               {new Date(order.createdAt).toLocaleDateString("en-AU")}
                             </td>
                             <td className="px-4 py-3.5" onClick={() => setSelected(order)}>
                               <StatusBadge status={order.status} />
                             </td>
-                            <td className="px-4 py-3.5 text-gray-600 text-xs hover:text-white transition" onClick={() => setSelected(order)}>
+                            <td className="px-4 py-3.5 text-gray-600 text-xs hover:text-gray-900 transition" onClick={() => setSelected(order)}>
                               View →
                             </td>
 
@@ -840,25 +850,25 @@ export default function AdminPage() {
                   {/* Pagination */}
                   {filtered.length > PAGE_SIZE && (
                     <div className="flex items-center justify-between mt-4 px-1">
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-gray-600">
                         Showing {(page - 1) * PAGE_SIZE + 1}–{Math.min(page * PAGE_SIZE, filtered.length)} of {filtered.length}
                       </p>
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => setPage((p) => Math.max(1, p - 1))}
                           disabled={page === 1}
-                          className={`px-3 py-1.5 rounded-lg text-xs font-medium transition ${page === 1 ? "text-gray-600 cursor-not-allowed" : "text-gray-300 hover:bg-white/5"
+                          className={`px-3 py-1.5 rounded-lg text-xs font-medium transition ${page === 1 ? "text-gray-600 cursor-not-allowed" : "text-gray-300 hover:bg-white"
                             }`}
                         >
                           ← Prev
                         </button>
-                        <span className="text-xs text-gray-500 px-2">
+                        <span className="text-xs text-gray-600 px-2">
                           Page {page} of {totalPages}
                         </span>
                         <button
                           onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                           disabled={page === totalPages}
-                          className={`px-3 py-1.5 rounded-lg text-xs font-medium transition ${page === totalPages ? "text-gray-600 cursor-not-allowed" : "text-gray-300 hover:bg-white/5"
+                          className={`px-3 py-1.5 rounded-lg text-xs font-medium transition ${page === totalPages ? "text-gray-600 cursor-not-allowed" : "text-gray-300 hover:bg-white"
                             }`}
                         >
                           Next →

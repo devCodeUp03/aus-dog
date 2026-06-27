@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Product } from "@/data/products";
 import { useCart } from "@/context/cart-context";
 import { toast } from "sonner";
 import { ChevronDown, Minus, Plus } from "lucide-react";
+import { fetchPublicStock, getStock, StockMap } from "@/lib/inventory";
 
 interface Props {
   product: Product;
@@ -15,18 +16,37 @@ export default function ProductDetailClient({ product }: Props) {
   const { addToCart } = useCart();
 
   const [activeImage, setActiveImage] = useState(product.images[0]);
-  const [selectedSize, setSelectedSize] = useState(product.sizes[0]);
+  const [selectedSize, setSelectedSize] = useState("Small");
   const [showDescription, setShowDescription] = useState(false);
   const [showSizeGuide, setShowSizeGuide] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const [stockMap, setStockMap] = useState<StockMap>({});
+  const [stockLoading, setStockLoading] = useState(true);
+
+  useEffect(() => {
+    fetchPublicStock().then((map) => {
+      setStockMap(map);
+      setStockLoading(false);
+    });
+  }, []);
 
   const originalPrice = 50;
   const hasDiscount = originalPrice > product.price;
 
-
   const discountPercent = hasDiscount
     ? Math.round(((originalPrice - product.price) / originalPrice) * 100)
     : 0;
+
+  const currentStock = getStock(stockMap, product.id, selectedSize);
+  const isOutOfStock = currentStock !== undefined && currentStock === 0;
+  const isLowStock = currentStock !== undefined && currentStock > 0 && currentStock <= 5;
+
+  // clamp quantity if it exceeds available stock
+  useEffect(() => {
+    if (currentStock !== undefined && quantity > currentStock && currentStock > 0) {
+      setQuantity(currentStock);
+    }
+  }, [currentStock]);
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center py-6 sm:py-10 px-4 sm:px-6 lg:px-8">
@@ -37,7 +57,6 @@ export default function ProductDetailClient({ product }: Props) {
 
             {/* IMAGE SECTION */}
             <div className="p-4 sm:p-6">
-              {/* Main image: tall aspect ratio matches portrait product photos, object-cover fills fully */}
               <div className="relative w-full aspect-[3/4] bg-gray-100 rounded-md overflow-hidden mb-4">
                 <Image
                   src={activeImage}
@@ -47,7 +66,6 @@ export default function ProductDetailClient({ product }: Props) {
                 />
               </div>
 
-              {/* Thumbnails: square containers, object-cover fills with no gaps */}
               <div className="flex gap-2 flex-wrap">
                 {product.images.map((img, i) => (
                   <button
@@ -82,7 +100,6 @@ export default function ProductDetailClient({ product }: Props) {
                     <span className="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">
                       {discountPercent}% OFF
                     </span>
-
                     <span className="text-red-600 text-sm font-semibold">
                       Limited Time Deal
                     </span>
@@ -93,7 +110,6 @@ export default function ProductDetailClient({ product }: Props) {
                   <span className="text-2xl sm:text-3xl font-bold text-[#df6839]">
                     AUD ${product.price.toFixed(2)}
                   </span>
-
                   {hasDiscount && (
                     <span className="text-gray-500 line-through text-lg">
                       AUD ${originalPrice.toFixed(2)}
@@ -153,10 +169,30 @@ export default function ProductDetailClient({ product }: Props) {
                   onChange={(e) => setSelectedSize(e.target.value)}
                   className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm sm:text-base focus:outline-none focus:border-[#ff9167]"
                 >
-                  <option value="Small">Small</option>
-                  <option value="Medium">Medium</option>
-                  <option value="Large">Large</option>
+                  {["Small", "Medium", "Large"].map((size) => {
+                    const sStock = getStock(stockMap, product.id, size);
+                    const sOut = sStock !== undefined && sStock === 0;
+                    return (
+                      <option key={size} value={size} disabled={sOut}>
+                        {size}{sOut ? " — Out of Stock" : ""}
+                      </option>
+                    );
+                  })}
                 </select>
+
+                {!stockLoading && (
+                  <div className="mt-2">
+                    {isOutOfStock ? (
+                      <p className="text-red-600 text-sm font-semibold">
+                        ⚠ Out of stock for {selectedSize}
+                      </p>
+                    ) : isLowStock ? (
+                      <p className="text-orange-500 text-sm font-medium">
+                        Only {currentStock} left in {selectedSize}
+                      </p>
+                    ) : null}
+                  </div>
+                )}
               </div>
 
               {/* QUANTITY */}
@@ -168,7 +204,8 @@ export default function ProductDetailClient({ product }: Props) {
                 <div className="flex items-center gap-3">
                   <button
                     onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}
-                    className="border border-gray-300 p-2 rounded-md hover:border-[#ff9167]"
+                    disabled={isOutOfStock}
+                    className="border border-gray-300 p-2 rounded-md hover:border-[#ff9167] disabled:opacity-40 disabled:cursor-not-allowed"
                   >
                     <Minus size={16} />
                   </button>
@@ -178,8 +215,11 @@ export default function ProductDetailClient({ product }: Props) {
                   </span>
 
                   <button
-                    onClick={() => setQuantity((prev) => prev + 1)}
-                    className="border border-gray-300 p-2 rounded-md hover:border-[#ff9167]"
+                    onClick={() => setQuantity((prev) =>
+                      currentStock !== undefined ? Math.min(currentStock, prev + 1) : prev + 1
+                    )}
+                    disabled={isOutOfStock || (currentStock !== undefined && quantity >= currentStock)}
+                    className="border border-gray-300 p-2 rounded-md hover:border-[#ff9167] disabled:opacity-40 disabled:cursor-not-allowed"
                   >
                     <Plus size={16} />
                   </button>
@@ -189,7 +229,6 @@ export default function ProductDetailClient({ product }: Props) {
               {/* SUMMARY */}
               <div className="bg-gray-50 p-3 rounded-lg text-xs sm:text-sm">
                 <p className="font-semibold mb-1">Selected Options:</p>
-
                 <p>Color: <span className="font-medium">{product.color}</span></p>
                 <p>Material: <span className="font-medium">{product.material}</span></p>
                 <p>Size: <span className="font-medium">{selectedSize}</span></p>
@@ -219,9 +258,10 @@ export default function ProductDetailClient({ product }: Props) {
                     { duration: 1000 }
                   );
                 }}
-                className="w-full bg-[#ff9167] text-white py-3 rounded-lg hover:bg-[#df6839] font-semibold transition text-sm sm:text-base"
+                disabled={isOutOfStock || stockLoading}
+                className="w-full bg-[#ff9167] text-white py-3 rounded-lg hover:bg-[#df6839] font-semibold transition text-sm sm:text-base disabled:bg-gray-300 disabled:cursor-not-allowed disabled:hover:bg-gray-300"
               >
-                Add to Cart
+                {isOutOfStock ? "Out of Stock" : "Add to Cart"}
               </button>
 
             </div>
